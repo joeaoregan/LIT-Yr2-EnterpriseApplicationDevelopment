@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(urlPatterns = {"/show_exhibitors"})
 public class show_exhibitors extends HttpServlet {
+    String title = "Exhibitors";
+    String tableheading = "Current Exhibitors";
     String ex_id;
     String ex_fname;
     String ex_lname;
@@ -71,11 +73,15 @@ public class show_exhibitors extends HttpServlet {
                         "<html>" +
                         "<head>" +
 "                           <link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" + 
-                            "<title>Exhibitors</title>" +
-                        "</head>" +                    
-                        "<body>" +
-                        "<div class=\"heading\">\n" +
-"                           <br><h1 style=\"text-align:center\">Exhibitor Details</h1><br>\n" +
+                            "<title>"+title+"</title>" +
+                        "</head>");
+
+            out.println("<body>" +
+                        "<div class=\"heading\">" +
+                        "<table>" +
+                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
+                            "<td><h1 style=\"text-align:center\">" + title + "</h1></td></tr>" +
+                        "</table>" +
                         "</div>");
             
 // Navigation menu
@@ -86,14 +92,17 @@ public class show_exhibitors extends HttpServlet {
                         "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button style=\"color: blue; background-color: white;\" name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
                         "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
                         "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
-                        "<form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                        "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
                     "</div>");
                 
 /** Output the Exhibitors Table */                 
             out.println("<div class=\"mainbody\">" + 
-                            "<h2>Current Exhibitors</h2>" +
-                            "<p>A list of the Exhibitors currently booked:</p>"
-                            + "<table align=\"center\">");
+                            "<table align=\"center\">" +
+                                "<tr><td class=\"tbhead\" colspan=\"3\">"+tableheading+"</td></tr>" +
+                                "<tr><td colspan=\"3\">&nbsp;</td></tr>" +
+                                "<tr><td colspan=\"3\">A list of the Exhibitors currently booked:</td></tr>" +
+                                "<tr><td colspan=\"3\">&nbsp;</td></tr>");
+            
                                 try {
                                     java.sql.Statement stmt = conn.createStatement();
                                     ResultSet exhibitors = stmt.executeQuery("SELECT * FROM exhibitors ORDER BY exhibitor_lname;"); // Select in ascending alphabetical order by last name
@@ -126,13 +135,13 @@ public class show_exhibitors extends HttpServlet {
                         "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button style=\"color: blue; background-color: white;\" name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
                         "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
                         "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
-                        "<form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                        "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
                     "</div>");
 // Bottom Links                    
-            out.println("<div id=\"bl\" class=\"bottomlinks\">\n" +
-                "<table align=\"center\">\n" +
-                    "<tr><th>Display:</th><th>Register:</th><th>Other:</th><tr>\n" +
-                    "<tr><td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td><td><a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td><td><a href=\"index.html\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
+            out.println("<div id=\"bl\" class=\"bottomlinks\">" +
+                "<table align=\"center\">" +
+                    "<tr><th>Display:</th><th>Register:</th><th>Other:</th><tr>" +
+                    "<tr><td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td><td><a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td><td><a href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
                     "<tr><td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td><td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td><td></td></tr>" +
                     "<tr><td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td><td></td><td></td></tr>" +
                     "<tr><td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td><td></td><td></td></tr>" +

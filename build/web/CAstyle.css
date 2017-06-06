@@ -9,22 +9,27 @@ and open the template in the editor.
 */
 
 td,th {text-align:left; 
-       padding-left: 15px;
+       padding-left: 10px;
+       padding-right: 10px;
 }
 a:hover {
     background-color: activecaption;
+}
+h1 {
+    font-size: 400%;
 }
 button:hover {color: blue; background-color: white;}
 button{
     background-color: #0080ff;
     color:white;}
 .login{
-    color:black;
+    color: #0080ff;
     background-color: white;
 }
 .heading{
-    background-color: powderblue;
-    color:#0080ff;
+    background-color: #80bdff;
+    /*color:#0080ff;*/
+    color: white;
     width:90%;
     margin: auto;
     padding: 10px;
@@ -45,12 +50,35 @@ button{
   margin-left: auto ;
   margin-right: auto ;
 }
+.tablebutton{
+    text-align:right; 
+}
 .mainbody{
     text-align: center;
     width:90%;
     margin: auto;
-    background-color: #cce6ff;
+    /*background-color: #cce6ff;*/
+    background-color: white;
     padding: 10px;
+  font-size: 15px;
+}
+.halfbody{ /*edit*/
+    vertical-align: top;
+    display: inline-block;
+    text-align: left;
+    min-width: 30%;
+    max-width: 70%;
+    margin: auto;
+    background-color: #cce6ff;
+    /*padding: 10px;*/
+}
+.spacer{ /*edit*/
+    text-align: left;
+    width:20px;
+    margin: auto;
+    background-color: white;
+    display: inline-block;
+    /*padding: 10px;*/
 }
 
 .bottomlinks{    
@@ -62,15 +90,38 @@ button{
 }
 .thead{
     text-align:center; 
-    background-color: 
-    #0080ff; color: white;
-    font-size:20px
+    background-color: #0080ff; 
+    color: white;
+    font-size:20px;
+    font-weight: bold;
 }
-
+.tbhead{
+    font-size: 300%;
+    text-align:center; 
+    background-color: #cce6ff; 
+    color: #0080ff;
+    font-size: 300%;
+    font-weight: bold;
+}
+.tshead{
+    Height: 18px;
+    text-align:center; 
+    /*background-color: #004d99;*/
+    background-color: #80bdff;
+    color: white;
+    font-size:16px;
+    font-weight: bold;
+}
+.menuform{
+    display:inline;
+}
+#navm{
+    display:inline;
+}
 #bl a:link{color:white;}
-#bl a:visited{color:darkgrey;}
+#bl a:visited{color:#80bdff;}
 #bl a:hover{color:white;}
-#bl th, td {padding-left:25px}
+#bl th, td {padding-left:20px;padding-right:20px;}
 
 
 /*

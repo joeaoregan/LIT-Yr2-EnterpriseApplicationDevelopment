@@ -14,7 +14,11 @@ and open the template in the editor.
     
     <body> 
         <div class="heading">
-            <br><h1 style="text-align:center">Event Administration</h1><br>
+            <table>
+                <tr><td><a href="index" title="Return To Homepage (Alt + 7)" accesskey="7"><img src="http://s21.postimg.org/gyukaf1l3/Logo.png" alt="Logo Picture" style="width:150px;height:150px;"></a></td>
+                <td><h1 style="text-align:center">Event Administration</h1></td></tr>
+            </table>
+            <!--br><h1 style="text-align:center">Event Administration</h1><br-->
         </div>
         
         <div class="navigation">
@@ -22,6 +26,7 @@ and open the template in the editor.
             <form style="display: inline" action="manage_workshops" method="get"><button name="buttonWorkshop" title="Manage Workshop Details (Alt + 2)">Manage Workshops</button></form>
             <form style="display: inline" action="manage_schedule" method="get"><button name="buttonSchedule" title="Manage Schedule Details (Alt + 3)">Manage Schedule</button></form>
             <form style="display: inline" action="manage_exhibitors" method="get"><button name="buttonExhibitor" title="Manage Exhibitor Details (Alt + 4)">Manage Exhibitors</button></form>
+            <form style="display: inline" action="eventAdministration.html" method="get"><button style="color: blue; background-color: white;" name="buttonEventAdmin" title="Return To Event Administration (Alt + 5)">Event Administration</button></form>
         </div>
         
         <div class="mainbody"><br>
@@ -45,13 +50,13 @@ and open the template in the editor.
             <form style="display: inline" action="show_schedule" method="get"><button name="buttonEventSchedule" title="Event Schedule (Alt + 0)">Event Schedule</button></form>
             <form style="display: inline" action="reg_admin.html" method="get"><button name="buttonRegAdmin" title="Administrator Registration Page (Alt + 5)">Administrator Registration</button></form>
             <form style="display: inline" action="reg_attendee.html" method="get"><button name="buttonRegAttendee" title="Attendee Registration Page (Alt + 6)">Attendee Registration</button></form>
-            <form style="display: inline" action="index.html" method="get"><button name="buttonHome" title="Return To Home Page (Alt + 7)">Return To Home Page</button></form>
+            <form style="display: inline" action="index" method="get"><button name="buttonHome" title="Return To Home Page (Alt + 7)">Return To Home Page</button></form>
         </div>
         
         <div id="bl" class="bottomlinks">
             <table align="center">
                 <tr><th>Manage:</th><th>Display:</th><th>Register:</th><th>Other:</th><tr>
-                <tr><td><a href="manage_speakers" title="Manage Speaker Details (Alt + 1)" accesskey="1">1. Manage Speaker Details</a></td><td><a href="show_speakers" title="Show Speakers (Alt + 0)" accesskey="0">0. Speakers</a></td><td><a href="reg_admin.html" title="Administrator Registration Page (Alt + 5)" accesskey="5">5. Administrator Registration</a></td><td><a href="index.html" title="Return To Homepage (Alt + 7)" accesskey="7">7. Return To Home Page</a></td></tr>
+                <tr><td><a href="manage_speakers" title="Manage Speaker Details (Alt + 1)" accesskey="1">1. Manage Speaker Details</a></td><td><a href="show_speakers" title="Show Speakers (Alt + 0)" accesskey="0">0. Speakers</a></td><td><a href="reg_admin.html" title="Administrator Registration Page (Alt + 5)" accesskey="5">5. Administrator Registration</a></td><td><a href="index" title="Return To Homepage (Alt + 7)" accesskey="7">7. Return To Home Page</a></td></tr>
                 <tr><td><a href="manage_workshops" title="Manage Workshop Details (Alt + 2)" accesskey="2">2. Manage Workshop Details</a></td><td><a href="show_workshops" title="Show Workshops (Alt + 0)" accesskey="0">0. Workshops</a></td><td><a href="reg_attendee.html" title="Attendee Registration Page (Alt + 6)" accesskey="6">6. Attendee Registration</a></td><td></td></tr>
                 <tr><td><a href="manage_schedule" title="Manage Schedule Details (Alt + 3)" accesskey="3">3. Manage Schedule Details</a></td><td><a href="show_schedule" title="Show Schedule (Alt + 0)" accesskey="0">0. Schedule</a></td><td></td><td></td></tr>
                 <tr><td><a href="manage_exhibitors" title="Manage Exhibitor Details (Alt + 4)" accesskey="4">4. Manage Exhibitor Details</a></td><td><a href="show_exhibitors" title="Show Exhibitors (Alt + 0)" accesskey="0">0. Exhibitors</a></td><td></td><td></td></tr>

@@ -13,8 +13,34 @@ and open the template in the editor.
     </head>
     <body>
         <div class="heading">
-            <br><h1 style="text-align:center">Administrator Registration</h1><br>
+            <form action="Login" method="Get">
+                <div style="width:100%; background-color:white">
+                    <table style="position: fixed; top: 0; right: 0;" class="login">
+                        <tr>
+                            <td rowspan="2"><a href="index" title="Return To Homepage (Alt + 7)" accesskey="7"><img src="http://s21.postimg.org/gyukaf1l3/Logo.png" alt="Logo Picture" style="width:50px; height:50px;"></a></td>
+                            <th style="text-align: center">Administrator</th>
+                            <td>Username:</td>
+                            <td><input type="text" name="username" autofocus="autofocus" title="Please enter username"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align:center">Login</th>
+                            <td>Password:</td>
+                            <td><input type="password" name="password" title="Please enter password"></td>
+                            <td style="text-align:right"><input type="submit" value="Submit" title="Submit Details"/></td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+            <table>
+                <tr><td><a href="index" title="Return To Homepage (Alt + 7)" accesskey="7"><img src="http://s21.postimg.org/gyukaf1l3/Logo.png" alt="Logo Picture" style="width:150px;height:150px;"></a></td>
+                <td><h1 style="text-align:center">Administrator Registration</h1></td></tr>
+            </table>
         </div>
+                        
+        <!--div class="heading">
+            <br><h1 style="text-align:center">Administrator Registration</h1><br>
+        </div-->
       
         <div class="navigation">
             <form style="display: inline" action="show_speakers" method="get"><button name="buttonSpeakers" title="Event Speakers (Alt + 1)">Event Speakers</button></form>
@@ -23,11 +49,9 @@ and open the template in the editor.
             <form style="display: inline" action="show_exhibitors" method="get"><button name="buttonExhibitors" title="Event Exhibitors (Alt + 4)">Event Exhibitors</button></form>
             <form style="display: inline" action="reg_admin.html" method="get"><button style="color: blue; background-color: white;" name="buttonRegAdmin" title="Administrator Registration Page (Alt + 5)">Administrator Registration</button></form>
             <form style="display: inline" action="reg_attendee.html" method="get"><button name="buttonRegAttendee" title="Attendee Registration Page (Alt + 6)">Attendee Registration</button></form>
-            <form style="display: inline" action="index.html" method="get"><button name="buttonHome" title="Return To Homepage (Alt + 7)">Home</button></form>
+            <form style="display: inline" action="index" method="get"><button name="buttonHome" title="Return To Homepage (Alt + 7)">Home</button></form>
         </div>
-        <!--div style="width: 60%; margin-left: auto ; margin-right: auto "-->
-        <!--div class="table"-->
-        <!--div align="center"--> 
+        
         <div class="mainbody">
             <div align="center"> 
                 <form action="RegisterAdmin" method="POST"><br>
@@ -42,7 +66,7 @@ and open the template in the editor.
                             <td><input type="text" name="admin_password" title="Enter password"></td>
                         </tr>
                         <tr>
-                            <td><br></td>
+                            <td><br></td><td></td>
                         </tr>
                         <tr>
                             <td><b>First Name:</b></td>
@@ -129,17 +153,21 @@ and open the template in the editor.
             <form style="display: inline" action="show_exhibitors" method="get"><button name="buttonExhibitors" title="Event Exhibitors (Alt + 4)">Event Exhibitors</button></form>
             <form style="display: inline" action="reg_admin.html" method="get"><button style="color: blue; background-color: white;" name="buttonRegAdmin" title="Administrator Registration Page (Alt + 5)">Administrator Registration</button></form>
             <form style="display: inline" action="reg_attendee.html" method="get"><button name="buttonRegAttendee" title="Attendee Registration Page (Alt + 6)">Attendee Registration</button></form>
-            <form style="display: inline" action="index.html" method="get"><button name="buttonHome" title="Return To Homepage (Alt + 7)">Home</button></form>
+            <form style="display: inline" action="index" method="get"><button name="buttonHome" title="Return To Homepage (Alt + 7)">Home</button></form>
         <br>
         </div>
         
         <div id="bl" class="bottomlinks">
             <table align="center">
-                <tr><th>Display:</th><th>Register:</th><th>Other:</th><tr>
-                <tr><td><a href="show_speakers" title="Show Speakers (Alt + 1)" accesskey="1">1. Show Speakers</a></td><td><a href="reg_admin.html" title="Administrator Registration Page (Alt + 5)" accesskey="5">5. Administrator Registration</a></td><td><a href="index.html" title="Return To Homepage (Alt + 7)" accesskey="7">7. Home Page</a></td></tr>
-                <tr><td><a href="show_workshops" title="Show Workshops (Alt + 2)" accesskey="2">2. Show Workshops</a></td><td><a href="reg_attendee.html" title="Attendee Registration Page (Alt + 6)" accesskey="6">6. Attendee Registration</a></td><td></td></tr>
-                <tr><td><a href="show_schedule" title="Show Schedule (Alt + 3)" accesskey="3">3. Show Schedule</a></td><td></td><td></td></tr>
-                <tr><td><a href="show_exhibitors" title="Show Exhibitors (Alt + 4)" accesskey="4">4. Show Exhibitors</a></td><td></td><td></td></tr>
+                <!--tr><th>Display:</th><th>Register:</th><th>Other:</th></tr>
+                <tr><td><a href="show_speakers" title="Show Speakers (Alt + 1)" accesskey="1">1. Show Speakers</a></td><td><a href="reg_admin.html" title="Administrator Registration Page (Alt + 5)" accesskey="5">5. Administrator Registration</a></td><td><a href="index" title="Return To Homepage (Alt + 7)" accesskey="7">7. Home Page</a></td></tr-->
+                
+                <tr><th>Display:</th><th>Register:</th><td rowspan="5"><a href="index" title="Return To Homepage (Alt + 7)" accesskey="7"><img src="http://s21.postimg.org/gyukaf1l3/Logo.png" alt="Logo picture" style="width:100px;height:100px;"></a></td></tr>
+                <tr><td><a href="show_speakers" title="Show Speakers (Alt + 1)" accesskey="1">1. Show Speakers</a></td><td><a href="reg_admin.html" title="Administrator Registration Page (Alt + 5)" accesskey="5">5. Administrator Registration</a></td></tr>
+                   
+                <tr><td><a href="show_workshops" title="Show Workshops (Alt + 2)" accesskey="2">2. Show Workshops</a></td><td><a href="reg_attendee.html" title="Attendee Registration Page (Alt + 6)" accesskey="6">6. Attendee Registration</a></td></tr>
+                <tr><td><a href="show_schedule" title="Show Schedule (Alt + 3)" accesskey="3">3. Show Schedule</a></td><td></td></tr>
+                <tr><td><a href="show_exhibitors" title="Show Exhibitors (Alt + 4)" accesskey="4">4. Show Exhibitors</a></td><td></td></tr>
             </table>
         </div>
     </body>
