@@ -79,14 +79,15 @@ public class eventschedule extends HttpServlet {
             try{
             Statement stmt = conn.createStatement(); 
            // ResultSet result = stmt.executeQuery("SELECT * FROM Speakers JOIN schedule WHERE speakers.speaker_id = schedule.schedule_speaker_id GROUP BY schedule_time, schedule_title;"); 
-            ResultSet result = stmt.executeQuery("SELECT * FROM schedule;");  
+            //ResultSet result = stmt.executeQuery("SELECT * FROM schedule;");  
+            ResultSet result = stmt.executeQuery("SELECT schedule_time,ws_name,schedule_location FROM Schedule JOIN Workshops ON Schedule.workshop_id = Workshops.ws_id ORDER BY schedule_time ASC;");
             
             out.println("<tr style=\"font-size:20px\"><td><b>Event Time</b></td><td><b>Event Title</b></td><td><b>Location</b></td><td><b>Attend</b></td></tr><tr><td></td></tr>");
             out.println("<tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>");
             while(result.next())
             {
                 scheduletime = result.getString("schedule_time");
-                workshopname = result.getString("workshop_name");
+                workshopname = result.getString("ws_name");
                 schedulelocation = result.getString("schedule_location");
                 //speakername = result.getString("speaker_fname") + " " + result.getString("speaker_lname");
                 //speakersite = result.getString("speaker_website1");
@@ -98,7 +99,7 @@ public class eventschedule extends HttpServlet {
                 out.println("<tr style=\"font-size:20px\"><td>" + scheduletime + "</td><td>" + workshopname + "</td><td>" + schedulelocation + "</td>");
                 
                 if(workshopname.contentEquals( "Break" ) ) checkboxvisible = "";
-                else if (workshopname.contentEquals( "Lunch" ) ) checkboxvisible = "";
+                //else if (workshopname.contentEquals( "Lunch" ) ) checkboxvisible = "";
                 else checkboxvisible ="<input type=\"checkbox\"/ name=" + checkboxname + ">";
                 
                 out.println("<td>"+ checkboxvisible +"</td></tr>");

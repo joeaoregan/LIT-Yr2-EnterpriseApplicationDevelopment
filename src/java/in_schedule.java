@@ -110,7 +110,7 @@ public class in_schedule extends HttpServlet {
                     
                     + "<div class=\"navigation\">\n" +
                 "            <form style=\"display: inline\" action=\"eventschedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 0)\">Event Schedule</button></form>\n" +
-                "            <form style=\"display: inline\" action=\"in_speakers.html\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + 1)\">Add Speaker Details</button></form>\n" +
+                "            <form style=\"display: inline\" action=\"in_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + 1)\">Add Speaker Details</button></form>\n" +
                 "            <form style=\"display: inline\" action=\"in_workshops.html\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + 2)\">Add Workshop Details</button></form>\n" +
                 "            <form style=\"display: inline\" action=\"in_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + 3)\">Add Schedule Details</button></form>\n" +
                 "            <form style=\"display: inline\" action=\"in_exhibitors.html\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + 4)\">Add Exhibitor Details</button></form> \n" +
@@ -205,7 +205,7 @@ public class in_schedule extends HttpServlet {
                         while(workshop.next())
                         {
                             Array_WS_names[nameCounter] = workshop.getString("ws_name"); 
-                            //Array_WS_values[nameCounter] = workshop_id = workshop.getString("ws_id");                                           // add each workshop id to array list
+                            Array_WS_values[nameCounter] = workshop_id = workshop.getString("ws_id");                                           // add each workshop id to array list
                             // if Array_WS_values[nameCounter] = in "select workshop_id from shedule"
                             // WSnameDisabled = "Disabled";    
                             /*
@@ -224,11 +224,7 @@ public class in_schedule extends HttpServlet {
                                     if (each_workshop_id.contentEquals(Array_WS_values[i])) WSnameDisabled = "disabled";
                                     }
                                 }
-                            }
-                            catch(Exception e)
-                            {
-                                System.err.println(e);
-                            } */
+                             */
                             
                             out.println("<option value=\"" + Array_WS_values[nameCounter] + "\""+WSnameDisabled+">" + Array_WS_names[nameCounter] + "</option>"); // output each list item
                             nameCounter++;
@@ -365,7 +361,7 @@ public class in_schedule extends HttpServlet {
                     
                 "        <div  id=\"bl\" class=\"bottomlinks\">" +
                 "            <a class=\"class1\" href=\"eventschedule\" title=\"Event Schedule (Alt + 0)\" accesskey=\"0\">0. Event Schedule</a><br>" +
-                "            <a href=\"in_speakers.html\" title=\"Add Speaker Details (Alt + 1)\" accesskey=\"1\">1. Add Speaker Details</a><br>" +
+                "            <a href=\"in_speakers\" title=\"Add Speaker Details (Alt + 1)\" accesskey=\"1\">1. Add Speaker Details</a><br>" +
                 "            <a href=\"in_workshops.html\" title=\"Add Workshop Details (Alt + 2)\" accesskey=\"2\">2. Add Workshop Details</a><br>" +
                 "            <a href=\"in_schedule\" title=\"Add Schedule Details (Alt + 3)\" accesskey=\"3\">3. Add Schedule Details</a><br>" +
                 "            <a href=\"in_exhibitors.html\" title=\"Add Exhibitor Details (Alt + 4)\" accesskey=\"4\">4. Add Exhibitor Details</a><br>" +
