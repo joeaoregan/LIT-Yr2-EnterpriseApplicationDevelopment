@@ -177,7 +177,15 @@ span > form {display:inline;}
     overflow: scroll; 
     overflow-x: hidden;
 }
-
+/* Index.html */
+.indexcl{
+    background-color: #0080ff;
+    color: white;
+    border-radius: 20px;
+}
+/*.indexcl.a{
+ background-color: initial;   
+}*/
 
 #navm{
     display:inline;
