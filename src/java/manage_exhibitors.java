@@ -5,8 +5,6 @@
  */
 
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.Statement;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.DriverManager;
@@ -27,6 +25,8 @@ public class manage_exhibitors extends HttpServlet {
     String title ="Manage Exhibitors";
     // Exhibitor details
     String ex_name;
+    String ex_fname;
+    String ex_lname;
     String ex_id;
     String ex_bio;
     String ex_web;
@@ -37,8 +37,7 @@ public class manage_exhibitors extends HttpServlet {
     
     // Connection    
     Connection conn;
-    PreparedStatement prepStat;
-    Statement stat;
+    //Statement stat;
        
     public void init() throws ServletException
     {
@@ -49,8 +48,7 @@ public class manage_exhibitors extends HttpServlet {
                 try{
                     Class.forName("com.mysql.jdbc.Driver");
                     conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
-                    stat = (Statement) conn.createStatement();
-                    java.sql.Statement stmt = conn.createStatement(); 
+                    //stat = (Statement) conn.createStatement();
                 }
                 catch(Exception e){System.err.println(e);}
                 
@@ -78,10 +76,9 @@ public class manage_exhibitors extends HttpServlet {
 // Heading
             out.println("<div class=\"heading\">" +
                         "<table>" +
-                            "<tr><td>&nbsp;</td></tr>" +
-                            "<tr><td>&nbsp;</td></tr>" +
-                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img150\"></a></td>" +
-                            "<td><h1>" + title + "</h1></td></tr>" +
+                            "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
+                                "<img src='" + request.getContextPath() + "/images/logoT.png' alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
+                                "<td><h1>" + title + "</h1></td></tr>" +
                         "</table>" +
                     "</div>");
 // Navigation menu (Exhibitors Highlighted)
@@ -96,6 +93,7 @@ public class manage_exhibitors extends HttpServlet {
 // Count exhibitors
             try {
                 java.sql.Statement stmt = conn.createStatement();
+                ex_num = 0;
                 ResultSet exhibitors = stmt.executeQuery("SELECT COUNT(*) As ex_count FROM exhibitors;");
                 exhibitors.next();    
                 ex_num = exhibitors.getInt("ex_count");
@@ -106,40 +104,48 @@ public class manage_exhibitors extends HttpServlet {
 // Add to Exhibitors
                 out.println("<div class=\"mainbody\">" +
                             "<h2 class=\"tbhead\">Add An Exhibitor</h2>");
-                            //out.println("Test: "+ex_num+"");
-                            if(ex_num == 1) out.println("<p>There is "+ex_num+" Exhibitor currently registered");
-                            else if(ex_num == 0) out.println("<p>There is no Exhibitor registered");
-                            else out.println("<p>There are "+ex_num+" Exhibitors registered");
-                            
-                out.println("<form action=\"add_exhibitor\" method=\"POST\"><br>" +
-                                    "<table align=\"center\">" +
-                                        "<tr>" +
-                                            "<th>First Name:</th>" +
-                                            "<td><input type=\"text\" name=\"exhibitor_fname\" autofocus=\"autofocus\" title=\"Enter exhibitors first name\" maxlength=\"40\" placeholder=\"Required Field\" required></td>" +
-                                        "</tr>" +
-                                        "<tr>" +
-                                            "<th>Last Name:</th>" +
-                                            "<td><input type=\"text\" name=\"exhibitor_lname\" title=\"Enter exhibitors last name\" maxlength=\"40\" placeholder=\"Required Field\" required></td>" +
-                                        "</tr>" +
-                                        "<tr>" +
-                                            "<th>Biography:</th>" +
-                                            "<td><textarea rows=\"15\" cols=\"50\" name=\"exhibitor_bio\" title=\"Enter background information for exhibitor\" placeholder=\"Required Field\" required></textarea></td>" +
-                                        "</tr>" +
-                                        "<tr>" +
-                                            "<th>Website:</th>" +
-                                            "<td><input type=\"text\" name=\"exhibitor_website\" title=\"Enter exhibitors website\" maxlength=\"60\"></td>" +
-                                        "</tr>" +
-                                        "<tr>" +
-                                            "<th>Picture URL:</th>" +
-                                            "<td><input type=\"text\" name=\"exhibitor_pic\" title=\"Enter exhibitor picture url\" maxlength=\"60\"></td>" +
-                                        "</tr>" +
-                                        "<tr>" +
-                                            "<td></td>" +
-                                            "<td id=\"bt\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
-                                        "</tr>" +
-                                    "</table>" +
-                                "</form><br>" +
-                            "</div><br>");
+            //out.println("Test: "+ex_num+"");
+            switch (ex_num) {
+                case 1:
+                    out.println("<p>There is "+ex_num+" Exhibitor currently registered");
+                    break;
+                case 0:
+                    out.println("<p>There is no Exhibitor registered");
+                    break;
+                default:
+                    out.println("<p>There are "+ex_num+" Exhibitors registered");
+                    break;
+            }           
+            out.println("<form action=\"add_exhibitor\" method=\"POST\"><br>" +
+                                "<table align=\"center\">" +
+                                    "<tr>" +
+                                        "<th>First Name:</th>" +
+                                        "<td><input type=\"text\" name=\"exhibitor_fname\" autofocus=\"autofocus\" title=\"Enter exhibitors first name\" maxlength=\"40\" placeholder=\"Required Field\" required></td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<th>Last Name:</th>" +
+                                        "<td><input type=\"text\" name=\"exhibitor_lname\" title=\"Enter exhibitors last name\" maxlength=\"40\" placeholder=\"Required Field\" required></td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<th>Biography:</th>" +
+                                        "<td><textarea rows=\"15\" cols=\"50\" name=\"exhibitor_bio\" title=\"Enter background information for exhibitor\" placeholder=\"Required Field\" required></textarea></td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<th>Website:</th>" +
+                                        "<td><input type=\"text\" name=\"exhibitor_website\" title=\"Enter exhibitors website\" maxlength=\"60\"></td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<th>Picture URL:</th>" +
+                                        "<td><input type=\"text\" name=\"exhibitor_pic\" title=\"Enter exhibitor picture url\" maxlength=\"60\"></td>" +
+                                    "</tr>" +
+                                    "<tr><td></td><td>e.g \"/images/example.png\"</td></tr>" +
+                                    "<tr>" +
+                                        "<td></td>" +
+                                        "<td id=\"bt\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
+                                    "</tr>" +
+                                "</table>" +
+                            "</form><br>" +
+                        "</div><br>");
                 
 /** Output the Exhibitors Table */                 
             out.println("<div class=\"mainbody\">" + 
@@ -157,10 +163,10 @@ public class manage_exhibitors extends HttpServlet {
                                         ex_pic = exhibitors.getString("exhibitor_pic");
                                         ex_name = exhibitors.getString("exhibitor_fname") + " " + exhibitors.getString("exhibitor_lname");
                                     
-                                    out.println("<tr><td rowspan=\"5\"><img src="+ex_pic+" alt=\"Picture of "+ex_name+"\" id=\"img150\"></td><th id=\"thc\" colspan=\"2\">Exhibitor " + ex_count + "</th></tr>" +                                             
+                                    out.println("<tr><td rowspan=\"5\"><img src='"+ request.getContextPath() + ex_pic+"' alt=\"Picture of "+ex_name+"\" id=\"img150\"></td><th id=\"thc\" colspan=\"2\">Exhibitor " + ex_count + "</th></tr>" +                                             
                                                 "<tr><th>Database ID:</th><td>" + ex_id + "</td></tr>" +
                                                 "<tr><th>Name:</th><td>" + ex_name + "</td></tr>"
-                                            +   "<tr><th>Website</th><td><a href=\"" + ex_web + "\">\"" + ex_web + "\"</a></td></tr>" + 
+                                            +   "<tr><th>Website</th><td><a href=\"" + ex_web + "\">" + ex_web + "</a></td></tr>" + 
                                                 "<tr><th>About:</th><td>" + ex_bio + "</td></tr>" +
                                                 "<tr><td colspan=\"3\"><hr></td></tr>");
                                     ex_count++;
@@ -170,9 +176,9 @@ public class manage_exhibitors extends HttpServlet {
                                 }
             out.println("</table></div><br>");
             
-// Edit Exhibitors            
+// Delete Exhibitors            
             out.println("<div class=\"mainbody\">"
-                        + "<h2 class=\"tbhead\">Edit Exhibitor Details</h2>"
+                        + "<h2 class=\"tbhead\">Edit & Delete Exhibitor Details</h2>"
                         + "<p>Select exhibitor to delete</p>"
                         + "<form action=\"delete_exhibitor\" method=\"POST\">"
                         + "<table align=\"center\">"
@@ -190,17 +196,40 @@ public class manage_exhibitors extends HttpServlet {
                                         out.println("<option value=\""+ex_id+"\">" + ex_id + ". " + ex_name + "</option>");
                                     }
                                 }
-                                catch(Exception e)
-                                {
-                                    System.err.println(e);
-                                } 
+                                catch(Exception e) { System.err.println(e); } 
             out.println("</select></td>" +
-                                "<td id=\"bt\"><input type=\"submit\" value=\"Delete\" title=\"Delete Time\"/></td>" +
+                                "<td id=\"bt\"><input type=\"submit\" value=\"Delete\" title=\"Delete Exhibitor\"/></td>" +
                             "</tr>"
                         + "</table>" +
+                    "</form>");
+            
+// Edit Exhibitors            
+            out.println("<p>Select exhibitor to edit</p>"
+                        + "<form action=\"edit_ex_name\" method=\"POST\">"
+                        + "<table align=\"center\">"
+                            + "<tr>" +
+                                "<th>Exhibitor To Edit:</th>" +
+                                "<td><select name=\"edit_name\" title=\"Select A Name From The List\">");
+                                try{
+                                    java.sql.Statement stmt = conn.createStatement();            
+                                    ResultSet exhibitor = stmt.executeQuery("SELECT exhibitor_id,exhibitor_fname,exhibitor_lname from Exhibitors");
+
+                                    while(exhibitor.next())
+                                    {
+                                        ex_fname = exhibitor.getString("exhibitor_fname");
+                                        ex_lname = exhibitor.getString("exhibitor_lname");
+                                        ex_id = exhibitor.getString("exhibitor_id"); 
+                                        out.println("<option value=\""+ex_id+"\">"+ ex_id +". "+ ex_fname +" "+ ex_lname +"</option>");
+                                    }
+                                }
+                                catch(Exception e){ System.err.println(e); } 
+            out.println("</select></td><td id=\"bt\"><input type=\"submit\" value=\"Edit\" title=\"Edit Exhibitor\"/></td></tr>");
+                    
+            out.println("<tr><td><b>New First Name:</b></td><td><input type=\"text\" name=\"new_ex_fname\" title=\"Enter NEW Exhibitor First Name\" maxlength=\"40\" required></td><td></td></tr>");
+            out.println("</table>" +
                     "</form>" +
                 "</div>");
-     
+            
 // Bottom Links (Manage)             
             out.println("<div  id=\"bl\" class=\"bottomlinks\">" +
                             "<table align=\"center\">" +

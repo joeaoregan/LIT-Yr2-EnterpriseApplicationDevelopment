@@ -5,12 +5,8 @@
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,15 +18,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe O'Regan
  * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/cust_schedule_delete"})
-public class custom_schedule_delete extends HttpServlet {
-    String schedule_time;
-    String workshop_id; // The workshop to delete from custom schedule
-    String schedule_location;
-    
+@WebServlet(urlPatterns = {"/delete_cust_sched"})
+public class delete_cust_sched extends HttpServlet {
     Connection conn;
-    PreparedStatement prepStat;
-    Statement stat;   
+    String workshop_id; // The workshop to delete from custom schedule
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -76,18 +67,15 @@ public class custom_schedule_delete extends HttpServlet {
         
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Statement stat = conn.createStatement();                       
-            java.sql.Statement stmt = conn.createStatement();
+            Statement stat = conn.createStatement();    
             
             String command = "DELETE FROM CustSched WHERE workshop_id = '" + workshop_id+ "'";
-            //String command = "INSERT INTO CustSched VALUES(" + workshop_id + ");";
             stat.executeUpdate(command);
         }
         catch (Exception e)
         {
             System.err.println(e);
         }
-        
         response.sendRedirect("show_schedule#cs_add");  // redirects back to schedule.html after form submitted
     }
 
@@ -111,9 +99,6 @@ public class custom_schedule_delete extends HttpServlet {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
-            stat = (Statement) conn.createStatement();
-            
-            stat.execute("CREATE TABLE IF NOT EXISTS CustSched(workshop_id INT PRIMARY KEY, CONSTRAINT fk_custsched_workshop FOREIGN KEY (workshop_id) REFERENCES schedule (workshop_id));");
         }
         catch (Exception e) 
         {

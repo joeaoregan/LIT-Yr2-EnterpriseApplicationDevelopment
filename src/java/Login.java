@@ -67,17 +67,18 @@ public class login extends HttpServlet {
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" + 
                     "<title>" + title + "</title>" +
                   "</head>" +    
-                  "<body>");
-        
-
+                  "<body>");        
+// Validate password
         //if (passwordValidate == true)
         //if (password.contentEquals( DB_password ))
+        
+// If password true, different title, menu, greeting and links
         if(password.equals(DB_password))
         {        
 // Heading
             out.println("<div class=\"heading\">" +
                             "<table>" +
-                                "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img150\"></a></td>" +
+                                "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img150\"></a><div></td>" +
                                 "<td><h1>" + title + "</h1></td></tr>" +
                             "</table>" +
                         "</div>");            
@@ -105,7 +106,7 @@ public class login extends HttpServlet {
                                 "<form action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Alt + j - Manage Workshop Details\">Manage Workshop Details</button></form>" +
                                 "<form action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Alt + k - Manage Schedule Details\">Manage Schedule Details</button></form>" +
                                 "<form action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Alt + l4 - Manage Exhibitor Details\">Manage Exhibitor Details</button></form>" +
-                        "</span></div><br>");            
+                        "</span></div>");            
 // Bottom Links (Manage)             
             out.println("<div  id=\"bl\" class=\"bottomlinks\">" +
                             "<table align=\"center\">" +
@@ -132,6 +133,7 @@ public class login extends HttpServlet {
         }
         else
         {
+            title = "Login Failed";
 // Admin Login
             out.println("<div class=\"login\">" +
                             "<form action=\"login\" method=\"Get\">" +
@@ -158,9 +160,9 @@ public class login extends HttpServlet {
                             "<table>" +
                                 "<tr><td>&nbsp;</td></tr>" +
                                 "<tr><td>&nbsp;</td></tr>" +
-                                "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
-                                         "<img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img150\"></a></td>" +
-                                "<td><h1>Login Failed</h1></td></tr>" +
+                                "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
+                                         "<img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
+                                "<td><h1>"+title+"</h1></td></tr>" +
                             "</table>" +
                         "</div>");
 // Navigation menu

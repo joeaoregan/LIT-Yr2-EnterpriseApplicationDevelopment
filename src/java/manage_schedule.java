@@ -5,7 +5,6 @@
  */
 
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,25 +30,27 @@ public class manage_schedule extends HttpServlet {
     String[] status = new String[21]; // time slot to add
     String[] status2 = new String[20]; // time slot to delete
     // Add to schedule list items
-    String[] Array_WS_names = {"","","","","","","","","","","","","","","","","","","",""};
-    String[] Array_WS_values = {"","","","","","","","","","","","","","","","","","","",""};
+    //String[] Array_WS_names = {"","","","","","","","","","","","","","","","","","","",""};
+    //String[] Array_WS_values = {"","","","","","","","","","","","","","","","","","","",""};
     String[] rooms = {"Room A101","Room A102","Room A103","Room B101","Room B102","Room B103","Room C101","Room C102","Room C103"}; // schedule_location
     String breaktime = "disabled"; // make breaks times unselectable - added to Schedule table when initialised
     // Output table
     String sched_time;
     String ws_name;
     String sched_location;
-    
+// Workshop details    
     String workshop_id;
     String workshop_name;
+    String wsn;
+    int wsi;
     
     // available timeslot count
     int time_slots = 0;
     int slots_remaining =19;
+    int sc_count; // number of workshops in schedule database
     
     Connection conn;
-    PreparedStatement prepStat;
-    Statement stat;
+    Statement stmt;
        
     public void init() throws ServletException
     {
@@ -60,9 +61,9 @@ public class manage_schedule extends HttpServlet {
                 try{
                     Class.forName("com.mysql.jdbc.Driver");
                     conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
-                    stat = (Statement) conn.createStatement();
+                    stmt = (Statement) conn.createStatement();
                     
-                    java.sql.Statement stmt = conn.createStatement(); 
+                    //java.sql.Statement stmt = conn.createStatement(); 
                     //ResultSet result = stmt.executeQuery("SELECT * FROM schedule");   
                 }
                 catch(Exception e){System.err.println(e);}
@@ -85,17 +86,16 @@ public class manage_schedule extends HttpServlet {
             out.println("<!DOCTYPE html>" +
                         "<html>" +
                         "<head>" +
-"                           <link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
+                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
                             "<title>"+title+"</title>" +
                         "</head>" +
                     "<body>");
 // Heading
             out.println("<div class=\"heading\">" +
                         "<table>" +
-                            "<tr><td>&nbsp;</td></tr>" +
-                            "<tr><td>&nbsp;</td></tr>" +
-                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img150\"></a></td>" +
-                            "<td><h1>" + title + "</h1></td></tr>" +
+                            "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
+                                "<img src='" + request.getContextPath() + "/images/logoT.png' alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
+                                "<td><h1>" + title + "</h1></td></tr>" +
                         "</table>" +
                     "</div>");
             
@@ -108,18 +108,24 @@ public class manage_schedule extends HttpServlet {
                             "<form action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
                             "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
                         "<span></div>");
-// Initialise schedule
-            try{
-                java.sql.Statement stmt = conn.createStatement(); 
-                ResultSet schedule = stmt.executeQuery("SELECT schedule_time,schedule_location FROM Schedule");   
+// Number of workshops in schedule
+            try {
+                sc_count = 0;
                 time_slots = 0;
-                    while(schedule.next())
-                    {
-                        time_slots++;
-                    }   
+                
+                java.sql.Statement stmt = conn.createStatement();
+                ResultSet sc = stmt.executeQuery("SELECT count(*) AS sched_count FROM Schedule WHERE workshop_id != 1");
+                while (sc.next()) {
+                sc_count = sc.getInt("sched_count");
+                }
+                
+                ResultSet schedule = stmt.executeQuery("SELECT count(*) AS count FROM Schedule");   
+                while(schedule.next()){
+                    time_slots = schedule.getInt("count");
+                }   
             }
             catch(Exception e) { System.err.println(e); }  
-            out.println("<div>WS count: "+time_slots+"</div>");
+            //out.println("<div>WS count: "+time_slots+"</div>");
             
             if(time_slots==0) // nothing in schedule
             {
@@ -127,15 +133,16 @@ public class manage_schedule extends HttpServlet {
                                 "<h2 class=\"tbhead\">Initialise Workshop And Schedule Table</h2>" +
                                 "<p>Sets up the workshops, schedule, and custom schedule tables, by 1st creating the tables, and then adding the break times" +
                                 "<form action=\"init_sched\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Initialise the schedule table\">Initialise Schedule Table</button></form>" +
-                            "</div><br>");
+                            "</div>");
             }
 // Add to schedule
-            if(time_slots>0)
+// Select the workshop from a drop down list to add to schedule, only the workshops not in the schedule can be selected
+            if(time_slots > 0)
             {
             try{
                 java.sql.Statement stmt = conn.createStatement(); 
                 ResultSet schedule = stmt.executeQuery("SELECT schedule_time,schedule_location FROM Schedule");  
-                for(int i = 0; i <20; i++) // initialise / reset all list items to enabled
+                for(int i = 0; i <20; i++) // initialise / reset all list items to be enabled
                 {
                     status[i]="";
                 }
@@ -177,14 +184,17 @@ public class manage_schedule extends HttpServlet {
                 out.println("<tr><th>Workshop:</th><td><select id=\"workshop_name\" name=\"workshop_name\" title=\"Select A Workshop From The List\" required>");
                 try{
                     java.sql.Statement stmt = conn.createStatement(); 
-                    ResultSet workshop = stmt.executeQuery("select ws_id,ws_name from workshops where ws_id not in(select workshop_id from schedule);"); // workshop ids not already in schedule
+                    ResultSet workshop = stmt.executeQuery("select ws_id,ws_name from workshops where ws_id not in(select workshop_id from schedule) AND ws_id != 1"); // workshop ids not already in schedule
                         int nameCounter = 0;  
                         while(workshop.next())
                         {
-                            Array_WS_names[nameCounter] = workshop.getString("ws_name");  // Add each workshop name to array list
-                            Array_WS_values[nameCounter] = workshop_id = workshop.getString("ws_id");  // Add each workshop id to array list
+                            //Array_WS_names[nameCounter] = workshop.getString("ws_name");  // Add each workshop name to array list
+                            //Array_WS_values[nameCounter] = workshop_id = workshop.getString("ws_id");  // Add each workshop id to array list
+                            wsn = workshop.getString("ws_name");
+                            wsi = workshop.getInt("ws_id");
                             
-                            out.println("<option value=\"" + Array_WS_values[nameCounter] + "\">" + Array_WS_names[nameCounter] + "</option>");  // Output each list item
+                            //out.println("<option value=\"" + Array_WS_values[nameCounter] + "\">" + Array_WS_names[nameCounter] + "</option>");  // Output each list item
+                            out.println("<option value=\"" + wsi + "\">" + wsn + "</option>");  // Output each list item
                             nameCounter++;
                         }
                 }
@@ -279,13 +289,17 @@ public class manage_schedule extends HttpServlet {
                                         "<option value=\"17:00:00\" "+status2[18]+">5.00 pm</option>" +
                                         "<option value=\"17:30:00\" "+status2[19]+">5.30 pm</option>" +
                                     "</select></td>" +
-                                    "<td id=\"bt\"><input type=\"submit\" value=\"Delete\" title=\"Delete Time\"/></td>" +
-                                "</tr>" +
-                            "</table>" +
+                                    "<td id=\"bt\"><input type=\"submit\" value=\"Delete\" title=\"Delete Time\"/></form></td></tr>" +
+                                    "<tr><td colspan=\"2\">&nbsp</td></tr>"); // end of delete form
+// Clear The Schedule            
+                    out.println("<tr><th colspan=\"2\">Clear The Schedule</th><td><form action=\"clear_schedule\" method=\"POST\">" +
+                                    "<input type=\"submit\" value=\"Clear Schedule\" title=\"Clear Schedule\"/></form>"); // end of clear form
+                    out.println("</table>" +
                             "</form>" +
                             "<p>* Only <b>booked</b> time slots can be deleted</p>" +
                         "</div>");
-            } // Display workshops if workshops in table    
+            } // Display workshops if workshops in table   
+            
 // Bottom Links (Manage)             
             out.println("<div  id=\"bl\" class=\"bottomlinks\">" +
                             "<table align=\"center\">" +

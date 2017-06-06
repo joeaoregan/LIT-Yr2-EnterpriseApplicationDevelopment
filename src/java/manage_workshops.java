@@ -5,7 +5,6 @@
  */
 
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,17 +24,19 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/manage_workshops"})
 public class manage_workshops extends HttpServlet {
     Connection conn;
-    PreparedStatement prepStat;
     Statement stat;
     
-    String title = "Manage Workshops";
+    String title = "Manage Workshops"; // Page title
+// Display current workshops (to see them update etc)
     String ws_id;
     String ws_name;
     String ws_pres1;
     String ws_pres2;;
     String ws_info;
+    
     int ws_num = 1;
-    int workshop_count;
+    int ws_count_init; // Check if anything in schedule (including breaks)
+    int ws_count; // Only count workshops and not breaks
        
     public void init() throws ServletException
     {
@@ -73,15 +74,13 @@ public class manage_workshops extends HttpServlet {
                         "<head>" +
                             "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
                         "<title>"+title+"</title>" +
-                    "</head>");
-            out.println("<body>");
+                    "</head><body>");
 // Heading
             out.println("<div class=\"heading\">" +
                         "<table>" +
-                            "<tr><td>&nbsp;</td></tr>" +
-                            "<tr><td>&nbsp;</td></tr>" +
-                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img150\"></a></td>" +
-                            "<td><h1>" + title + "</h1></td></tr>" +
+                            "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
+                                "<img src='" + request.getContextPath() + "/images/logoT.png' alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
+                                "<td><h1>" + title + "</h1></td></tr>" +
                         "</table>" +
                     "</div>");
             
@@ -95,36 +94,57 @@ public class manage_workshops extends HttpServlet {
                             "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
                         "</span></div>");
             
-// Initialise workshops
+// Initialise workshops Count
+//ws_count_init = 0;
+//ws_count = 0;
             try{
+                ws_count_init = 0; // initialise count to 0
                 java.sql.Statement stmt = conn.createStatement(); 
-                ResultSet workshop = stmt.executeQuery("SELECT * FROM Workshops");   
-                workshop_count = 0; // initialise count to 0
-                    while(workshop.next())
-                    {
-                        workshop_count++;
-                    }   
+                ResultSet workshop = stmt.executeQuery("SELECT COUNT(*) AS ws_count FROM Workshops");   
+                workshop.next();
+                ws_count_init = workshop.getInt("ws_count");    
             }
             catch(Exception e) { System.err.println(e); }  
-            //out.println("<div>WS count: "+workshop_count+"</div>");
-            if(workshop_count==0) // nothing in schedule
+// Count workshops (not including breaktimes)
+            try{
+                ws_count = 0; // initialise count to 0
+                java.sql.Statement stmt = conn.createStatement(); 
+                ResultSet workshop = stmt.executeQuery("SELECT COUNT(*) AS ws_count FROM Workshops WHERE ws_id != 1");   
+                workshop.next();
+                ws_count = workshop.getInt("ws_count");    
+            }
+            catch(Exception e) { System.err.println(e); }  
+            //out.println("<div>WS count init: "+ws_count_init+"</div>");
+            //out.println("<div>WS count: "+ws_count+"</div>");
+// Nothing in Schedule            
+            if(ws_count_init==0)
             {
                 out.println("<div class=\"mainbody\">" +
                                 "<h2 class=\"tbhead\">Initialise Workshop And Schedule Table</h2>" +
                                 "<p>Sets up the workshops, schedule, and custom schedule tables, by 1st creating the tables, and then adding the break times" +
                                 "<form action=\"init_sched\" method=\"get\"><button name=\"buttonInitWS\" title=\"Initialise the workshops table\">Initialise Workshops Table</button></form>" +
-                            "</div><br>");
-            }
-            
-            
+                            "</div>");
+            }    
 // Workshop Form Input
-            if(workshop_count > 0) // Only display if workshop count is initialised
+            if(ws_count_init > 0) // Only display if workshop count is initialised
             {
             out.println("<div class=\"mainbody\">" +
                             "<form action=\"add_workshop\" method=\"POST\"><br>" +
                                 "<table align=\"center\">" +
-                                    "<tr><td class=\"tbhead\" colspan=\"3\">Enter Workshop Details</td></tr>" +
-                                    "<tr><td colspan=\"3\">&nbsp;</td></tr>" +
+                                    "<tr><td class=\"tbhead\" colspan=\"3\">Enter Workshop Details</td></tr>");
+// Show number of workshops
+            switch (ws_count) {
+                case 1:
+                    out.println("<tr><td colspan=\"3\">There is currently one workshop registered</td></tr>");
+                    break;
+                case 0:
+                    out.println("<tr><td colspan=\"3\">There is no workshops registered yet</td></tr>");
+                    break;
+                default:
+                    out.println("<tr><td colspan=\"3\">There are currently "+ws_count+" workshops registered</td></tr>");
+                    break;
+            } 
+            out.println("<tr><td colspan=\"3\">&nbsp;</td></tr>" +
                                     "<tr>" +
                                         "<th>Name:</th>" + // Required field, max length of 60
                                         "<td><input type=\"text\" name=\"ws_name\" autofocus=\"autofocus\" title=\"Enter a name for the workshop\" maxlength=\"60\" placeholder=\"Required Field\" required></td>" +
@@ -147,10 +167,12 @@ public class manage_workshops extends HttpServlet {
                                     "</tr>" +
                                 "</table>" +
                             "</form><br>" +
-                        "</div><br>");
+                        "</div>");
 
-// Current Workshops            
-            out.println("<div class=\"mainbody\">" +
+// Current Workshops
+            if(ws_count > 0) // Only display if there are workshops in db (excluding breaks)
+            {
+                out.println("<br><div class=\"mainbody\">" +
                             "<table align=\"center\">" +
                                 "<tr><td class=\"tbhead\" colspan=\"4\">Current Workshops</td></tr>" + // Table heading
                                 "<tr><td colspan=\"3\">&nbsp;</td></tr>" + // Blank Line
@@ -182,7 +204,7 @@ public class manage_workshops extends HttpServlet {
             }            
             out.println("</table></div><br>");
             
-// Edit Workshops          
+// Delete Workshop
             out.println("<div class=\"mainbody\">" +
                             "<form action=\"delete_workshop\" method=\"POST\">" +
                             "<table align=\"center\">" +
@@ -203,20 +225,38 @@ public class manage_workshops extends HttpServlet {
                     out.println("<option value=\""+ws_id+"\">" + ws_id + ". " + ws_name + "</option>");
                 }
             }
-            catch(Exception e)
-            {
-                System.err.println(e);
-            } 
+            catch(Exception e) { System.err.println(e); } 
             
             out.println("</select></td>" +
-                                "<td id=\"bt\"><input type=\"submit\" value=\"Delete\" title=\"Delete Workshop\"/></td>" +
-                            "</tr>"
-                    + "</table>" +
-                        "</form>" +
-                    "<p>Choose the workshop ID & name to select</p>" +
-                "</div><br>");
+                                "<td id=\"bt\"><input type=\"submit\" value=\"Delete\" title=\"Delete Workshop\"/></td></tr></form>" +
+                            "<tr><td cospan=\"3\">&nbsp</td></tr>" +                    
+// Edit Workshop Name                    
+                                "<tr><td colspan=\"3\">&nbsp;</td></tr>" +
+                            "<form action=\"edit_ws_name\" method=\"POST\">" +
+                                "<tr><td colspan=\"3\">Select workshop to edit name</td></tr>" +
+                                "<tr><td colspan=\"3\">&nbsp;</td></tr>" +
+                                "<tr><th>Workshop To Edit:</th>" +
+                                    "<td><select name=\"edit_workshop\" title=\"Select A Name From The List\">");
+            try{
+                java.sql.Statement stmt = conn.createStatement();            
+                ResultSet Workshop = stmt.executeQuery("SELECT ws_id,ws_name FROM Workshops WHERE ws_name NOT LIKE 'Break'");
+                
+                while(Workshop.next())
+                {
+                    ws_id = Workshop.getString("ws_id"); 
+                    ws_name = Workshop.getString("ws_name");
+                    out.println("<option value=\""+ws_id+"\">" + ws_id + ". " + ws_name + "</option>");
+                }
+            }
+            catch(Exception e){ System.err.println(e); } 
             
-        } // display if workshop initialised
+            out.println("</select></td>" +
+                                "<td id=\"bt\"><input type=\"submit\" value=\"Rename\" title=\"Rename\"/></td></tr>");
+                    
+            out.println("<tr><td><b>New Name:</b></td><td><input type=\"text\" name=\"new_wsname\" title=\"Enter NEW Exhibitor First Name\" maxlength=\"40\" required></td><td></td></tr></form>");
+            out.println("</table></div>");
+            } // End if (display workshops excluding breaks)
+    } // End if (display if workshop initialised)
             
 // Bottom Links (Manage)             
             out.println("<div  id=\"bl\" class=\"bottomlinks\">" +

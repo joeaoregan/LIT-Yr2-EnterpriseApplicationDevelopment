@@ -14,7 +14,7 @@ and open the template in the editor.
     <body>
         <div class="heading">
             <table>
-                    <tr><td><a href="index" title="Return To Homepage (Alt + 7)"><img src="logo.png" alt="Event Logo" style="width:150px;height:150px;"></a></td>
+                <tr><td><div class="logo"><a href="index" title="Return To Homepage (Alt + 7)"><img src="logoT.png" alt="Event Logo" style="width:150px;height:150px;"></a></div></td>
                     <td><h1 style="text-align:center">Attendee Registration</h1></td></tr>
             </table>
         </div>
@@ -30,39 +30,40 @@ and open the template in the editor.
         </div>
         
         <div class ="mainbody">
-            <p>Register now to receive event information and updates to your inbox
-        <div align="center">
         <form action="add_attendee" method="POST"><br>
-            <table>
-                <tr>
+            <table id="sp0" align="center">
+                <tr><th class="mainhead" colspan="2">Register To Attend</th></tr>
+                <tr class="tbody"><td colspan="2">Register now to receive event information and updates to your inbox</td></tr>
+                <tr class="tbody"><td colspan="2">&nbsp</td></tr>
+                <tr class="tbody">
                     <td><b>First Name:</b></td>
                     <td><input type="text" name="attendee_fname" autofocus="autofocus" title="Enter attendees first name" maxlength="40" placeholder="Required Field" required></td>
                 </tr>
-                <tr>
+                <tr class="tbody">
                     <td><b>Last Name:</b></td>
                     <td><input type="text" name="attendee_lname" title="Enter attendees last name" maxlength="40" placeholder="Required Field" required></td>
                 </tr>
-                <tr>
+                <tr class="tbody">
                     <td><b>Email Address:</b></td>
                     <td><input type="text" name="attendee_email" title="Enter an email address" maxlength="60" placeholder="Required Field" required></td>
                 </tr>
-                <tr>
+                <tr class="tbody">
                     <td><b>Phone Number:</b></td>
                     <td><input type="text" name="attendee_phone" title="Enter a phone number" maxlength="18"></td>
                 </tr>
-                <tr>
+                <tr class="tbody">
                     <td><b>Address Line 1:</b></td>
                     <td><input type="text" name="attendee_addr1" title="Enter address line 1" maxlength="40"></td>
                 </tr>
-                <tr>
+                <tr class="tbody">
                     <td><b>Address Line 2:</b></td>
                     <td><input type="text" name="attendee_addr2" title="Enter address line 2" maxlength="40"></td>
                 </tr>
-                <tr>
+                <tr class="tbody">
                     <td><b>Town:</b></td>
                     <td><input type="text" name="attendee_town" title="Enter a town" maxlength="40"></td>
                 </tr>
-                <tr>
+                <tr class="tbody">
                     <td><b>County:</b></td>
                     <td><input list="attendee_county" name="attendee_county" title="Select a county" maxlength="40">
                           <datalist id="attendee_county">
@@ -101,13 +102,12 @@ and open the template in the editor.
                           </datalist>
                     </td>
                 </tr>
+                <tr class="tbody"><td colspan="2">&nbsp</td></tr>
                 <tr>
-                    <td></td>
-                <td style="text-align:right"><input type="submit" value="Submit" title="Submit Details"/></td>
+                    <td class="tbase" colspan="2" style="text-align:right"><input type="submit" value="Submit" title="Submit Details"/></td>
                 </tr>
           </table>
         </form><br>
-        </div>
         </div>
         
         <div id="bl" class="bottomlinks">

@@ -33,7 +33,8 @@ public class manage_speakers extends HttpServlet {
     String speak_bio;
     String speak_site;
     String speak_pic;
-    int speak_num = 1;
+    int speak_num = 1; // give each speaker a number for output
+    int sp_count; // number of speakers in the db
        
     public void init() throws ServletException
     {
@@ -76,10 +77,9 @@ public class manage_speakers extends HttpServlet {
 // Heading
             out.println("<div class=\"heading\">" +
                         "<table>" +
-                            "<tr><td>&nbsp;</td></tr>" +
-                            "<tr><td>&nbsp;</td></tr>" +
-                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img150\"></a></td>" +
-                            "<td><h1>" + title + "</h1></td></tr>" +
+                            "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" + 
+                                "<img src='" + request.getContextPath() + "/images/logoT.png' alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
+                                "<td><h1>" + title + "</h1></td></tr>" +
                         "</table>" +
                     "</div>");
             
@@ -92,12 +92,34 @@ public class manage_speakers extends HttpServlet {
                             "<form action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
                             "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
                         "</span></div>");
-// Speaker input            
+// Count the speakers
+            try {
+                sp_count=0;
+                java.sql.Statement stmt = conn.createStatement();
+                ResultSet sp = stmt.executeQuery("SELECT COUNT(*) AS sp_counter FROM Speakers;");
+                sp.next();
+                sp_count = sp.getInt("sp_counter");
+            } catch (Exception e) { System.err.println(e); }  
+            
             out.println("<div class=\"mainbody\">" +
                           "<form action=\"add_speaker\" method=\"POST\"><br>" +
                             "<table align=\"center\">" +
-                                "<tr><td class=\"tbhead\" colspan=\"2\">Enter Speaker Details</td></tr>" +
-                                "<tr><td colspan=\"2\">&nbsp;</td></tr>" +
+                                "<tr><td class=\"tbhead\" colspan=\"2\">Enter Speaker Details</td></tr>");
+// Show number of speakers
+            switch (sp_count) {
+                case 1:
+                    out.println("<tr><td colspan=\"2\">There is currently "+sp_count+" speaker registered</td></tr>");
+                    break;
+                case 0:
+                    out.println("<tr><td colspan=\"2\">There is no Speakers registered yet</td></tr>");
+                    break;
+                default:
+                    out.println("<tr><td colspan=\"2\">There are currently "+sp_count+" speakers registered</td></tr>");
+                    break;
+            }
+            
+// Enter Speaker Details
+            out.println("<tr><td colspan=\"2\">&nbsp;</td></tr>" +
                                 "<tr>" +
                                     "<th>First Name:</th>" +
                                     "<td><input type=\"text\" name=\"speaker_fname\" autofocus=\"autofocus\" title=\"Enter speakers first name\" maxlength=\"40\" placeholder=\"Required Field\" required></td>" +
@@ -118,14 +140,18 @@ public class manage_speakers extends HttpServlet {
                                     "<th>Picture URL:</th>" +
                                     "<td><input type=\"text\" name=\"speaker_pic\" title=\"Enter speaker picture url\"maxlength=\"60\" ></td>" +
                                 "</tr>" +
+                                "<tr><td></td><td>e.g \"/images/example.png\"</td></tr>" +
                                 "<tr>" +
                                     "<td></td><td id=\"bt\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
                                 "</tr>" +
                             "</table>" +
                           "</form>" +
-                        "</div><br>");
+                        "</div>");
             
-            out.println("<div class=\"mainbody\">" +
+// Show speakers (only show edit if there are speakers in the DB)
+            if (sp_count > 0)
+            {
+            out.println("<br><div class=\"mainbody\">" +
                             "<table align=\"center\">" +
                                 "<tr><td class=\"tbhead\" colspan=\"3\">Current Speakers</td></tr>" +
                                 "<tr><td colspan=\"3\">&nbsp;</td></tr>" +                 
@@ -143,12 +169,12 @@ public class manage_speakers extends HttpServlet {
                                     speak_site = speakers.getString("speaker_website");
                                     speak_pic = speakers.getString("speaker_pic");
 
-                                out.println("<tr><td rowspan=\"6\"><img src="+speak_pic+" alt=\"Speaker Picture\" id=\"img200\"></td><td></td><td></td></tr>" +
+                                out.println("<tr><td rowspan=\"6\"><img src='"+ request.getContextPath() + speak_pic+"' alt=\""+speak_name+" Picture\" id=\"img200\"></td><td></td><td></td></tr>" +
                                             "<tr><th colspan=\"2\" id=\"thc\">Keynote Speaker "+speak_num+"</th></tr>" +
                                             "<tr><th>DB ID:</th><td>" + sp_id + "</td></tr>" +
                                             "<tr><th>Name:</th><td>" + speak_name + "</td></tr>" +
                                             "<tr valign=\"top\"><th>Biography:</th><td>" + speak_bio + "</td></tr>" +
-                                            "<tr><th>Website:</th><td><a href=\"" + speak_site + "\">\"" + speak_site + "\"</a></td></tr>" +
+                                            "<tr><th>Website:</th><td><a href=\"" + speak_site + "\">" + speak_site + "</a></td></tr>" +
                                             "<tr><td colspan=\"3\"><hr></td></tr>");
                                 speak_num++;
                                 }
@@ -192,6 +218,7 @@ public class manage_speakers extends HttpServlet {
                     + "</table>" +
                         "</form>" +
                 "</div>");
+        } // End if (only show if more than 1 speaker)    
             
 // Bottom Links (Manage)             
             out.println("<div  id=\"bl\" class=\"bottomlinks\">" +
