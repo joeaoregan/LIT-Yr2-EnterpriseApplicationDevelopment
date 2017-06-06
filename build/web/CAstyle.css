@@ -7,15 +7,47 @@ and open the template in the editor.
     Created on : 10-Mar-2016, 00:00:27
     Author     : Joe
 */
+.login{
+    background-color: white;
+}
 .heading{
     background-color: powderblue;
+    width:90%;
+    margin: auto;
 }
 .navigation{
         text-align: center;
         background-color: activecaption;
+        width:90%;
+        margin:auto;
         }
 .blah{
         a:hover {background-color: activecaption;}
         button:hover {color: blue; background-color: highlight;}
         }
+.table {
+  margin-left: auto ;
+  margin-right: auto ;
+}
+.mainbody{
+    width:90%;
+    margin: auto;
+    background-color: #cce6ff;
+}
+.bottomlinks{
+    width:90%;
+    margin: auto;
+    background-color: #0080ff;
+    
+}
+
+
+table#table1 {
+    text-align:center; 
+    margin-left:auto; 
+    margin-right:auto; 
+    width:100px;
+  }
+  tr,td {text-align:left;}
+  
 .btmenu{}

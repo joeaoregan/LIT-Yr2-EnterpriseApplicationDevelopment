@@ -91,7 +91,7 @@ public class workshops extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        response.sendRedirect("workshops.html");  // redirects back to workshops.html after form submitted
+        response.sendRedirect("in_workshops.html");  // redirects back to workshops.html after form submitted
     }
 
     /**
@@ -107,9 +107,9 @@ public class workshops extends HttpServlet {
     public void init() throws ServletException
     {
         String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "K00203642";
-        String userName = "k00203642";
-        String password = "";
+        String dbName = "JoeCA";
+        String userName = "root";
+        String password = "password";
         
         try{
             Class.forName("com.mysql.jdbc.Driver");

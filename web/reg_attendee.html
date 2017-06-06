@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="CAstyle.css">
+        <title>Attendee Register</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1 style="text-align:center">Attendee Registration</h1>
+        <div class="navigation">
+            <form style="display: inline" action="eventschedule" method="get"><button name="buttonEventSchedule" title="Event Schedule (Alt + 0)">Event Schedule</button></form>
+            <form style="display: inline" action="reg_admin.html" method="get"><button name="buttonRegAdmin" title="Administrator Registration Page (Alt + 1)">Administrator Registration</button></form>
+            <form style="display: inline" action="reg_attendee.html" method="get"><button name="buttonRegAttendee" title="Attendee Registration Page (Alt + 2)">Attendee Registration</button></form>
+            <form style="display: inline" action="index.html" method="get"><button name="buttonHome" title="AReturn To Home Page (Alt + 3)">Return To Home Page</button></form>
+        </div>
+        <div align="center">
+        <form action="RegisterAttendee" method="POST"><br>
+            <table>
+                <tr>
+                    <td>First Name:</td>
+                    <td><input type="text" name="attendee_fname" autofocus="autofocus" title="Enter attendees first name"></td>
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td><input type="text" name="attendee_lname" title="Enter attendees last name"></td>
+                </tr>
+                <tr>
+                    <td>Email Address:</td>
+                    <td><input type="text" name="attendee_email" title="Enter an email address"></td>
+                </tr>
+                <tr>
+                    <td>Phone Number:</td>
+                    <td><input type="text" name="attendee_phone" title="Enter a phone number"></td>
+                </tr>
+                <tr>
+                    <td>Address Line 1:</td>
+                    <td><input type="text" name="attendee_addr1" title="Enter address line 1"></td>
+                </tr>
+                <tr>
+                    <td>Address Line 2:</td>
+                    <td><input type="text" name="attendee_addr2" title="Enter address line 2"></td>
+                </tr>
+                <tr>
+                    <td>Town:</td>
+                    <td><input type="text" name="attendee_town" title="Enter a town"></td>
+                </tr>
+                <tr>
+                    <td>County:</td>
+                    <td><input list="attendee_county" name="attendee_county" title="Select a county">
+                          <datalist id="attendee_county">
+                            <option value="Antrim">
+                            <option value="Armagh">
+                            <option value="Carlow">
+                            <option value="Cavan">
+                            <option value="Clare">
+                            <option value="Cork">
+                            <option value="Derry">
+                            <option value="Donegal">
+                            <option value="Down">
+                            <option value="Dublin">
+                            <option value="Fermanagh">
+                            <option value="Galway">
+                            <option value="Kerry">
+                            <option value="Kildare">
+                            <option value="Kilkenny">
+                            <option value="Laois">
+                            <option value="Leitrim">
+                            <option value="Limerick">
+                            <option value="Longford">
+                            <option value="Louth">
+                            <option value="Mayo">
+                            <option value="Meath">
+                            <option value="Monaghan">
+                            <option value="Offaly">
+                            <option value="Roscommon">
+                            <option value="Sligo">
+                            <option value="Tipperary">
+                            <option value="Tyrone">
+                            <option value="Waterford">
+                            <option value="Westmeath">
+                            <option value="Wexford">
+                            <option value="Wicklow">
+                          </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                <td style="text-align:right"><input type="submit" value="Submit" title="Submit Details"/></td>
+                </tr>
+          </table>
+        </form><br>
+        </div>
+        <div class="navigation">
+            <form style="display: inline" action="eventschedule" method="get"><button name="buttonEventSchedule" title="Event Schedule (Alt + 0)">Event Schedule</button></form>
+            <form style="display: inline" action="reg_admin.html" method="get"><button name="buttonRegAdmin" title="Administrator Registration Page (Alt + 1)">Administrator Registration</button></form>
+            <form style="display: inline" action="reg_attendee.html" method="get"><button name="buttonRegAttendee" title="Attendee Registration Page (Alt + 2)">Attendee Registration</button></form>
+            <form style="display: inline" action="index.html" method="get"><button name="buttonHome" title="AReturn To Home Page (Alt + 3)">Return To Home Page</button></form>
+        </div>
+            <br><br>
+        <a href="eventschedule" title="Event Schedule (Alt + 0)" accesskey="0">0. Event Schedule</a><br>       
+        <a href="reg_admin.html" title="Administrator Registration Page (Alt + 1)" accesskey="1">1. Administrator Registration</a><br>
+        <a href="reg_attendee.html" title="Attendee Registration Page (Alt + 2)" accesskey="2">2. Attendee Registration</a><br>
+        <a href="index.html" title="Return To Homepage (Alt + 3)" accesskey="3">3. Return To Home Page</a><br>
+        <br>
+    </body>
+</html>

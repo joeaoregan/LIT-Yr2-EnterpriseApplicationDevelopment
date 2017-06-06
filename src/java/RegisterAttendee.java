@@ -103,7 +103,7 @@ public class RegisterAttendee extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        response.sendRedirect("RegAttendee.html");  // redirects back to RegAttendee.html after form submitted
+        response.sendRedirect("reg_attendee.html");  // redirects back to RegAttendee.html after form submitted
     }
 
     /**
@@ -119,9 +119,9 @@ public class RegisterAttendee extends HttpServlet {
     public void init() throws ServletException
     {
         String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "K00203642";
+        String dbName = "JoeCA";
         String userName = "root";
-        String password = "K00203642";
+        String password = "password";
         
         try{
             Class.forName("com.mysql.jdbc.Driver");

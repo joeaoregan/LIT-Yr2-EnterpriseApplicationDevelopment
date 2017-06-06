@@ -5,15 +5,90 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-    <head>
+    <head class="heading">
+        
+        <link rel="stylesheet" type="text/css" href="CAstyle.css">
         <title>General Information</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    <body>
-        <h1 align="center">General Event Information</h1>        
+    <body> 
+        <div class="heading">
+        <!--Top Right Corner Log In */-->
+        <form action="index" method="Get">
+            <!--<table style="float:right; overflow:hidden;">-->
+                
+            <!--table-->            
+            <div style="width:100%; background-color:white">
+                <table style="position: fixed; top: 0; right: 0;" class="login">
+                    <tr>
+                        <th style="text-align:center">ICT in Education Event</th>
+                        <td>Username:</td>
+                        <td><input type="text" name="username" autofocus="autofocus" title="Please enter username"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Password:</td>
+                        <td><input type="password" name="password" title="Please enter password"></td>
+                        <td style="text-align:right"><input type="submit" value="Submit" title="Submit Details"/></td>
+                    </tr>
+                </table>
+            </div>   
+            
+        </form>
+        <br><br><br>
+        <h1 style="text-align:center; overflow:hidden;">General Event Information</h1><br>  
+        </div>
+        
+        <div class="navigation">
+            <form style="display: inline" action="eventschedule" method="get"><button name="buttonEventSchedule" title="Event Schedule (Alt + 0)">Event Schedule</button></form>
+            <form style="display: inline" action="reg_admin.html" method="get"><button name="buttonRegAdmin" title="Administrator Registration Page (Alt + 1)">Administrator Registration</button></form>
+            <form style="display: inline" action="reg_attendee.html" method="get"><button name="buttonRegAttendee" title="Attendee Registration Page (Alt + 2)">Attendee Registration</button></form>
+        </div>
+        <!--Body Log In-->
+        <div class="mainbody">
+        <form action="indexdb" method="Get">
+            <h2>Administrator Login</h2>
+            <table>
+                <tr>
+                    <td>Username:</td>
+                    <td><input type="text" name="username" autofocus="autofocus" title="Please enter username"></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input type="password" name="password" title="Please enter password"></td>
+                </tr>
+                <tr><td></td><td style="text-align:right"><input type="submit" value="Submit" title="Submit Details"/></td></tr>
+            </table>
+        </form>
+        
         <h2>CA Stuff</h2>
-        <div>ICT in Eductation event</div>
-        <a href="RegAdmin.html">Admin Registration</a>
+            <p>Home page for ICT in Eductation event
+            <p>General information about the event will go here<br>
+        </div>
+        <div class="mainbody">
+            The Internet of Things (IoT) is the network of physical objects—devices, vehicles, buildings and other items embedded with electronics, software, sensors, and network connectivity—that enables these objects to collect and exchange data.[1] The Internet of Things allows objects to be sensed and controlled remotely across existing network infrastructure,[2] creating opportunities for more direct integration of the physical world into computer-based systems, and resulting in improved efficiency, accuracy and economic benefit;[3][4][5][6][7][8] when IoT is augmented with sensors and actuators, the technology becomes an instance of the more general class of cyber-physical systems, which also encompasses technologies such as smart grids, smart homes, intelligent transportation and smart cities. Each thing is uniquely identifiable through its embedded computing system but is able to interoperate within the existing Internet infrastructure. Experts estimate that the IoT will consist of almost 50 billion objects by 2020.[9]
+
+British entrepreneur Kevin Ashton first coined the term in 1999 while working at Auto-ID Labs (originally called Auto-ID centers, referring to a global network of objects connected to radio-frequency identification, or RFID).[10] Typically, IoT is expected to offer advanced connectivity of devices, systems, and services that goes beyond machine-to-machine (M2M) communications and covers a variety of protocols, domains, and applications.[11] The interconnection of these embedded devices (including smart objects), is expected to usher in automation in nearly all fields, while also enabling advanced applications like a smart grid,[12] and expanding to the areas such as smart cities.[13][14]
+
+"Things," in the IoT sense, can refer to a wide variety of devices such as heart monitoring implants, biochip transponders on farm animals, electric clams in coastal waters,[15] automobiles with built-in sensors, DNA analysis devices for environmental/food/pathogen monitoring[16] or field operation devices that assist firefighters in search and rescue operations.[17] Legal scholars suggest to look at "Things" as an "inextricable mixture of hardware, software, data and service".[18] These devices collect useful data with the help of various existing technologies and then autonomously flow the data between other devices.[19][20] Current market examples include smart thermostat systems and washer/dryers that use Wi-Fi for remote monitoring.
+
+As well as the expansion of Internet-connected automation into a plethora of new application areas, IoT is also expected to generate large amounts of data from diverse locations, with the consequent necessity for quick aggregation of the data, and an increase in the need to index, store, and process such data more effectively. IoT is one of the platforms of today's Smart City, and Smart Energy Management Systems.[21][22]
+        </div>
+        
+        <div class="navigation">
+            <form style="display: inline" action="eventschedule" method="get"><button name="buttonEventSchedule" title="Event Schedule (Alt + 0)">Event Schedule</button></form>
+            <form style="display: inline" action="reg_admin.html" method="get"><button name="buttonRegAdmin" title="Administrator Registration Page (Alt + 1)">Administrator Registration</button></form>
+            <form style="display: inline" action="reg_attendee.html" method="get"><button name="buttonRegAttendee" title="Attendee Registration Page (Alt + 2)">Attendee Registration</button></form>
+        <br>
+        </div>
+        
+        <div class="bottomlinks">
+            <br>
+            <a href="eventschedule" title="Event Schedule (Alt + 0)" accesskey="0">0. Event Schedule</a><br>       
+            <a href="reg_admin.html" title="Go To Administrator Registration Page" accesskey="1">1. Administrator Registration</a><br>
+            <a href="reg_attendee.html" title="Go To Attendee Registration Page" accesskey="2">2. Attendee Registration</a>
+        </div>
     </body>
 </html>

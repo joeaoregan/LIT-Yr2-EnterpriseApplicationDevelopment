@@ -25,6 +25,8 @@ public class exhibitors extends HttpServlet {
     String exhibitor_fname;
     String exhibitor_lname;
     String exhibitor_bio;
+    String exhibitor_website1;
+    String exhibitor_website2;
     
     Connection conn;
     PreparedStatement prepStat;
@@ -46,13 +48,17 @@ public class exhibitors extends HttpServlet {
         exhibitor_fname = request.getParameter("exhibitor_fname");
         exhibitor_lname = request.getParameter("exhibitor_lname");
         exhibitor_bio = request.getParameter("exhibitor_bio");
+        exhibitor_website1 = request.getParameter("exhibitor_website1");
+        exhibitor_website2 = request.getParameter("exhibitor_website2");
         
         try {
-            String query = "INSERT INTO Exhibitors VALUES (?,?,?)";
+            String query = "INSERT INTO Exhibitors (exhibitor_fname, exhibitor_lname, exhibitor_bio, exhibitor_website1, exhibitor_website2) VALUES (?,?,?,?,?)";
             prepStat = (PreparedStatement) conn.prepareStatement(query);
             prepStat.setString(1, exhibitor_fname);
             prepStat.setString(2, exhibitor_lname);
             prepStat.setString(3, exhibitor_bio);
+            prepStat.setString(4, exhibitor_website1);
+            prepStat.setString(5, exhibitor_website2);
             prepStat.executeUpdate();
             }
         catch (Exception e)
@@ -89,7 +95,7 @@ public class exhibitors extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         
-        response.sendRedirect("exhibitors.html");  // redirects back to exhibitors.html after form submitted
+        response.sendRedirect("in_exhibitors.html");  // redirects back to exhibitors.html after form submitted
         
     }
 
@@ -106,9 +112,9 @@ public class exhibitors extends HttpServlet {
     public void init() throws ServletException
     {
         String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "K00203642";
+        String dbName = "JoeCA";
         String userName = "root";
-        String password = "K00203642";
+        String password = "password";
         
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -117,7 +123,7 @@ public class exhibitors extends HttpServlet {
             stat = (Statement) conn.createStatement();
             //stat.execute("DROP TABLE Exhibitors");
             stat.execute("CREATE TABLE IF NOT EXISTS Exhibitors " + 
-                    "(exhibitor_fname CHAR(40), exhibitor_lname CHAR(40), exhibitor_bio TEXT)");
+                    "(exhibitor_id INT PRIMARY KEY AUTO_INCREMENT, exhibitor_fname CHAR(40), exhibitor_lname CHAR(40), exhibitor_bio TEXT, exhibitor_website1 VARCHAR(60), exhibitor_website2 VARCHAR(60)");
         } catch (Exception e) 
         {
             System.err.println(e);

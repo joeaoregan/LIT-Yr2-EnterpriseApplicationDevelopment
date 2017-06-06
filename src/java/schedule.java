@@ -23,8 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/schedule"})
 public class schedule extends HttpServlet {
     String schedule_time;
-    String schedule_presenter1;
-    String schedule_presenter2;
+    String schedule_title;
+    String schedule_speaker_id;
+    String schedule_exhibitor_id;
     String schedule_location;
     
     Connection conn;
@@ -45,17 +46,19 @@ public class schedule extends HttpServlet {
             throws ServletException, IOException {
         
         schedule_time = request.getParameter("schedule_time");
-        schedule_presenter1 = request.getParameter("schedule_presenter1");
-        schedule_presenter2 = request.getParameter("schedule_presenter2");
+        schedule_title = request.getParameter("schedule_title");
+        schedule_speaker_id = request.getParameter("schedule_speaker_id");
+        schedule_exhibitor_id = request.getParameter("schedule_exhibitor_id");
         schedule_location = request.getParameter("schedule_location");
         
         try {
-            String query = "INSERT INTO Schedule VALUES (?,?,?,?)";
+            String query = "INSERT INTO Schedule VALUES (?,?,?,?,?)";
             prepStat = (PreparedStatement) conn.prepareStatement(query);
             prepStat.setString(1, schedule_time);
-            prepStat.setString(2, schedule_presenter1);
-            prepStat.setString(3, schedule_presenter2);
-            prepStat.setString(4, schedule_location);
+            prepStat.setString(2, schedule_title);
+            prepStat.setString(3, schedule_speaker_id);
+            prepStat.setString(4, schedule_exhibitor_id);
+            prepStat.setString(5, schedule_location);
             prepStat.executeUpdate();
             }
         catch (Exception e)
@@ -92,7 +95,7 @@ public class schedule extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         
-        response.sendRedirect("schedule.html");  // redirects back to schedule.html after form submitted
+        response.sendRedirect("in_schedule.html");  // redirects back to schedule.html after form submitted
         
     }
 
@@ -109,9 +112,9 @@ public class schedule extends HttpServlet {
     public void init() throws ServletException
     {
         String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "K00203642";
+        String dbName = "JoeCA";
         String userName = "root";
-        String password = "K00203642";
+        String password = "password";
         
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -119,7 +122,7 @@ public class schedule extends HttpServlet {
             stat = (Statement) conn.createStatement();
             //stat.execute("DROP TABLE Schedule");
             stat.execute("CREATE TABLE IF NOT EXISTS Schedule " + 
-                    "(schedule_time TIME, schedule_presenter1 CHAR(40), schedule_presenter2 CHAR(40), schedule_location CHAR(40))");
+                    "(schedule_time TIME, schedule_title CHAR(40), schedule_speaker_id INT, schedule_exhibitor_id INT, schedule_location CHAR(40))");
         } catch (Exception e) 
         {
             System.err.println(e);

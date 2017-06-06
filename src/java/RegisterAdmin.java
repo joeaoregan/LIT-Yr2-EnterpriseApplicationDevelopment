@@ -21,7 +21,9 @@ import javax.servlet.http.HttpServletResponse;
  * Student Number: K00203642
  */
 @WebServlet(urlPatterns = {"/RegisterAdmin"})
-public class RegisterAdmin extends HttpServlet {
+public class RegisterAdmin extends HttpServlet {  
+    String admin_username;
+    String admin_password;
     String admin_fname;
     String admin_lname;
     String admin_email;
@@ -48,6 +50,8 @@ public class RegisterAdmin extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        admin_username = request.getParameter("admin_username");
+        admin_password = request.getParameter("admin_password");
         admin_fname = request.getParameter("admin_fname");
         admin_lname = request.getParameter("admin_lname");
         admin_email = request.getParameter("admin_email");
@@ -58,16 +62,18 @@ public class RegisterAdmin extends HttpServlet {
         admin_county = request.getParameter("admin_county");
         
         try {
-            String query = "INSERT INTO Administrators VALUES (?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO Administrators VALUES (?,?,?,?,?,?,?,?,?,?)";
             prepStat = (PreparedStatement) conn.prepareStatement(query);
-            prepStat.setString(1, admin_fname);
-            prepStat.setString(2, admin_lname);
-            prepStat.setString(3, admin_email);
-            prepStat.setString(4, admin_phone);
-            prepStat.setString(5, admin_addr1);
-            prepStat.setString(6, admin_addr2);
-            prepStat.setString(7, admin_town);
-            prepStat.setString(8, admin_county);
+            prepStat.setString(1, admin_username);
+            prepStat.setString(2, admin_password);
+            prepStat.setString(3, admin_fname);
+            prepStat.setString(4, admin_lname);
+            prepStat.setString(5, admin_email);
+            prepStat.setString(6, admin_phone);
+            prepStat.setString(7, admin_addr1);
+            prepStat.setString(8, admin_addr2);
+            prepStat.setString(9, admin_town);
+            prepStat.setString(10, admin_county);
             prepStat.executeUpdate();
             }
         catch (Exception e)
@@ -103,7 +109,7 @@ public class RegisterAdmin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        response.sendRedirect("RegAdmin.html");  // redirects back to RegAdmin.html after form submitted
+        response.sendRedirect("reg_admin.html");  // redirects back to RegAdmin.html after form submitted
     }
 
     /**
@@ -119,9 +125,9 @@ public class RegisterAdmin extends HttpServlet {
     public void init() throws ServletException
     {
         String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "K00203642";
+        String dbName = "JoeCA";
         String userName = "root";
-        String password = "K00203642";
+        String password = "password";
         
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -130,7 +136,7 @@ public class RegisterAdmin extends HttpServlet {
             stat = (Statement) conn.createStatement();
             //stat.execute("DROP TABLE Administrators");
             stat.execute("CREATE TABLE IF NOT EXISTS Administrators " + 
-                    "(admin_fname CHAR(40), admin_lname CHAR(40), admin_email CHAR(40), admin_phone CHAR(40), admin_addr1 CHAR(40), admin_addr2 CHAR(40), admin_town CHAR(40), admin_county CHAR(40))");
+                    "(admin_username CHAR(40), admin_password CHAR(40), admin_fname CHAR(40), admin_lname CHAR(40), admin_email CHAR(40), admin_phone CHAR(40), admin_addr1 CHAR(40), admin_addr2 CHAR(40), admin_town CHAR(40), admin_county CHAR(40))");
         } catch (Exception e) 
         {
             System.err.println(e);
