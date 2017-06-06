@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe O'Regan
  * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/init_sched"})
-public class init_sched extends HttpServlet {
+@WebServlet(urlPatterns = {"/init_ws"})
+public class init_ws extends HttpServlet {
     
     Connection conn;
     Statement stat;
@@ -37,7 +37,7 @@ public class init_sched extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        response.sendRedirect("manage_schedule");  // redirects back to schedule.html after form submitted
+        response.sendRedirect("manage_workshops");  // redirects back to schedule.html after form submitted
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -91,7 +91,7 @@ public class init_sched extends HttpServlet {
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
             // Create Schedule & Workshop Tables
-            //System.out.println("here");
+            System.out.println("here");
             stat.execute("CREATE TABLE IF NOT EXISTS Workshops(ws_id INT PRIMARY KEY AUTO_INCREMENT, ws_name VARCHAR(60) NOT NULL, ws_presenter1 CHAR(40) NOT NULL, ws_presenter2 CHAR(40), ws_info TEXT NOT NULL)");
             stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_time TIME PRIMARY KEY, workshop_id INT NOT NULL, schedule_location CHAR(40), CONSTRAINT fk_shedule_workshop FOREIGN KEY (workshop_id) REFERENCES workshops (ws_id))");
             

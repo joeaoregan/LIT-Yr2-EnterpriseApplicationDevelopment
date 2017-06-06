@@ -108,7 +108,7 @@ public class show_workshops extends HttpServlet {
                             "<table align=\"center\">" +
                                 "<tr><td class=\"mainhead\" colspan=\"4\">"+tableheading+"</td></tr>");
                                 if (workshop_count < 1)         out.println("<tr><td class=\"mainbase\" colspan=\"4\">There are no workshops currently scheduled:</td></tr>");
-                                else if (workshop_count == 1)   out.println("<tr><td class=\"mainbase\" colspan=\"4\">There is one workshop currently scheduled:</td></tr>");
+                                else if (workshop_count == 1)   out.println("<tr><td class=\"mainbase\" colspan=\"4\">There is "+workshop_count+" workshops currently scheduled:</td></tr>");
                                 else                            out.println("<tr><td class=\"mainbase\" colspan=\"4\">There are "+workshop_count+" workshops currently scheduled:</td></tr>");
                                         
             out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>");                    

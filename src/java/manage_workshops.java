@@ -49,8 +49,15 @@ public class manage_workshops extends HttpServlet {
                     conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
                     stat = (Statement) conn.createStatement();
                     
-                    java.sql.Statement stmt = conn.createStatement();  
-                }
+                    stat.execute("CREATE TABLE IF NOT EXISTS Workshops(ws_id INT PRIMARY KEY AUTO_INCREMENT, ws_name VARCHAR(60) NOT NULL, ws_presenter1 CHAR(40) NOT NULL, ws_presenter2 CHAR(40), ws_info TEXT NOT NULL)");
+                    stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_time TIME PRIMARY KEY, workshop_id INT NOT NULL, schedule_location CHAR(40), CONSTRAINT fk_shedule_workshop FOREIGN KEY (workshop_id) REFERENCES workshops (ws_id))");
+                    stat.execute("CREATE TABLE IF NOT EXISTS CustSched(workshop_id INT PRIMARY KEY, CONSTRAINT fk_custsched_workshop FOREIGN KEY (workshop_id) REFERENCES workshops (ws_id));");
+                    
+                    stat.execute("INSERT INTO Workshops VALUES(1, 'Break','none','none','Break Times:\n8am Begin\n10 a.m. - 10.30 a.m. Break\n1 p.m. - 2 p.m. Lunch\n4 p.m. - 4.30 p.m. Break');");
+                    stat.execute("INSERT INTO schedule VALUES('100000', 1, 'Break')");
+                    stat.execute("INSERT INTO schedule VALUES('130000', 1, 'Break')");
+                    stat.execute("INSERT INTO schedule VALUES('160000', 1, 'Break')");
+                     }
                 catch(Exception e){System.err.println(e);}
                 
     } // end init
@@ -122,8 +129,8 @@ public class manage_workshops extends HttpServlet {
                 out.println("<div class=\"mainbody\">" +
                                 "<h2 class=\"tbhead\">Initialise Workshop And Schedule Table</h2>" +
                                 "<p>Sets up the workshops, schedule, and custom schedule tables, by 1st creating the tables, and then adding the break times" +
-                                "<form action=\"init_sched\" method=\"get\"><button name=\"buttonInitWS\" title=\"Initialise the workshops table\">Initialise Workshops Table</button></form>" +
-                            "</div>");
+                                "<form action=\"init_ws\" method=\"get\"><button name=\"buttonInitWS\" title=\"Initialise the workshops table\">Initialise Workshops Table</button></form>" +
+                            "</div><br>");
             }    
 // Workshop Form Input
             if(ws_count_init > 0) // Only display if workshop count is initialised
@@ -167,12 +174,12 @@ public class manage_workshops extends HttpServlet {
                                     "</tr>" +
                                 "</table>" +
                             "</form><br>" +
-                        "</div>");
+                        "</div><br>");
 
 // Current Workshops
             if(ws_count > 0) // Only display if there are workshops in db (excluding breaks)
             {
-                out.println("<br><div class=\"mainbody\">" +
+                out.println("<div class=\"mainbody\">" +
                             "<table align=\"center\">" +
                                 "<tr><td class=\"tbhead\" colspan=\"4\">Current Workshops</td></tr>" + // Table heading
                                 "<tr><td colspan=\"3\">&nbsp;</td></tr>" + // Blank Line

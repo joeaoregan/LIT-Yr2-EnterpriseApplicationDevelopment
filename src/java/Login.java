@@ -106,7 +106,7 @@ public class login extends HttpServlet {
                                 "<form action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Alt + j - Manage Workshop Details\">Manage Workshop Details</button></form>" +
                                 "<form action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Alt + k - Manage Schedule Details\">Manage Schedule Details</button></form>" +
                                 "<form action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Alt + l4 - Manage Exhibitor Details\">Manage Exhibitor Details</button></form>" +
-                        "</span></div>");            
+                        "</span></div><br>");            
 // Bottom Links (Manage)             
             out.println("<div  id=\"bl\" class=\"bottomlinks\">" +
                             "<table align=\"center\">" +

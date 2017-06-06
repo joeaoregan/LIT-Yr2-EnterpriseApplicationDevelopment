@@ -136,7 +136,7 @@ public class show_exhibitors extends HttpServlet {
                         ex_num++;
                     }
                 } catch (Exception e) { System.err.println(e); }
-                out.println("</table></div>");
+                out.println("</table></div><br>");
             } // End else (output exhibitors)
             
 // Bottom Links                    

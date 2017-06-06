@@ -50,7 +50,7 @@ public class manage_schedule extends HttpServlet {
     int sc_count; // number of workshops in schedule database
     
     Connection conn;
-    Statement stmt;
+    Statement stat;
        
     public void init() throws ServletException
     {
@@ -61,10 +61,15 @@ public class manage_schedule extends HttpServlet {
                 try{
                     Class.forName("com.mysql.jdbc.Driver");
                     conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
-                    stmt = (Statement) conn.createStatement();
+                    stat = (Statement) conn.createStatement();
                     
-                    //java.sql.Statement stmt = conn.createStatement(); 
-                    //ResultSet result = stmt.executeQuery("SELECT * FROM schedule");   
+                    stat.execute("CREATE TABLE IF NOT EXISTS Workshops(ws_id INT PRIMARY KEY AUTO_INCREMENT, ws_name VARCHAR(60) NOT NULL, ws_presenter1 CHAR(40) NOT NULL, ws_presenter2 CHAR(40), ws_info TEXT NOT NULL)");
+                    stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_time TIME PRIMARY KEY, workshop_id INT NOT NULL, schedule_location CHAR(40), CONSTRAINT fk_shedule_workshop FOREIGN KEY (workshop_id) REFERENCES workshops (ws_id))");
+                    stat.execute("INSERT INTO Workshops VALUES(1, 'Break','none','none','Break Times:\n8am Begin\n10 a.m. - 10.30 a.m. Break\n1 p.m. - 2 p.m. Lunch\n4 p.m. - 4.30 p.m. Break');");
+                    stat.execute("INSERT INTO schedule VALUES('100000', 1, 'Break')");
+                    stat.execute("INSERT INTO schedule VALUES('130000', 1, 'Break')");
+                    stat.execute("INSERT INTO schedule VALUES('160000', 1, 'Break')");
+                    stat.execute("CREATE TABLE IF NOT EXISTS CustSched(workshop_id INT PRIMARY KEY, CONSTRAINT fk_custsched_workshop FOREIGN KEY (workshop_id) REFERENCES workshops (ws_id));");
                 }
                 catch(Exception e){System.err.println(e);}
                 
@@ -133,7 +138,7 @@ public class manage_schedule extends HttpServlet {
                                 "<h2 class=\"tbhead\">Initialise Workshop And Schedule Table</h2>" +
                                 "<p>Sets up the workshops, schedule, and custom schedule tables, by 1st creating the tables, and then adding the break times" +
                                 "<form action=\"init_sched\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Initialise the schedule table\">Initialise Schedule Table</button></form>" +
-                            "</div>");
+                            "</div><br>");
             }
 // Add to schedule
 // Select the workshop from a drop down list to add to schedule, only the workshops not in the schedule can be selected
@@ -142,7 +147,7 @@ public class manage_schedule extends HttpServlet {
             try{
                 java.sql.Statement stmt = conn.createStatement(); 
                 ResultSet schedule = stmt.executeQuery("SELECT schedule_time,schedule_location FROM Schedule");  
-                for(int i = 0; i <20; i++) // initialise / reset all list items to be enabled
+                for(int i = 0; i <20; i++) // initialise / reset all list items to enabled
                 {
                     status[i]="";
                 }

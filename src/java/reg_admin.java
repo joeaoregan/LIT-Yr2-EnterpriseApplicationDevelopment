@@ -184,7 +184,7 @@ public class reg_admin extends HttpServlet {
                                     "</tr>" +
                                 "</table>" +
                                 "</form>" +
-                            "</div>");
+                            "</div><br>");
 
 // Bottom Links                    
             out.println("<div id=\"bl\" class=\"bottomlinks\">" +
