@@ -85,7 +85,7 @@ public class delete_schedule extends HttpServlet {
             System.err.println(e);
         }
         
-        response.sendRedirect("in_schedule");  // redirects back to schedule.html after form submitted
+        response.sendRedirect("manage_schedule");  // redirects back to schedule.html after form submitted
     }
 
     /**

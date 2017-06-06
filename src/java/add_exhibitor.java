@@ -95,7 +95,7 @@ public class add_exhibitor extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         
-        response.sendRedirect("in_exhibitors");  // redirects back to exhibitors.html after form submitted
+        response.sendRedirect("manage_exhibitors");  // redirects back to manage_exhibitors after form submitted
         
     }
 

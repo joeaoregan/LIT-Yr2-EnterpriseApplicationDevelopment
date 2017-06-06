@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Joe O'Regan Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/out_schedule"})
-public class out_schedule extends HttpServlet {
+@WebServlet(urlPatterns = {"/cust_schedule"})
+public class cust_schedule extends HttpServlet {
 
     String[] times = {"08:00:00", "08:30:00", "09:00:00", "09:30:00", "10:00:00", "10:30:00", "11:00:00", "11:30:00", "12:00:00", "12:30:00", "13:00:00", "13:30:00", "14:00:00", "14:30:00", "15:00:00", "15:30:00", "16:00:00", "16:30:00", "17:00:00", "17:30:00"};
     String[] status = {"", "", "", "", "disabled", "", "", "", "", "", "disabled", "", "", "", "", "", "disabled", "", "", ""};
@@ -276,6 +276,8 @@ public class out_schedule extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+        response.sendRedirect("show_schedule");  // redirects back to manage_exhibitors after form submitted
     }
 
     /**

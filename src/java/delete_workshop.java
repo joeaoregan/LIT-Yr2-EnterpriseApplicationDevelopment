@@ -84,7 +84,7 @@ public class delete_workshop extends HttpServlet {
         {
             System.err.println(e);
         }        
-        response.sendRedirect("in_workshops");  // redirects back to schedule.html after form submitted
+        response.sendRedirect("manage_workshops");  // redirects back to schedule.html after form submitted
     }
 
     /**

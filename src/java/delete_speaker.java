@@ -85,7 +85,7 @@ public class delete_speaker extends HttpServlet {
             System.err.println(e);
         }
         
-        response.sendRedirect("in_speakers");  // redirects back to schedule.html after form submitted
+        response.sendRedirect("manage_speakers");  // redirects back to schedule.html after form submitted
     }
 
     /**

@@ -93,7 +93,7 @@ public class add_speaker extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        response.sendRedirect("in_speakers");                                   // redirects back to speakers.html after form submitted
+        response.sendRedirect("manage_speakers");                                   // redirects back to speakers.html after form submitted
     }
 
     /**

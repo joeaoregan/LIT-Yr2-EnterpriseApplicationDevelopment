@@ -13,16 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(urlPatterns = {"/show_schedule"})
 public class show_schedule extends HttpServlet {
+    String title = "Event Schedule";
     Connection conn = null; 
     PreparedStatement prepStat;
     com.mysql.jdbc.Statement stat;    
     String scheduletime;
-    String workshopname;
     String schedulelocation;
-    String speakername;
-    String speakersite;
+    String ws_id;
+    String workshopname;
+    String ws_pres1;
+    String ws_pres2;
+    String ws_info;
     String checkboxname;
+    int checkboxno;
     String checkboxvisible;
+    boolean checkFormat;
     
     public void init() throws ServletException
     {
@@ -48,7 +53,6 @@ public class show_schedule extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
         
             PrintWriter out = response.getWriter();
-            String title = "Event Schedule";
             String docType = "<!doctype html >";
             
             out.println(docType + "<html>\n" +
@@ -57,73 +61,97 @@ public class show_schedule extends HttpServlet {
                         "button:hover {color: blue; background-color: highlight;}" +
                     "</style>" +
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
-                    "<head ><title>" + title + "</title></head>\n" +
+                    "<head ><title>" + title + "</title></head>" +
                     "<body>" +
                         "<div class=\"heading\">" +
                             "<br><h1 style=\"text-align:center\">" + title + "</h1><br>" +
-                        "</div>" +
+                        "</div>");
+// Navigation menu
+            out.println("<div class=\"navigation\">" +
+                        "<form style=\"display: inline\" action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
+                        "<form style=\"display: inline\" action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Event Workshops</button></form>" +
+                        "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button style=\"color: blue; background-color: white;\" name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
+                        "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
+                        "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
+                        "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
+                        "<form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                    "</div>");
                     
-                        "<div class=\"navigation\">\n" +
-                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name\"buttonEventAdmin\" title=\"Schedule (Alt + 1)\">Event Schedule</button></form>\n" +
-                            "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 2)\">Administrator Registration</button></form>\n" +
-                            "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 3)\">Attendee Registration</button></form>\n" +
-                            "<form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Home Page (Alt + 5)\">Return To Home Page</button></form>\n" +
-                        "</div>" +
-                    
-                        "<div class=\"mainbody\"><br>" +
+            out.println("<div class=\"mainbody\">" +
                             "<h2 style=\"text-align:center\">Times of Events</h2>" +
-                            "<form action=\"out_cust_schedule.html\" method=\"GET\"><br>"
-                    //+       "<table id=\"table1\">");
+                            "<form action=\"cust_schedule\" method=\"POST\"><br>"
                     + "<table align=\"center\">");
             
             try{
-            Statement stmt = conn.createStatement(); 
-           // ResultSet result = stmt.executeQuery("SELECT * FROM Speakers JOIN schedule WHERE speakers.speaker_id = schedule.schedule_speaker_id GROUP BY schedule_time, schedule_title;"); 
-            //ResultSet result = stmt.executeQuery("SELECT * FROM schedule;");  
-            ResultSet result = stmt.executeQuery("SELECT schedule_time,ws_name,schedule_location FROM Schedule JOIN Workshops ON Schedule.workshop_id = Workshops.ws_id ORDER BY schedule_time ASC;");
-            
-            out.println("<tr style=\"font-size:20px\"><td><b>Event Time</b></td><td><b>Event Title</b></td><td><b>Location</b></td><td><b>Attend</b></td></tr><tr><td></td></tr>");
-            out.println("<tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>");
-            while(result.next())
-            {
-                scheduletime = result.getString("schedule_time");
-                workshopname = result.getString("ws_name");
-                schedulelocation = result.getString("schedule_location");
-                //speakername = result.getString("speaker_fname") + " " + result.getString("speaker_lname");
-                //speakersite = result.getString("speaker_website1");
-                //checkboxname = result.getString("schedule_id");
-                
-               // out.println("<tr style=\"font-size:20px\"><td>" + scheduletime + "</td><td>" + scheduletitle + "</td><td>" + schedulelocation + "</td><td><input type=\"checkbox\"/ name=" + checkboxname + "></td></tr>");
-               // out.println("<tr><td colspan=\"2\"><b>Speaker: </b>" + speakername + "</td><td></td><td></td></tr>");
-               // out.println("<tr><td colspan=\"2\"><b>Website: </b><a href=" + speakersite + ">" + speakersite + "</a></td><td></td><td></td></tr>");
-                out.println("<tr style=\"font-size:20px\"><td>" + scheduletime + "</td><td>" + workshopname + "</td><td>" + schedulelocation + "</td>");
-                
-                if(workshopname.contentEquals( "Break" ) ) checkboxvisible = "";
-                //else if (workshopname.contentEquals( "Lunch" ) ) checkboxvisible = "";
-                else checkboxvisible ="<input type=\"checkbox\"/ name=" + checkboxname + ">";
-                
-                out.println("<td>"+ checkboxvisible +"</td></tr>");
-                
+                Statement stmt = conn.createStatement();
+                ResultSet result = stmt.executeQuery("SELECT schedule_time,ws_id,ws_name,schedule_location,ws_presenter1,ws_presenter2,ws_info FROM Schedule JOIN Workshops ON Schedule.workshop_id = Workshops.ws_id ORDER BY schedule_time;");
+
+                out.println("<tr style=\"font-size:20px\"><td><b>Event Time</b></td><td><b>Event Title</b></td><td><b>Location</b></td><td><b>Attend</b></td></tr><tr><td></td></tr>");
                 out.println("<tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>");
-            }
+                checkboxno = 1;
+                while(result.next())
+                {
+                    scheduletime = result.getString("schedule_time");
+                    schedulelocation = result.getString("schedule_location");
+                    ws_id = result.getString("ws_id");
+                    workshopname = result.getString("ws_name");
+                    ws_pres1 = result.getString("ws_presenter1");
+                    ws_pres2 = result.getString("ws_presenter2");
+                    ws_info = result.getString("ws_info");
+                    checkboxname = "btn" + checkboxno;
+                    
+                    out.println("<tr style=\"font-size:20px\"><td>" + scheduletime + "</td><td>" + workshopname + "</td>");
+                    
+                    checkFormat = workshopname.contentEquals( "Break" );                                                                  // compare content of workshopname to "break"
+                    
+                    if( checkFormat )                                                                                                           // don't output checkbox for breaks
+                        checkboxvisible = "<td></td><td></td>";
+                    else 
+                        checkboxvisible ="<td>" + schedulelocation + "</td><td><input type=\"checkbox\"/ name=" + checkboxname + "></td>";
+                    
+                    out.println(""+ checkboxvisible +"</tr>");
+                    
+                    if(!checkFormat)                                                                                                            // don't output presenters for breaks
+                    {
+                        if (ws_pres2.contentEquals( "" )) 
+                        {
+                            out.println("<tr><td><b>Presenter:</b></td><td>"+ws_pres1+"</td><td></td><td></td></tr>");                           // output if only 1 presenter   
+                            out.println("<tr><td><b>About:</b></td><td colspan=\"3\">"+ws_info+"</td></tr>");                           
+                        }
+                        else 
+                        {
+                            out.println("<tr><td><b>Presenters:</b></td><td>"+ws_pres1+" and "+ws_pres2+"</td><td></td><td></td></tr>");         // output if 2 presenters 
+                            out.println("<tr><td><b>About:</b></td><td colspan=\"3\">"+ws_info+"</td></tr>");                           
+                        }
+                    }
+                    out.println("<tr><td colspan=\"4\">"+checkboxname+"</td></tr>"); checkboxno++; //test
+                    out.println("<tr><td colspan=\"4\"><hr></td></tr>");
+                }
                 out.println("<tr><td colspan=\"4\" style=\"text-align:right\"><input type=\"submit\" value=\"Submit Custom Time Table\" title=\"Submit Custom Table\"/></td></tr>");
                 out.println("</table></form><br>" +
-                        "</div>" +
-                    
-                        "<div class=\"navigation\">\n" +
-                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name\"buttonEventAdmin\" title=\"Schedule (Alt + 1)\">Event Schedule</button></form>\n" +
-                            "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 2)\">Administrator Registration</button></form>\n" +
-                            "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 3)\">Attendee Registration</button></form>\n" +
-                            "<form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Home Page (Alt + 5)\">Return To Home Page</button></form>\n" +
-                        "</div>" +
-                        
-                        "<div id=\"bl\" class=\"bottomlinks\">" +
-                            "<a href=\"show_schedule\" title=\"Event Schedule (Alt + 1)\" accesskey=\"1\">1. Event Schedule</a><br>" +
-                            "<a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 2)\" accesskey=\"2\">2. Administrator Registration</a><br>" +
-                            "<a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 3)\" accesskey=\"3\">3. Attendee Registration</a><br>" +
-                            "<a href=\"index.html\" title=\"Return To Homepage (Alt + 4)\" accesskey=\"4\">4. Return To Home Page</a>" +
-                        "</div>" +
-                    "</body></html>");
+                        "</div>");
+// Navigation menu
+            out.println("<div class=\"navigation\">" +
+                        "<form style=\"display: inline\" action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
+                        "<form style=\"display: inline\" action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Event Workshops</button></form>" +
+                        "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button style=\"color: blue; background-color: white;\" name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
+                        "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
+                        "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
+                        "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
+                        "<form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                    "</div>");
+// Bottom Links                    
+            out.println("<div id=\"bl\" class=\"bottomlinks\">\n" +
+                "<table align=\"center\">\n" +
+                    "<tr><th>Display:</th><th>Register:</th><th>Other:</th><tr>\n" +
+                    "<tr><td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td><td><a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td><td><a href=\"index.html\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
+                    "<tr><td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td><td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td><td></td></tr>" +
+                    "<tr><td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td><td></td><td></td></tr>" +
+                    "<tr><td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td><td></td><td></td></tr>" +
+                "</table>" +
+            "</div>");
+            
+            out.println("</body></html>");
         }
         catch(Exception e)
         {

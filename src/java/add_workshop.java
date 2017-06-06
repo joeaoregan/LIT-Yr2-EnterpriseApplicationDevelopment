@@ -91,7 +91,7 @@ public class add_workshop extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        response.sendRedirect("in_workshops");  // redirects back to workshops.html after form submitted
+        response.sendRedirect("manage_workshops");  // redirects back to workshops.html after form submitted
     }
 
     /**

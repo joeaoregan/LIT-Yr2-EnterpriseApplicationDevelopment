@@ -86,7 +86,7 @@ public class delete_exhibitor extends HttpServlet {
             System.err.println(e);
         }
         
-        response.sendRedirect("in_exhibitors");  // redirects back to schedule.html after form submitted
+        response.sendRedirect("manage_exhibitors");  // redirects back to schedule.html after form submitted
     }
 
     /**

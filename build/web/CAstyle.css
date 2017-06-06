@@ -8,6 +8,7 @@ and open the template in the editor.
     Author     : Joe
 */
 
+td,th {text-align:left; padding-left: 15px;}
 a:hover {
     background-color: activecaption;
 }
@@ -51,8 +52,7 @@ button{
 }
 
 .bottomlinks{    
-    a:hover{color:white;}
-    color:white;
+    color: #ffffff;
     width:90%;
     margin: auto;
     background-color: #0080ff;  
@@ -62,6 +62,7 @@ button{
 #bl a:link{color:white;}
 #bl a:visited{color:darkgrey;}
 #bl a:hover{color:white;}
+#bl th, td {padding-left:25px}
 
 /*
 a.class1 {color:red;}
@@ -77,6 +78,6 @@ table#table1 {
     margin-right:auto; 
     width:300px;
   }
-  tr,td {text-align:left;}
+  
   
 .btmenu{}

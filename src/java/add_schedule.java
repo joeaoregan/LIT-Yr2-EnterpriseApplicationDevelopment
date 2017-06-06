@@ -66,7 +66,7 @@ public class add_schedule extends HttpServlet {
             System.err.println(e);
         }
         
-        response.sendRedirect("in_schedule");  // redirects back to schedule.html after form submitted
+        response.sendRedirect("manage_schedule");  // redirects back to schedule.html after form submitted
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
