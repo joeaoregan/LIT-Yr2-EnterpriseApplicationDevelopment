@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/show_cust_sched"})
 public class show_cust_sched extends HttpServlet {
     String title = "Custom Schedule";
-    String tableheading = "Times Of Events Selected";
+    String tableheading = "Selected Event Times";
     Connection conn = null; 
     PreparedStatement prepStat;
     com.mysql.jdbc.Statement stat;    
@@ -25,9 +25,6 @@ public class show_cust_sched extends HttpServlet {
     String ws_pres1;
     String ws_pres2;
     String ws_info;
-    String checkboxname;
-    int checkboxno;
-    String checkboxvisible;
     boolean checkFormat;
 // Custom Schedule Variables
     String workshop_id;
@@ -65,7 +62,7 @@ public class show_cust_sched extends HttpServlet {
             String docType = "<!doctype html >";
             
             out.println(docType + "<html>" +
-                    // Hide Non Printing Items
+// Hide Non Printing Items
                     "<style type=\"text/css\" media=\"print\">" +
                         ".dontprint" + "{ display: none; }" +
                     "</style>" +
@@ -73,31 +70,30 @@ public class show_cust_sched extends HttpServlet {
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
                     "<head ><title>" + title + "</title></head>" +
                     "<body>" +
-                        "<div class=\"heading\">" +
+                        "<div class=\"heading dontprint\">" +
                             "<br><h1 style=\"text-align:center\">" + title + "</h1><br>" +
                         "</div>");
 // Navigation menu
             out.println("<div class=\"navigation dontprint\">" +
-                        "<form style=\"display: inline\" action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
-                        "<form style=\"display: inline\" action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Event Workshops</button></form>" +
-                        "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
-                        "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
-                        "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
-                        "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
-                        "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
-                    "</div>");
+                            "<form style=\"display: inline\" action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
+                            "<form style=\"display: inline\" action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Event Workshops</button></form>" +
+                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
+                            "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
+                            "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
+                            "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
+                            "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                        "</div>");
+            
 // Custom Event Schedule                    
             out.println("<div class=\"mainbody\">" +
-                            "<form action=\"cust_schedule\" method=\"POST\"><br>"
-                    + "<table align=\"center\">" +
-                    "<tr><td class=\"tbhead\" colspan=\"2\">"+tableheading+"</td></tr>");
+                            "<form action=\"cust_schedule\" method=\"POST\"><br>" +
+                                "<table align=\"center\">" +
+                                    "<tr><td class=\"tbhead\" colspan=\"2\">"+tableheading+"</td></tr>");
             
             try{
                 Statement stmt = conn.createStatement();
-                //ResultSet result = stmt.executeQuery("SELECT schedule_time,ws_id,ws_name,schedule_location,ws_presenter1,ws_presenter2,ws_info FROM Schedule JOIN Workshops ON Schedule.workshop_id = Workshops.ws_id ORDER BY schedule_time;");
                 ResultSet custom_schedule = stmt.executeQuery("SELECT schedule_time,schedule.workshop_id,workshops.ws_name,schedule_location,ws_presenter1,ws_presenter2,ws_info FROM Schedule JOIN CustSched ON Schedule.workshop_id = CustSched.workshop_id JOIN Workshops ON Schedule.workshop_id = Workshops.ws_id AND Workshops.ws_id = CustSched.workshop_id ORDER BY schedule_time ASC;");
                 
-                checkboxno = 1;
                 while(custom_schedule.next())
                 {
                     scheduletime = custom_schedule.getString("schedule_time");
@@ -137,121 +133,30 @@ public class show_cust_sched extends HttpServlet {
         }
             
 // Print Custom Schedule
-out.println("<div class=\"mainbody dontprint\" align=\"center\">"
-                + "<button onclick=\"myFunction()\">Print this page</button>" +
-                    "<script>"
-                + "function myFunction() {window.print();} "
-                + "</script>"
-            + "</div>");
+out.println("<div class=\"mainbody dontprint\" align=\"center\">" +
+                "<table align=\"center\"><tr>"
+                + "<td><button onclick=\"myFunction()\">Print this page</button>" +
+                    "<script>" +
+                        "function myFunction() {window.print();}"
+                + "</script></td>" +
                        
 // Return To Schedule
-out.println("<div class=\"mainbody dontprint\" align=\"center\">" +
-                            "<form><a href=\"show_schedule#cs_add\" title=\"Return To Edit Schedule\"><button name=\"button\" value=\"OK\" type=\"button\">Return To Schedule</button></a></form>" +
-                        "</div>");
-            
-            /*
-// Choose custom schedule
-            out.println("<div class=\"mainbody\">"
-                    +"<h2>Choose Custom Schedule</h2>"
-                    + "<p>Select a workshop from the list to add to your custom schedule</p>"
-                    + "<form action=\"cust_schedule_add\" method=\"POST\">"
-                    + "<table align=\"center\">"
-                        + "<tr>" +
-                "               <th>Select Workshop:</th>\n" +
-                "                   <td><select name=\"custom_schedule\" title=\"Select A Workshop From The List\" style=\"width:100%\">");
-            
-            try{
-                java.sql.Statement stmt = conn.createStatement();            
-                ResultSet schedule = stmt.executeQuery("SELECT schedule_time, workshop_id,ws_name FROM Schedule JOIN Workshops ON Schedule.workshop_id = Workshops.ws_id WHERE workshop_id NOT IN (SELECT workshop_id FROM CustSched) AND workshop_id != 1 ORDER BY schedule_time;");
-                
-                while(schedule.next())
-                {
-                    workshop_id = schedule.getString("workshop_id");
-                    workshop_name = schedule.getString("ws_name");
-                    list_item_name = schedule.getString("schedule_time") + " " +schedule.getString("ws_name");
-                    checkFormat = workshop_name.contentEquals( "Break" );                                                                  // compare content of workshopname to "break"
-                    
-                    if( !checkFormat )
-                    {           
-                        out.println("<option value=\""+workshop_id+"\">"+list_item_name+"</option>");
-                    }
-                    //out.println("<option value=\""+workshop_id+"\">"+list_item_name+"</option>");
-                }
-            }
-            catch(Exception e)
-            {
-                System.err.println(e);
-            }
-            
-            out.println("</select></td>" +
-                                "<td style=\"text-align:right\"><input type=\"submit\" value=\"Add To Custom Schedule\" title=\"Add To Custom Schedule\"/></td>" +
-                "           </tr>"
-                    + "</table>" +
-                    "</form>" +
-                "</div><br>");
-            
-// Delete custom schedule item
-            out.println("<div class=\"mainbody\">"
-                    +"<h2>Delete From Custom Schedule</h2>"
-                    + "<p>Select a workshop from the list remove from your custom schedule</p>"
-                    + "<form action=\"cust_schedule_delete\" method=\"POST\">"
-                    + "<table align=\"center\">"
-                        + "<tr>" +
-                "               <th>Select Workshop:</th>\n" +
-                "                   <td><select name=\"cust_sched_delete\" title=\"Select A Workshop From The List\" style=\"width:100%\">");
-            
-            try{
-                java.sql.Statement stmt = conn.createStatement();            
-                ResultSet schedule = stmt.executeQuery("SELECT schedule_time,schedule.workshop_id,workshops.ws_name,schedule_location FROM Schedule JOIN CustSched ON Schedule.workshop_id = CustSched.workshop_id JOIN Workshops ON Schedule.workshop_id = Workshops.ws_id AND Workshops.ws_id = CustSched.workshop_id ORDER BY schedule_time ASC;");
-                
-                while(schedule.next())
-                {
-                    workshop_id = schedule.getString("workshop_id");
-                    workshop_name = schedule.getString("ws_name");
-                    list_item_name = schedule.getString("schedule_time") + " " +schedule.getString("ws_name");
-                    out.println("<option value=\""+workshop_id+"\">"+list_item_name+"</option>");
-                    /*
-                    checkFormat = workshop_name.contentEquals( "Break" );                                                                  // compare content of workshopname to "break"
-                    
-                    if( !checkFormat )
-                    {           
-                        
-                    }
-                    //out.println("<option value=\""+workshop_id+"\">"+list_item_name+"</option>");
-                }
-            }
-            catch(Exception e)
-            {
-                System.err.println(e);
-            }
-            
-            out.println("</select></td>" +
-                                "<td style=\"text-align:right\"><input type=\"submit\" value=\"Delete From Custom Schedule\" title=\"Delete From Custom Schedule\"/></td>" +
-                "           </tr>"
-                    + "</table>" +
-                    "</form>" +
-                "</div>");
-*/            
-// Navigation menu
-            out.println("<div class=\"navigation dontprint\">" +
-                        "<form style=\"display: inline\" action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
-                        "<form style=\"display: inline\" action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Event Workshops</button></form>" +
-                        "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
-                        "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
-                        "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
-                        "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
-                        "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
-                    "</div>");
-// Bottom Links                    
-            out.println("<div id=\"bl\" class=\"bottomlinks dontprint\">\n" +
-                "<table align=\"center\">\n" +
-                    "<tr><th>Display:</th><th>Register:</th><th>Other:</th><tr>\n" +
-                    "<tr><td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td><td><a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td><td><a href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
-                    "<tr><td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td><td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td><td></td></tr>" +
-                    "<tr><td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td><td></td><td></td></tr>" +
-                    "<tr><td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td><td></td><td></td></tr>" +
-                "</table>" +
+                "<td><form>" +
+                    "<a href=\"show_schedule#cs_add\" title=\"Return To Edit Schedule\"><button name=\"button\" value=\"OK\" type=\"button\">Return To Schedule</button></a>" +
+                "</form>" +
+                "</tr></table></td>" +
             "</div>");
+
+// Bottom Links                    
+            out.println("<div id=\"bl\" class=\"bottomlinks dontprint\">" +
+                            "<table align=\"center\">" +
+                                "<tr><th>Display:</th><th>Register:</th><th>Other:</th><tr>" +
+                                "<tr><td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td><td><a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td><td><a href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
+                                "<tr><td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td><td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td><td></td></tr>" +
+                                "<tr><td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td><td></td><td></td></tr>" +
+                                "<tr><td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td><td></td><td></td></tr>" +
+                            "</table>" +
+                        "</div>");
             out.println("</body></html>");
     }
 

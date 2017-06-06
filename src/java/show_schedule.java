@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/show_schedule"})
 public class show_schedule extends HttpServlet {
     String title = "Schedule";
+    String tableheading = "Times of Events";
     Connection conn = null; 
     PreparedStatement prepStat;
     com.mysql.jdbc.Statement stat;    
@@ -64,7 +65,7 @@ public class show_schedule extends HttpServlet {
             String docType = "<!doctype html >";
             
             out.println(docType + "<html>" +
-                    // Hide Non Printing Items
+// Hide Non Printing Items
                     "<style type=\"text/css\" media=\"print\">" +
                         ".dontprint" + "{ display: none; }" +
                     "</style>" +
@@ -91,13 +92,14 @@ public class show_schedule extends HttpServlet {
                     "</div>");
 // Info                    
             out.println("<div class=\"mainbody dontprint\">" +
-                            "<p style=\"text-align:center\"v><b>On This Page: </b>The full schedule of events, with a print option. Also a <a href=\"#cs_add\">custom schedule editor</a></p>" +
                         "</div>");
 // Event Schedule                         
             out.println("<div class=\"mainbody\">" +
-                    "<h2 style=\"text-align:center\">Times of Events</h2>" +
-                            "<form action=\"cust_schedule\" method=\"POST\"><br>"
-                    + "<table align=\"center\">");
+                            "<table align=\"center\">" +
+                                "<tr><td class=\"tbhead\" colspan=\"3\">"+tableheading+"</td></tr>" +
+                                "<tr class=\"dontprint\"><td colspan=\"3\">&nbsp;</td></tr>" +
+                                "<tr class=\"dontprint\"><td colspan=\"3\"><b>On This Page: </b>The full schedule of events, with a print option. Also a <a href=\"#cs_add\">custom schedule editor</a></p></td></tr>" +
+                                "<tr class=\"dontprint\"><td colspan=\"3\">&nbsp;</td></tr>");
             
             try{
                 Statement stmt = conn.createStatement();
@@ -135,7 +137,7 @@ public class show_schedule extends HttpServlet {
                     }
                     out.println("<td class=\"dontprint\" colspan=\"2\">&nbsp;</td>");  // remove space from print
                 }
-                out.println("</table></form></div>");
+                out.println("</table></div>");
         } 
         catch(Exception e)
         {

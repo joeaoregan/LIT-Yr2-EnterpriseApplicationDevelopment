@@ -89,10 +89,11 @@ public class index extends HttpServlet {
             out.println("<!DOCTYPE html>" +
                         "<html>" +
                         "<head>" +
+                            //"<META HTTP-EQUIV=\"Refresh\" CONTENT=\"5; URL=index\">" + // refresh every 5 seconds
                             "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
-                    "<title>"+ title +"</title>" +
-                    "</head>");
-            
+                            "<title>"+ title +"</title>" +
+                        "</head>");
+// Admin Login
             out.println("<body>"
                         + "<div class=\"heading\">" +
                             "<div style=\" background-color:white\">" +
@@ -138,11 +139,10 @@ public class index extends HttpServlet {
                 ResultSet schedule = stmt.executeQuery("SELECT COUNT(*) AS counter FROM Schedule WHERE workshop_id != 1;");
                 schedule.next();        
                 sched_count = schedule.getString("counter");
-                //out.println("test: "+sched_count+"");
             } catch (Exception e) {System.err.println(e);}
             
 // Info and schedule            
-out.println("<div class=\"mainbody\">" +
+            out.println("<div class=\"mainbody\">" +
                 "<table align=\"center\">" +
                     "<tr><td colspan=\"4\"><table style=\"width: 100%;\">" +  // 1st table
             
@@ -166,22 +166,19 @@ out.println("<div class=\"mainbody\">" +
                         while (schedule.next()) {
                             sched_time = schedule.getString("schedule_time");
                             ws_name = schedule.getString("ws_name");
-                        //    sched_location = schedule.getString("schedule_location");
-                        //out.println("<tr><td>" + sched_time + "</td><td colspan=\"2\">" + ws_name + "</td><td>" + sched_location + "</td></tr>");
                         out.println("<tr><td>" + sched_time + "</td><td>" + ws_name + "</td></tr>");
                         }
                     } catch (Exception e) {
                         System.err.println(e);
                     }
-    out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>" +
-                "<tr><td class=\"tablebutton\" colspan=\"2\"><form><a href=\"show_schedule\" title=\"Go To Schedule Page\"><button name=\"btn_schedule\" value=\"OK\" type=\"button\">View Detailed Schedule</button></a></form></td></tr>");                
-    out.println("</table></td></tr>"); // close 3rd table                
-    out.println("</table>"); // close 1st table
-    
-    
-    //out.println("<tr><td></td><td></td></tr></td></tr></table>");
-out.println(//"<tr><td class=\"tablebutton\" colspan=\"4\"><form><a href=\"show_schedule\" title=\"Go To Schedule Page\"><button name=\"btn_schedule\" value=\"OK\" type=\"button\">View Detailed Schedule</button></a></form></td></tr>" +
-            "<tr><td colspan=\"4\">&nbsp;</td></tr>");
+            out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>" +
+                        "<tr><td class=\"tablebutton\" colspan=\"2\"><form><a href=\"show_schedule\" title=\"Go To Schedule Page\"><button name=\"btn_schedule\" value=\"OK\" type=\"button\">View Detailed Schedule</button></a></form></td></tr>");                
+            out.println("</table></td></tr>"); // close 3rd table                
+            out.println("</table>"); // close 1st table
+
+
+            out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>");
+        
 // Count the number of Speakers
             try {
                 java.sql.Statement stmt = conn.createStatement();
@@ -277,6 +274,7 @@ out.println(//"<tr><td class=\"tablebutton\" colspan=\"4\"><form><a href=\"show_
                 count_exhibitors.next();        
                 ex_count = count_exhibitors.getString("ex_counter");
             } catch (Exception e) {System.err.println(e);}
+            
 // Show Exhibitors
             out.println("<tr><th colspan=\"4\" class=\"thead\">Exhibitors</th></tr>" +
                         "<tr><td colspan=\"4\">&nbsp;</td></tr>" +
@@ -314,20 +312,16 @@ out.println(//"<tr><td class=\"tablebutton\" colspan=\"4\"><form><a href=\"show_
                         "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\" style=\"color: blue; background-color: white;\">Home</button></form>" +
                     "</div>");
 // Bottom Links                    
-            out.println("<div id=\"bl\" class=\"bottomlinks\">\n" +
-                "<table align=\"center\">\n" +
-                    //"<tr><th>Display:</th><th>Register:</th><th>Other:</th><tr>\n" +
-                    //"<tr><td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td><td><a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td><td><a href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
-                    
+            out.println("<div id=\"bl\" class=\"bottomlinks\">" +
+                "<table align=\"center\">" +
                     "<tr><th>Display:</th><th>Register:</th><td rowspan=\"5\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\"style=\"width:100px;height:100px;\"></a></td></tr>" +
                     "<tr><td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td><td><a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td></tr>" +
                     "<tr><td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td><td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td><td></td></tr>" +
                     "<tr><td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td><td></td><td></td></tr>" +
                     "<tr><td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td><td></td><td></td></tr>" +
-                    
                 "</table>" +
             "</div>");
-                        
+                                  
             out.println("</body>" +
             "</html>");
         }
