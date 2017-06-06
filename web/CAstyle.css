@@ -8,28 +8,92 @@ and open the template in the editor.
     Author     : Joe
 */
 
-td,th {text-align:left; 
-       padding-left: 10px;
-       padding-right: 10px;
-}
 a:hover {
     background-color: activecaption;
 }
+
 h1 {
+    text-align: center;
     font-size: 400%;
 }
 button:hover {color: blue; background-color: white;}
 button{
     background-color: #0080ff;
-    color:white;}
-/* Index.html */
-
-indexTable{
-    align-content:center;
-    background-color: #0080ff;
     color:white;
-    border-radius: 20px;
 }
+
+button#active{
+    background-color: white;
+    color:#0080ff;
+}
+
+/* Index.html */
+/*.table
+.table.one {
+  margin-left: auto ;
+  margin-right: auto ;
+}*/
+
+/* Tables */
+table#t1 {
+    background-color: #0080ff; color: white; border-radius: 20px;
+}
+table#t01 {
+    width: 100%;    
+    background-color: #f1f1c1;
+}
+td,th {
+    text-align:left; 
+    padding-left: 10px;
+    padding-right: 10px;
+}
+td#bt{
+    text-align:right; 
+}
+th#thc{
+    text-align:center; 
+}
+td#tdc{
+    text-align:center; 
+}
+table#t100{
+    width: 100%;
+}
+/* tablebutton - index.java */
+.tablebutton{
+    text-align:right; 
+}
+/* Image */
+img#img200{
+    width:200px; 
+    height:200px;
+}
+img#img150{
+    width:150px; 
+    height:150px;
+}
+img#img100{
+    width:100px; 
+    height:100px;
+}
+img#img50{
+    width:50px; 
+    height:50px;
+}
+select{
+    width:100%; 
+}
+/* Select */
+
+/*
+table#table1 {    
+    text-align:center; 
+    margin-left:auto; 
+    margin-right:auto; 
+    width:300px;
+  }
+*/
+
 /* Login menu bar at top of page */
 .login{
     color: #0080ff;
@@ -39,6 +103,7 @@ indexTable{
     top: 0; 
     right: 4%;
 }
+
 /* Heading Top (Light blue) */
 .heading{
     background-color: #80bdff;
@@ -48,6 +113,7 @@ indexTable{
     margin: auto;
     padding: 10px;
 }
+
 /* Navigation Button Menu */
 .navigation{
         text-align: center;
@@ -57,14 +123,8 @@ indexTable{
         padding-left: 10px;
         padding-right: 10px;
         }
+span > form {display:inline;}
 
-.table {
-  margin-left: auto ;
-  margin-right: auto ;
-}
-.tablebutton{
-    text-align:right; 
-}
 .mainbody{
     text-align: center;
     width:90%;
@@ -74,17 +134,8 @@ indexTable{
     padding: 10px;
   font-size: 15px;
 }
-.halfbody{ /*edit*/
-    vertical-align: top;
-    display: inline-block;
-    text-align: left;
-    min-width: 30%;
-    max-width: 70%;
-    margin: auto;
-    background-color: #cce6ff;
-    /*padding: 10px;*/
-}
 
+/* bottom menu */
 .bottomlinks{    
     color: #ffffff;
     width:90%;
@@ -108,18 +159,30 @@ indexTable{
     font-weight: bold;
 }
 .tshead{
-    Height: 18px;
     text-align:center; 
-    /*background-color: #004d99;*/
     background-color: #80bdff;
     color: white;
     font-size:16px;
     font-weight: bold;
 }
-.menuform{
+
+/* index scroll sections */
+.scrollsp{
+    height: 120px; 
+    overflow: scroll; 
+    overflow-x: hidden;
+}
+.scrollws{
+    height: 200px; 
+    overflow: scroll; 
+    overflow-x: hidden;
+}
+
+
+#navm{
     display:inline;
 }
-#navm{
+.hor{
     display:inline;
 }
 #bl a:link{color:white;}
@@ -128,12 +191,6 @@ indexTable{
 #bl th, td {padding-left:20px;padding-right:20px;}
 
 
-table#table1 {    
-    text-align:center; 
-    margin-left:auto; 
-    margin-right:auto; 
-    width:300px;
-  }
 #msg {
     
     text-align: center;color: #0080ff;font-weight: bold;font-size: 250%;

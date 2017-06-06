@@ -74,17 +74,17 @@ public class reg_admin extends HttpServlet {
                                 "<form action=\"login\" method=\"Get\">" +
                                     "<table>" +
                                         "<tr>" +
-                                            "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:50px;height:50px;\"></a></td>" +
-                                            "<th style=\"text-align:center\">Administrator</th>" +
+                                            "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Random ICT Event Logo\" id=\"img50\"></a></td>" +
+                                            "<th id=\"thc\">Administrator</th>" +
                                             "<td>Username:</td>" +
-                                            "<td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\" maxlength\"40\" required></td>" +
+                                            "<td id=\"bt\"><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\" maxlength\"40\" required></td>" +
                                             "<td></td>" +
                                         "</tr>" +
                                         "<tr>" +
-                                            "<th style=\"text-align:center\">Login</th>" +
+                                            "<th id=\"thc\">Login</th>" +
                                             "<td>Password:</td>" +
                                             "<td><input type=\"password\" name=\"password\" title=\"Please enter password\" maxlength\"40\" required></td>" +
-                                            "<td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
+                                            "<td id=\"bt\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
                                         "</tr>" +
                                     "</table>" +
                                 "</form>" +
@@ -94,20 +94,20 @@ public class reg_admin extends HttpServlet {
                             "<table>" +
                                 "<tr><td>&nbsp;</td></tr>" +
                                 "<tr><td>&nbsp;</td></tr>" +
-                                "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
-                                "<td><h1 style=\"text-align:center\">" + title + "</h1></td></tr>" +
+                                "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Random ICT Event Logo\" id=\"img150\"></a></td>" +
+                                "<td><h1>" + title + "</h1></td></tr>" +
                             "</table>" +
                         "</div>");
 // Navigation menu
-            out.println("<div class=\"navigation\">" +
-                            "<form style=\"display: inline\" action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
-                            "<form style=\"display: inline\" action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Event Workshops</button></form>" +
-                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
-                            "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
-                            "<form style=\"display: inline\" action=\"reg_admin\" method=\"get\"><button style=\"color: blue; background-color: white;\" name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
-                            "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
-                            "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
-                        "</div>");
+            out.println("<div class=\"navigation\"><span>" +
+                            "<form action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Speakers</button></form>" +
+                            "<form action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Workshops</button></form>" +
+                            "<form action=\"show_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Schedule</button></form>" +
+                            "<form action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Exhibitors</button></form>" +
+                            "<form action=\"reg_admin\" method=\"get\"><button id=\"active\" name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
+                            "<form action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
+                            "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                        "<span></div>");
             
 // Check username available
             out.println("<div class=\"mainbody\">" +
@@ -115,7 +115,7 @@ public class reg_admin extends HttpServlet {
                             "<table align=\"center\">" +
                                 "<tr><td class=\"tbhead\" colspan=\"2\">Check Username Available</td></tr>" +
                                 "<tr><th>Enter Username:</th><td><input type=\"text\" name=\"username\" maxlength=\"40\" placeholder=\"Enter up to 40 characters\" required></td></tr>" +
-                                "<tr><td colspan=\"2\" style=\"text-align:right\"><input type=\"submit\" value=\"Submit\"></td></tr>");
+                                "<tr><td colspan=\"2\" id=\"bt\"><input type=\"submit\" value=\"Submit\"></td></tr>");
             out.println("</table>" +  
                         "</form>" + 
                     "</div>");
@@ -157,13 +157,13 @@ public class reg_admin extends HttpServlet {
                                     "<tr><td><b>County:</b></td>" +
                                         "<td><input list=\"admin_county\" name=\"admin_county\" title=\"Select A Country\" maxlength=\"40\">" +
                                         "<datalist id=\"admin_county\">");
-                                        for (int i=0;i<26;i++) // display each county as list item
+                                        for (int i=0;i<32;i++) // display each county as list item
                                         {
                                             out.println("<option value=\""+counties[i]+"\">");
                                         }
                                         out.println("</datalist></td><td>Max 40 characters</td>" +
                                     "</tr>" +
-                                    "<tr><td></td><td></td><td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
+                                    "<tr><td></td><td></td><td id=\"bt\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
                                     "</tr>" +
                                 "</table>" +
                                 "</form>" +

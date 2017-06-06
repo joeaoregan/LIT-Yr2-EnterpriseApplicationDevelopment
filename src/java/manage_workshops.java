@@ -79,20 +79,20 @@ public class manage_workshops extends HttpServlet {
                         "<table>" +
                             "<tr><td>&nbsp;</td></tr>" +
                             "<tr><td>&nbsp;</td></tr>" +
-                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
-                            "<td><h1 style=\"text-align:center\">" + title + "</h1></td></tr>" +
+                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img150\"></a></td>" +
+                            "<td><h1>" + title + "</h1></td></tr>" +
                         "</table>" +
                     "</div>");
             
 // Navigation menu (Workshops Highlighted)
-            out.println("<div class=\"navigation\">" +
-                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + h)\">Manage Speakers</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" style=\"color: blue; background-color: white;\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
-                            "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
-                        "</div>");
+            out.println("<div class=\"navigation\"><span>" +
+                            "<form action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
+                            "<form action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + h)\">Manage Speakers</button></form>" +
+                            "<form action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" id=\"active\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
+                            "<form action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
+                            "<form action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
+                            "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                        "</span></div>");
 // Workshop Form Input
             out.println("<div class=\"mainbody\">" +
                             "<form action=\"add_workshop\" method=\"POST\"><br>" +
@@ -117,7 +117,7 @@ public class manage_workshops extends HttpServlet {
                                     "</tr>" +
                                     "<tr>" +
                                         "<td></td>" +
-                                        "<td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
+                                        "<td id=\"bt\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
                                     "</tr>" +
                                 "</table>" +
                             "</form><br>" +
@@ -142,12 +142,12 @@ public class manage_workshops extends HttpServlet {
                     ws_pres2 = speakers.getString("ws_presenter2");
                     ws_info = speakers.getString("ws_info");
                     
-                out.println("<tr><th colspan=\"4\" style=\"text-align: center\">Workshop "+ws_num+"</th></tr>" +  // heading
-                            "<tr><th>Workshop Name:</th><td>"+ws_name+"</td><th>Workshop DB ID:</th><td>"+ws_id+"</td></tr>" +  // Workshop name & id                
-                            "<tr><th>Presenter 1:</th><td>"+ws_pres1+"</td><th>Presenter 2:</th><td>"+ws_pres2+"</td></tr>" +  // presenter names
-                            "<tr><th>About:</th><td colspan=\"3\">"+ws_info+"</td>" + // Workshop information
-                            "<tr><td colspan=\"4\"><hr></td></tr>");  // line
-                ws_num++;
+                    out.println("<tr><th colspan=\"4\" id=\"thc\">Workshop "+ws_num+"</th></tr>" +  // heading
+                                "<tr><th>Workshop Name:</th><td>"+ws_name+"</td><th>Workshop DB ID:</th><td>"+ws_id+"</td></tr>" +  // Workshop name & id                
+                                "<tr><th>Presenter 1:</th><td>"+ws_pres1+"</td><th>Presenter 2:</th><td>"+ws_pres2+"</td></tr>" +  // presenter names
+                                "<tr><th>About:</th><td colspan=\"3\">"+ws_info+"</td>" + // Workshop information
+                                "<tr><td colspan=\"4\"><hr></td></tr>");  // line
+                    ws_num++;
                 }
             }
             catch (Exception e)
@@ -165,7 +165,7 @@ public class manage_workshops extends HttpServlet {
                                 "<tr><td colspan=\"3\">Select workshop to delete</td></tr>" +
                                 "<tr><td colspan=\"3\">&nbsp;</td></tr>" +
                                 "<tr><th>Workshop To Delete:</th>" +
-                                    "<td><select name=\"delete_workshop\" title=\"Select A Name From The List\" style=\"width:100%\">");
+                                    "<td><select name=\"delete_workshop\" title=\"Select A Name From The List\">");
             try{
                 java.sql.Statement stmt = conn.createStatement();            
                 ResultSet Workshop = stmt.executeQuery("SELECT ws_id,ws_name FROM Workshops WHERE ws_name NOT LIKE 'Break'");
@@ -183,7 +183,7 @@ public class manage_workshops extends HttpServlet {
             } 
             
             out.println("</select></td>" +
-                                "<td style=\"text-align:right\"><input type=\"submit\" value=\"Delete\" title=\"Delete Workshop\"/></td>" +
+                                "<td id=\"bt\"><input type=\"submit\" value=\"Delete\" title=\"Delete Workshop\"/></td>" +
                             "</tr>"
                     + "</table>" +
                         "</form>" +

@@ -80,19 +80,19 @@ public class manage_exhibitors extends HttpServlet {
                         "<table>" +
                             "<tr><td>&nbsp;</td></tr>" +
                             "<tr><td>&nbsp;</td></tr>" +
-                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
-                            "<td><h1 style=\"text-align:center\">" + title + "</h1></td></tr>" +
+                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img150\"></a></td>" +
+                            "<td><h1>" + title + "</h1></td></tr>" +
                         "</table>" +
                     "</div>");
 // Navigation menu (Exhibitors Highlighted)
-            out.println("<div class=\"navigation\">" +
-                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + h)\">Manage Speakers</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" style=\"color: blue; background-color: white;\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
-                            "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
-                        "</div>");
+            out.println("<div class=\"navigation\"><span>" +
+                            "<form action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
+                            "<form action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + h)\">Manage Speakers</button></form>" +
+                            "<form action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
+                            "<form action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
+                            "<form action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" id=\"active\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
+                            "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                        "</span></div>");
 // Count exhibitors
             try {
                 java.sql.Statement stmt = conn.createStatement();
@@ -112,7 +112,7 @@ public class manage_exhibitors extends HttpServlet {
                             else out.println("<p>There are "+ex_num+" Exhibitors registered");
                             
                 out.println("<form action=\"add_exhibitor\" method=\"POST\"><br>" +
-                                    "<table  style=\"text-align:left\" align=\"center\">" +
+                                    "<table align=\"center\">" +
                                         "<tr>" +
                                             "<th>First Name:</th>" +
                                             "<td><input type=\"text\" name=\"exhibitor_fname\" autofocus=\"autofocus\" title=\"Enter exhibitors first name\" maxlength=\"40\" placeholder=\"Required Field\" required></td>" +
@@ -135,7 +135,7 @@ public class manage_exhibitors extends HttpServlet {
                                         "</tr>" +
                                         "<tr>" +
                                             "<td></td>" +
-                                            "<td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
+                                            "<td id=\"bt\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
                                         "</tr>" +
                                     "</table>" +
                                 "</form><br>" +
@@ -157,7 +157,7 @@ public class manage_exhibitors extends HttpServlet {
                                         ex_pic = exhibitors.getString("exhibitor_pic");
                                         ex_name = exhibitors.getString("exhibitor_fname") + " " + exhibitors.getString("exhibitor_lname");
                                     
-                                    out.println("<tr><td rowspan=\"5\"><img src="+ex_pic+" alt=\"Picture of "+ex_name+"\" style=\"width:200px;height:200px;\"></td><th style=\"text-align:center\"colspan=\"2\">Exhibitor " + ex_count + "</th></tr>" +                                             
+                                    out.println("<tr><td rowspan=\"5\"><img src="+ex_pic+" alt=\"Picture of "+ex_name+"\" id=\"img150\"></td><th id=\"thc\" colspan=\"2\">Exhibitor " + ex_count + "</th></tr>" +                                             
                                                 "<tr><th>Database ID:</th><td>" + ex_id + "</td></tr>" +
                                                 "<tr><th>Name:</th><td>" + ex_name + "</td></tr>"
                                             +   "<tr><th>Website</th><td><a href=\"" + ex_web + "\">\"" + ex_web + "\"</a></td></tr>" + 
@@ -178,7 +178,7 @@ public class manage_exhibitors extends HttpServlet {
                         + "<table align=\"center\">"
                             + "<tr>" +
                                 "<th>Exhibitor To Delete:</th>" +
-                                "<td><select name=\"delete_ex\" title=\"Select A Name From The List\" style=\"width:100%\">");
+                                "<td><select name=\"delete_ex\" title=\"Select A Name From The List\">");
                                 try{
                                     java.sql.Statement stmt = conn.createStatement();            
                                     ResultSet exhibitor = stmt.executeQuery("SELECT exhibitor_id,exhibitor_fname,exhibitor_lname from Exhibitors");
@@ -195,7 +195,7 @@ public class manage_exhibitors extends HttpServlet {
                                     System.err.println(e);
                                 } 
             out.println("</select></td>" +
-                                "<td style=\"text-align:right\"><input type=\"submit\" value=\"Delete\" title=\"Delete Time\"/></td>" +
+                                "<td id=\"bt\"><input type=\"submit\" value=\"Delete\" title=\"Delete Time\"/></td>" +
                             "</tr>"
                         + "</table>" +
                     "</form>" +

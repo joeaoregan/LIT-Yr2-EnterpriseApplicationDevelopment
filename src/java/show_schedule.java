@@ -76,20 +76,20 @@ public class show_schedule extends HttpServlet {
             out.println("<body>" +
                         "<div class=\"heading dontprint\">" +
                         "<table>" +
-                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
-                            "<td><h1 style=\"text-align:center\">" + title + "</h1></td></tr>" +
+                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img150\"></a></td>" +
+                            "<td><h1>" + title + "</h1></td></tr>" +
                         "</table>" +
                         "</div>");
 // Navigation menu
-            out.println("<div class=\"navigation dontprint\">" +
-                        "<form style=\"display: inline\" action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
-                        "<form style=\"display: inline\" action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Event Workshops</button></form>" +
-                        "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button style=\"color: blue; background-color: white;\" name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
-                        "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
-                        "<form style=\"display: inline\" action=\"reg_admin\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
-                        "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
-                        "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
-                    "</div>");
+            out.println("<div class=\"navigation dontprint\"><span>" +
+                            "<form action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Speakers</button></form>" +
+                            "<form action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Workshops</button></form>" +
+                            "<form action=\"show_schedule\" method=\"get\"><button id=\"active\" name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Schedule</button></form>" +
+                            "<form action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Exhibitors</button></form>" +
+                            "<form action=\"reg_admin\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
+                            "<form action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
+                            "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                        "</span></div>");
 // Info                    
             out.println("<div class=\"mainbody dontprint\">" +
                         "</div>");
@@ -154,13 +154,13 @@ out.println("<div class=\"mainbody dontprint\" align=\"center\">"
 
 // Choose custom schedule
             out.println("<div class=\"mainbody dontprint\">"
-                    +"<h2 id=\"cs_add\">Choose Custom Schedule</h2>"
-                    + "<p>Select a workshop from the list to add to your custom schedule</p>"
-                    + "<form action=\"cust_schedule_add\" method=\"POST\">"
-                    + "<table align=\"center\">"
-                        + "<tr>" +
-                            "<th>Select Workshop:</th>" +
-                            "<td><select name=\"custom_schedule\" title=\"Select A Workshop From The List\" style=\"width:100%\">");
+                        +"<h2 id=\"cs_add\">Choose Custom Schedule</h2>"
+                        + "<p>Select a workshop from the list to add to your custom schedule</p>"
+                        + "<form action=\"cust_schedule_add\" method=\"POST\">"
+                        + "<table align=\"center\">"
+                            + "<tr>" +
+                                "<th>Select Workshop:</th>" +
+                                "<td><select name=\"custom_schedule\" title=\"Select A Workshop From The List\">");
             
             try{
                 java.sql.Statement stmt = conn.createStatement();            
@@ -171,7 +171,7 @@ out.println("<div class=\"mainbody dontprint\" align=\"center\">"
                     workshop_id = schedule.getString("workshop_id");
                     workshop_name = schedule.getString("ws_name");
                     list_item_name = schedule.getString("schedule_time") + " " +schedule.getString("ws_name");
-                    checkFormat = workshop_name.contentEquals( "Break" );                                                                  // compare content of workshopname to "break"
+                    checkFormat = workshop_name.contentEquals( "Break" );   // compare content of workshopname to "break"
                     
                     if( !checkFormat )
                     {           
@@ -179,22 +179,17 @@ out.println("<div class=\"mainbody dontprint\" align=\"center\">"
                     }
                 }
             }
-            catch(Exception e)
-            {
-                System.err.println(e);
-            }
+            catch(Exception e) { System.err.println(e); }
             
             out.println("</select></td>" +
-                                "<td style=\"text-align:right\"><input type=\"submit\" value=\"Add To Custom Schedule\" title=\"Add To Custom Schedule\"/></td>" +
-                "           </tr>"
-                    + "</table>" +
+                                "<td id=\"bt\"><input type=\"submit\" value=\"Add To Custom Schedule\" title=\"Add To Custom Schedule\"/></td>" +
+                        "</tr>" +
+                    "</table>" +
                     "</form>" +
                 "</div><br>");
                 
 /** Output the Custom Schedule Table */                 
             out.println("<div id=\"cs_table\" class=\"mainbody dontprint\">" + 
-                            //"<h2>Custom Schedule</h2>" +
-                            //"<p>A list of the workshops in the custom schedule:</p>" +
                             "<table align=\"center\">" +
                                 "<tr><td class=\"tbhead\" colspan=\"3\">Custom Schedule</td></tr>" +
                                 "<tr><td colspan=\"3\">&nbsp;</td></tr>" +
@@ -210,11 +205,9 @@ out.println("<div class=\"mainbody dontprint\" align=\"center\">"
                                         sched_time = schedule.getString("schedule_time");
                                         ws_name = schedule.getString("ws_name");
                                         sched_location = schedule.getString("schedule_location");
-                                    out.println("<tr><td>" + sched_time + "</td><td>" + ws_name + "</td><td>" + sched_location + "</td></tr>");
+                                        out.println("<tr><td>" + sched_time + "</td><td>" + ws_name + "</td><td>" + sched_location + "</td></tr>");
                                     }
-                                } catch (Exception e) {
-                                    System.err.println(e);
-                                }
+                                } catch (Exception e) { System.err.println(e); }
             out.println("</table><br>");
             
 // Go To Full Custom Schedule
@@ -222,20 +215,17 @@ out.println("<div class=\"mainbody dontprint\" align=\"center\">"
                         "</div><br>");
             
 // Edit custom schedule
-            out.println("<div class=\"mainbody dontprint\">"
-                    //+"<h2>Edit Custom Schedule</h2>"
-                    //+ "<p>Select a workshop from the list to remove from your custom schedule</p>"
-                    + "<form action=\"cust_schedule_delete\" method=\"POST\">"
-                    + "<table align=\"center\">" +
-                        "<tr><td class=\"tbhead\" colspan=\"3\">Edit Custom Schedule</td></tr>" +
-                        "<tr><td colspan=\"3\">&nbsp;</td></tr>" +
-                        "<tr><td colspan=\"3\">Select a workshop from the list to remove from your custom schedule</td></tr>" +
-                        "<tr><td colspan=\"3\">&nbsp;</td></tr>" +        
-                        "<tr><th>Select Workshop:</th><td><select name=\"cust_sched_delete\" title=\"Select A Workshop From The List\" style=\"width:100%\">");
+            out.println("<div class=\"mainbody dontprint\">" +
+                        "<form action=\"cust_schedule_delete\" method=\"POST\">" +
+                        "<table align=\"center\">" +
+                            "<tr><td class=\"tbhead\" colspan=\"3\">Edit Custom Schedule</td></tr>" +
+                            "<tr><td colspan=\"3\">&nbsp;</td></tr>" +
+                            "<tr><td colspan=\"3\">Select a workshop from the list to remove from your custom schedule</td></tr>" +
+                            "<tr><td colspan=\"3\">&nbsp;</td></tr>" +        
+                            "<tr><th>Select Workshop:</th><td><select name=\"cust_sched_delete\" title=\"Select A Workshop From The List\">");
             try{
                 java.sql.Statement stmt = conn.createStatement();            
                 ResultSet schedule = stmt.executeQuery("SELECT schedule_time,schedule.workshop_id,workshops.ws_name,schedule_location FROM Schedule JOIN CustSched ON Schedule.workshop_id = CustSched.workshop_id JOIN Workshops ON Schedule.workshop_id = Workshops.ws_id AND Workshops.ws_id = CustSched.workshop_id ORDER BY schedule_time ASC;");
-                
                 while(schedule.next())
                 {
                     workshop_id = schedule.getString("workshop_id");
@@ -244,33 +234,30 @@ out.println("<div class=\"mainbody dontprint\" align=\"center\">"
                     out.println("<option value=\""+workshop_id+"\">"+list_item_name+"</option>");
                 }
             }
-            catch(Exception e)
-            {
-                System.err.println(e);
-            }
+            catch(Exception e) { System.err.println(e); }
             
             out.println("</select></td>" +
-                                "<td style=\"text-align:right\"><input type=\"submit\" value=\"Delete From Custom Schedule\" title=\"Delete From Custom Schedule\"/></td>" +
-                "           </tr>"
-                    + "</table>" +
-                    "</form><br>");
+                            "<td id=\"bt\"><input type=\"submit\" value=\"Delete From Custom Schedule\" title=\"Delete From Custom Schedule\"/></td>" +
+                        "</tr></table></form><br>");
+            
 // Clear The Custom Schedule
-            out.println("<form action=\"custom_schedule_clear\" method=\"POST\">"
-                    +"<input type=\"submit\" value=\"Clear Custom Schedule\" title=\"Clear Custom Schedule\"/>"
-                            + "</form><br>");  
+            out.println("<form action=\"custom_schedule_clear\" method=\"POST\">" +
+                            "<input type=\"submit\" value=\"Clear Custom Schedule\" title=\"Clear Custom Schedule\"/>" +
+                        "</form><br>");  
+            
 // Return To Top Of Page            
             out.println("<form align=\"center\"><a href=\"#top\" title=\"Top of page\"><button name=\"button\" value=\"OK\" type=\"button\">Top of Page</button></a></form></div>");
             
 // Bottom Links                    
             out.println("<div id=\"bl\" class=\"bottomlinks dontprint\">\n" +
-                "<table align=\"center\">\n" +
-                    "<tr><th>Display:</th><th>Register:</th><th>Other:</th><tr>\n" +
-                    "<tr><td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td><td><a href=\"reg_admin\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td><td><a href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
-                    "<tr><td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td><td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td><td></td></tr>" +
-                    "<tr><td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td><td></td><td></td></tr>" +
-                    "<tr><td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td><td></td><td></td></tr>" +
-                "</table>" +
-            "</div>");
+                            "<table align=\"center\">\n" +
+                                "<tr><th>Display:</th><th>Register:</th><th>Other:</th><tr>\n" +
+                                "<tr><td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td><td><a href=\"reg_admin\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td><td><a href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
+                                "<tr><td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td><td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td><td></td></tr>" +
+                                "<tr><td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td><td></td><td></td></tr>" +
+                                "<tr><td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td><td></td><td></td></tr>" +
+                            "</table>" +
+                        "</div>");
             out.println("</body></html>");
     }
 
