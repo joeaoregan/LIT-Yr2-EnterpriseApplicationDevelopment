@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe O'Regan
  * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/RegisterAdmin"})
-public class RegisterAdmin extends HttpServlet {  
+@WebServlet(urlPatterns = {"/add_admin"})
+public class add_admin extends HttpServlet {  
     String admin_username;
     String admin_password;
     String admin_fname;
@@ -109,7 +109,7 @@ public class RegisterAdmin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        response.sendRedirect("reg_admin.html");  // redirects back to RegAdmin.html after form submitted
+        response.sendRedirect("reg_admin");  // redirects back to RegAdmin after form submitted
     }
 
     /**
@@ -134,18 +134,11 @@ public class RegisterAdmin extends HttpServlet {
             conn = (Connection) DriverManager.getConnection
                     (url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
-            //stat.execute("DROP TABLE Administrators");
-            stat.execute("CREATE TABLE IF NOT EXISTS Administrators(" +
-                         "admin_username CHAR(40) PRIMARY KEY, " +
-                         "admin_password CHAR(40) NOT NULL, " +
-                         "admin_fname CHAR(40), " +
-                         "admin_lname CHAR(40), " +
-                         "admin_email VARCHAR(60) NOT NULL, " +
-                         "admin_phone VARCHAR(18), " +
+            stat.execute("CREATE TABLE IF NOT EXISTS Administrators(admin_username CHAR(40) PRIMARY KEY, admin_password CHAR(40) NOT NULL, admin_fname CHAR(40), admin_lname CHAR(40), admin_email VARCHAR(60) NOT NULL, admin_phone VARCHAR(18), " +
                          "admin_addr1 CHAR(40), " +
                          "admin_addr2 CHAR(40), " +
                          "admin_town CHAR(40), " +
-                         "admin_county CHAR(40));");
+                         "admin_county CHAR(40))");
         } catch (Exception e) 
         {
             System.err.println(e);

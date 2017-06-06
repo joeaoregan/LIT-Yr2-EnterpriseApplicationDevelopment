@@ -122,7 +122,7 @@ public class add_exhibitor extends HttpServlet {
                     (url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
             //stat.execute("DROP TABLE Exhibitors");
-            stat.execute("CREATE TABLE IF NOT EXISTS Exhibitors(exhibitor_id INT PRIMARY KEY AUTO_INCREMENT,exhibitor_fname CHAR(40),exhibitor_lname CHAR(40),exhibitor_bio TEXT,exhibitor_website VARCHAR(60),exhibitor_pic VARCHAR(60));");
+            stat.execute("CREATE TABLE IF NOT EXISTS Exhibitors(exhibitor_id INT PRIMARY KEY AUTO_INCREMENT, exhibitor_fname CHAR(40) NOT NULL, exhibitor_lname CHAR(40) NOT NULL, exhibitor_bio TEXT NOT NULL, exhibitor_website VARCHAR(60), exhibitor_pic VARCHAR(60));");
         } catch (Exception e) 
         {
             System.err.println(e);

@@ -24,8 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 public class add_schedule extends HttpServlet {
     String schedule_time;
     String workshop_id;
-    //String schedule_speaker_id;
-    //String schedule_exhibitor_id;
     String schedule_location;
     
     Connection conn;
@@ -47,8 +45,6 @@ public class add_schedule extends HttpServlet {
         
         schedule_time = request.getParameter("schedule_time");
         workshop_id = request.getParameter("workshop_name");
-        //schedule_speaker_id = request.getParameter("schedule_speaker_id");
-        //schedule_exhibitor_id = request.getParameter("schedule_exhibitor_id");
         schedule_location = request.getParameter("schedule_location");
         
         try {
@@ -56,8 +52,6 @@ public class add_schedule extends HttpServlet {
             prepStat = (PreparedStatement) conn.prepareStatement(query);
             prepStat.setString(1, schedule_time);
             prepStat.setString(2, workshop_id);
-            //prepStat.setString(3, schedule_speaker_id);
-            //prepStat.setString(4, schedule_exhibitor_id);
             prepStat.setString(3, schedule_location);
             prepStat.executeUpdate();
             }
@@ -66,7 +60,7 @@ public class add_schedule extends HttpServlet {
             System.err.println(e);
         }
         
-        response.sendRedirect("manage_schedule");  // redirects back to schedule.html after form submitted
+        response.sendRedirect("manage_schedule#addws");  // redirects back to schedule.html after form submitted
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -119,9 +113,7 @@ public class add_schedule extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
-            //stat.execute("DROP TABLE Schedule");
-            //stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_time TIME, schedule_title CHAR(40), schedule_speaker_id INT, schedule_exhibitor_id INT, schedule_location CHAR(40))");
-            stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_id INT PRIMARY KEY AUTO_INCREMENT,schedule_time TIME,workshop_name CHAR(60),schedule_location CHAR(40))");
+            stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_time TIME PRIMARY KEY, workshop_id INT NOT NULL, schedule_location CHAR(40), CONSTRAINT fk_shedule_workshop FOREIGN KEY (workshop_id) REFERENCES workshops (ws_id))");
         } catch (Exception e) 
         {
             System.err.println(e);

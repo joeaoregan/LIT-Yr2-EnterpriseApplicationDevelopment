@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.sql.Statement;
 import java.sql.DriverManager;
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.Statement;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,15 +18,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe O'Regan
  * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/add_workshop"})
-public class add_workshop extends HttpServlet {
-    String workshop_name;
-    String workshop_presenter1;
-    String workshop_presenter2;
-    String workshop_info;
+@WebServlet(urlPatterns = {"/init_sched"})
+public class init_sched extends HttpServlet {
     
     Connection conn;
-    PreparedStatement prepStat;
     Statement stat;
     
     
@@ -44,24 +37,7 @@ public class add_workshop extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        workshop_name = request.getParameter("ws_name");
-        workshop_presenter1 = request.getParameter("ws_presenter1");
-        workshop_presenter2 = request.getParameter("ws_presenter2");
-        workshop_info = request.getParameter("ws_info");
-        
-        try {
-            String query = "INSERT INTO Workshops(ws_name,ws_presenter1,ws_presenter2,ws_info) VALUES (?,?,?,?)";
-            prepStat = (PreparedStatement) conn.prepareStatement(query);
-            prepStat.setString(1, workshop_name);
-            prepStat.setString(2, workshop_presenter1);
-            prepStat.setString(3, workshop_presenter2);
-            prepStat.setString(4, workshop_info);
-            prepStat.executeUpdate();
-            }
-        catch (Exception e)
-        {
-            System.err.println(e);
-        }
+        response.sendRedirect("manage_schedule");  // redirects back to schedule.html after form submitted
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -91,7 +67,6 @@ public class add_workshop extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        response.sendRedirect("manage_workshops");  // redirects back to workshops.html after form submitted
     }
 
     /**
@@ -115,8 +90,11 @@ public class add_workshop extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
-            //stat.execute("DROP TABLE Workshops");
-            stat.execute("CREATE TABLE IF NOT EXISTS Workshops(ws_id INT PRIMARY KEY AUTO_INCREMENT, ws_name VARCHAR(60) NOT NULL, ws_presenter1 CHAR(40) NOT NULL, ws_presenter2 CHAR(40), ws_info TEXT NOT NULL)");
+            stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_time TIME PRIMARY KEY, workshop_id INT NOT NULL, schedule_location CHAR(40), CONSTRAINT fk_shedule_workshop FOREIGN KEY (workshop_id) REFERENCES workshops (ws_id))");
+            stat.execute("INSERT INTO schedule VALUES('100000', 1, 'Break')");
+            stat.execute("INSERT INTO schedule VALUES('130000', 1, 'Break')");
+            stat.execute("INSERT INTO schedule VALUES('160000', 1, 'Break')");
+            stat.execute("CREATE TABLE IF NOT EXISTS CustSched(workshop_id INT PRIMARY KEY, CONSTRAINT fk_custsched_workshop FOREIGN KEY (workshop_id) REFERENCES workshops (ws_id));");
         } catch (Exception e) 
         {
             System.err.println(e);

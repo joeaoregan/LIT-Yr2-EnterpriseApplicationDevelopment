@@ -22,10 +22,16 @@ button:hover {color: blue; background-color: white;}
 button{
     background-color: #0080ff;
     color:white;}
+/* Login menu bar at top of page */
 .login{
     color: #0080ff;
     background-color: white;
+    width:92%;
+    position: fixed; 
+    top: 0; 
+    right: 4%;
 }
+/* Heading Top (Light blue) */
 .heading{
     background-color: #80bdff;
     /*color:#0080ff;*/
@@ -34,6 +40,7 @@ button{
     margin: auto;
     padding: 10px;
 }
+/* Navigation Button Menu */
 .navigation{
         text-align: center;
         background-color: #0080ff;
@@ -42,10 +49,7 @@ button{
         padding-left: 10px;
         padding-right: 10px;
         }
-.blah{
-        a:hover {background-color: activecaption;}
-        button:hover {color: blue; background-color: highlight;}
-        }
+
 .table {
   margin-left: auto ;
   margin-right: auto ;
@@ -70,14 +74,6 @@ button{
     max-width: 70%;
     margin: auto;
     background-color: #cce6ff;
-    /*padding: 10px;*/
-}
-.spacer{ /*edit*/
-    text-align: left;
-    width:20px;
-    margin: auto;
-    background-color: white;
-    display: inline-block;
     /*padding: 10px;*/
 }
 
@@ -124,20 +120,33 @@ button{
 #bl th, td {padding-left:20px;padding-right:20px;}
 
 
-/*
-a.class1 {color:red;}
-a.class1:link  {text-decoration: none; color: red;}
-a.class1:visited {text-decoration: none; color: red;}
-a.class1:hover {text-decoration: underline; color: red;}
-a.class1:active {text-decoration: none; color: red;}
-a.bottomlinks:hover{color:white;}*/
-
 table#table1 {    
     text-align:center; 
     margin-left:auto; 
     margin-right:auto; 
     width:300px;
   }
-  
-  
-.btmenu{}
+ 
+
+/*
+a.class1 {color:red;}
+a.class1:link  {text-decoration: none; color: red;}
+a.class1:visited {text-decoration: none; color: red;}
+a.class1:hover {text-decoration: underline; color: red;}
+a.class1:active {text-decoration: none; color: red;}
+a.bottomlinks:hover{color:white;}
+
+.blah{
+        a:hover {background-color: activecaption;}
+        button:hover {color: blue; background-color: highlight;}
+        }
+
+.spacer{
+    text-align: left;
+    width:20px;
+    margin: auto;
+    background-color: white;
+    display: inline-block;
+    //padding: 10px;
+}
+*/

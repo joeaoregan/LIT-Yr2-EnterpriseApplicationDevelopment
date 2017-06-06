@@ -21,7 +21,7 @@ public class Login extends HttpServlet {
         String DB_password;
         String username;
         String password;
-        String title = "Administrator Login";
+        String title = "Event Administration";
         String docType = "<!doctype html >";
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -39,10 +39,7 @@ public class Login extends HttpServlet {
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" + 
                     "<title>" + title + "</title>" +
                   "</head>" +    
-                  "<body>" +
-                    "<div class=\"heading\"><br>" +
-                      "<h1 align=\"center\">" + title + "</h1><br>" +
-                    "</div>");
+                  "<body>");
                         
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -61,44 +58,123 @@ public class Login extends HttpServlet {
         boolean  passwordValidate = password.contentEquals( DB_password );
 
         if (passwordValidate == true)
-        {
-            out.println(
-                    "<div class=\"navigation\">\n" +
-                        "<form style=\"display: inline\" action=\"eventAdministration.html\" method=\"get\"><button name\"buttonEventAdmin\" title=\"Event Administration Page (Alt + 1)\">Event Administration Page</button></form>\n" +
-                        "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 2)\">Administrator Registration</button></form>\n" +
-                        "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 3)\">Attendee Registration</button></form>\n" +
-                        "<form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Home Page (Alt + 5)\">Return To Home Page</button></form>\n" +
-                    "</div>" +  
-
-                    "<div class=\"mainbody\"><br>" +
-                        "<ul><h2>Hello " + request.getParameter("username") + ", welcome back!!!</h2></ul>" +  // or FIRST NAME LAST NAME
-                        "<form><a href=\"eventAdministration.html\" title=\"Go To Event Administation Page\"><button name=\"button\" autofocus=\"autofocus\" value=\"OK\" type=\"button\">Continue</button></a></form><br>" +
-                    "</div>" + 
-
-                    "<div id=\"bl\" class=\"bottomlinks\">" +
-                            "<a href=\"eventAdministration.html\" title=\"Event Administation Page (Alt + 1)\" accesskey=\"1\">1. Continue To Event Administration Page</a><br>" +
-                            "<a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 2)\" accesskey=\"2\">2. Administrator Registration</a><br>" +
-                            "<a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 3)\" accesskey=\"3\">3. Attendee Registration</a><br>" +
-                            "<a href=\"index.html\" title=\"Return To Homepage (Alt + 4)\" accesskey=\"4\">4. Return To Home Page</a>" +
-                    "</div>" +
-                "</body></html>");
+        {        
+// Heading
+            out.println("<div class=\"heading\">" +
+                            "<table>" +
+                                "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
+                                "<td><h1 style=\"text-align:center\">" + title + "</h1></td></tr>" +
+                            "</table>" +
+                        "</div>");            
+// Navigation menu (Event Administration Highlighted)
+            out.println("<div class=\"navigation\">" +
+                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + h)\">Manage Speakers</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
+                            "<form style=\"display: inline\" action=\"eventAdministration.html\" method=\"get\"><button name=\"buttonEventAdmin\" style=\"color: blue; background-color: white;\" title=\"Return To Event Administration (Alt + 8)\">Event Administration</button></form>" +
+                            "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                        "</div>");
+// Successful Login Greeting
+            out.println("<div class=\"mainbody\"><br>" +
+                            "<ul><h2>Hello " + request.getParameter("username") + ", welcome back!!!</h2></ul>" +  // or FIRST NAME LAST NAME
+                            "<form><a href=\"eventAdministration.html\" title=\"Go To Event Administation Page\"><button name=\"button\" autofocus=\"autofocus\" value=\"OK\" type=\"button\">Continue</button></a></form><br>" +
+                        "</div>");            
+// Event Administration
+            out.println("<div class=\"mainbody\">" +
+                            "<h2>Manage Speakers, Workshops, Schedule, Exhibitors</h2>" +
+                            "<p>ICT in Eductation event" +
+                            "<p>This is the event administration page" +
+                            "<p>The following options are available:" +
+                            "<form style=\"display: inline\" action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" autofocus=\"autofocus\" title=\"Alt + h - Manage Speaker Details\">Manage Speaker Details</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Alt + j - Manage Workshop Details\">Manage Workshop Details</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Alt + k - Manage Schedule Details\">Manage Schedule Details</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Alt + l4 - Manage Exhibitor Details\">Manage Exhibitor Details</button></form>" +
+                        "</div><br>");            
+// Bottom Links (Manage)             
+            out.println("<div  id=\"bl\" class=\"bottomlinks\">" +
+                            "<table align=\"center\">" +
+                                "<tr><th>Manage:</th><th>Display:</th><th>Register:</th><th>Other:</th><tr>" +
+                                "<tr><td><a href=\"manage_speakers\" title=\"Manage Speakers (Alt + h)\" accesskey=\"h\">h. Manage Speakers</a></td>"
+                                    + "<td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td>"
+                                    + "<td><a href=\"reg_admin\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td>"
+                                    + "<td><a href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
+                                "<tr><td><a href=\"manage_workshops\" title=\"Manage Workshops (Alt + j)\" accesskey=\"j\">j. Manage Workshops</a></td>"
+                                    + "<td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td>"
+                                    + "<td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td>"
+                                    + "<td><a href=\"eventAdministration.html\" title=\"Event Administration Page (Alt + 8)\" accesskey=\"8\">8. Event Administration</a></td></tr>" +
+                                "<tr><td><a href=\"manage_schedule\" title=\"Manage Schedule (Alt + k)\" accesskey=\"k\">k. Manage Schedule</a></td>"
+                                    + "<td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td>"
+                                    + "<td></td>"
+                                    + "<td></td></tr>" +
+                                "<tr><td><a href=\"manage_exhibitors\" title=\"Manage Exhibitors (Alt + l)\" accesskey=\"l\">l. Manage Exhibitors</a></td>"
+                                    + "<td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td>"
+                                    + "<td></td>"
+                                    + "<td></td></tr>" +
+                            "</table>" +
+                        "</div>" +                    
+                    "</body></html>");
         }
         else
         {
-            out.println(
-                "<div class=\"navigation\">\n" +
-                    "<form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Home Page (Alt + 1)\">Return To Home Page</button></form>\n" +
-                "</div>" +
-                        
-                "<div class=\"mainbody\">" +        
-                    "<ul><h2>Hello " + request.getParameter("username") + ", The Password Entered Is Incorrect!!!</h2></ul>\n" +   
-                    "<form><a href=\"index.html\" title=\"Return To Homepage (Alt + 1)\"><button name=\"button\" autofocus=\"autofocus\" value=\"OK\" type=\"button\">Go Back</button></a></form><br>" +
-                "</div>" +
-                        
-                "<div id=\"bl\" class=\"bottomlinks\">" +        
-                    "<a href=\"index.html\" title=\"Return To Homepage (Alt + 1)\" accesskey=\"1\">Return to Home Page</a>" +
-                "</div>" +
-                "</body></html>");
+// Admin Login
+            out.println("<div class=\"login\">" +
+                            "<form action=\"Login\" method=\"Get\">" +
+                                "<table>" +
+                                    "<tr>" +
+                                        "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:50px;height:50px;\"></a></td>" +
+                                        "<th style=\"text-align:center\">Administrator</th>" +
+                                        "<td>Username:</td>" +
+                                        "<td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\"></td>" +
+                                        "<td></td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<th style=\"text-align:center\">Login</th>" +
+                                        "<td>Password:</td>" +
+                                        "<td><input type=\"password\" name=\"password\" title=\"Please enter password\"></td>" +
+                                        "<td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
+                                    "</tr>" +
+                                "</table>" +
+                            "</form>" +
+                        "</div>");
+// Heading
+            out.println("<div class=\"heading\">" +
+                            "<table>" +
+                                "<tr><td>&nbsp;</td></tr>" +
+                                "<tr><td>&nbsp;</td></tr>" +
+                                "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
+                                "<td><h1 style=\"text-align:center\">Login Failed</h1></td></tr>" +
+                            "</table>" +
+                        "</div>");
+// Navigation menu
+            out.println("<div class=\"navigation dontprint\">" +
+                            "<form style=\"display: inline\" action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
+                            "<form style=\"display: inline\" action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Event Workshops</button></form>" +
+                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
+                            "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
+                            "<form style=\"display: inline\" action=\"reg_admin\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
+                            "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
+                            "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                        "</div>");
+            
+// Unsuccessful Login Greeting
+            out.println("<div class=\"mainbody\">" +        
+                            "<ul><h2>Hello " + request.getParameter("username") + ", The Password Entered Is Incorrect!!!</h2></ul>" +   
+                            "<form><a href=\"index\" title=\"Return To Homepage (Alt + 7)\"><button name=\"button\" value=\"OK\" type=\"button\">Go Back</button></a></form><br>" +
+                        "</div>");
+            
+// Bottom Links                    
+            out.println("<div id=\"bl\" class=\"bottomlinks\">" +
+                            "<table align=\"center\">" +
+                                "<tr><th>Display:</th><th>Register:</th><th>Other:</th><tr>" +
+                                "<tr><td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td><td><a href=\"reg_admin\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td><td><a href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
+                                "<tr><td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td><td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td><td></td></tr>" +
+                                "<tr><td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td><td></td><td></td></tr>" +
+                                "<tr><td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td><td></td><td></td></tr>" +
+                            "</table>" +
+                        "</div>");
+            out.println("</body></html>");
         }
     }
 

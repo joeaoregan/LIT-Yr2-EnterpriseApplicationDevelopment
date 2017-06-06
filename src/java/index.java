@@ -29,7 +29,7 @@ public class index extends HttpServlet {
     PreparedStatement prepStat;
     Statement stat;
     // Schedule
-    String sched_count;
+    String workshop_count;
     String sched_time;
     String sched_location;
     // Speakers
@@ -82,7 +82,6 @@ public class index extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //sched_location = request.getParameter("schedule_location");
         response.setContentType("text/html;charset=UTF-8");
         
         try (PrintWriter out = response.getWriter()) {
@@ -94,11 +93,10 @@ public class index extends HttpServlet {
                             "<title>"+ title +"</title>" +
                         "</head>");
 // Admin Login
-            out.println("<body>"
-                        + "<div class=\"heading\">" +
-                            "<div style=\" background-color:white\">" +
+            out.println("<body>" +
+                            "<div class=\"login\">" +
                                 "<form action=\"Login\" method=\"Get\">" +
-                                    "<table style=\"width:100%; position: fixed; top: 0; right: 0;\" class=\"login\">" +
+                                    "<table>" +
                                         "<tr>" +
                                             "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:50px;height:50px;\"></a></td>" +
                                             "<th style=\"text-align:center\">Administrator</th>" +
@@ -114,31 +112,34 @@ public class index extends HttpServlet {
                                         "</tr>" +
                                     "</table>" +
                                 "</form>" +
-                            "</div>" +
-                            "<table>" +
-                                "<tr><td>&nbsp;</td></tr>" +
-                                "<tr><td>&nbsp;</td></tr>" +
-                                "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
-                                "<td><h1 style=\"text-align:center\">" + title + "</h1></td></tr>" +
-                            "</table>" +
-                        "</div>");
-// Navigation menu
+                            "</div>");
+// Heading
+            out.println("<div class=\"heading\">" +
+                        "<table>" +
+                            "<tr><td>&nbsp;</td></tr>" +
+                            "<tr><td>&nbsp;</td></tr>" +
+                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
+                            "<td><h1 style=\"text-align:center\">" + title + "</h1></td></tr>" +
+                        "</table>" +
+                    "</div>");
+            
+// Navigation menu (Home Highlighted)
             out.println("<div class=\"navigation\">" +
                         "<form style=\"display: inline\" action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
                         "<form style=\"display: inline\" action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Event Workshops</button></form>" +
                         "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
                         "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
-                        "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
+                        "<form style=\"display: inline\" action=\"reg_admin\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
                         "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
                         "<form style=\"display: inline\" action=\"index\" method=\"get\"><button title=\"Return To Homepage (Alt + 7)\" style=\"color: blue; background-color: white;\">Home</button></form>" +
                     "</div>");
             
-// Count the number of workshops scheduled
+// Count the number of workshops scheduled (from Workshops table)
             try {
                 java.sql.Statement stmt = conn.createStatement();
-                ResultSet schedule = stmt.executeQuery("SELECT COUNT(*) AS counter FROM Schedule WHERE workshop_id != 1;");
+                ResultSet schedule = stmt.executeQuery("SELECT COUNT(*) AS counter FROM Workshops WHERE ws_id != 1;");
                 schedule.next();        
-                sched_count = schedule.getString("counter");
+                workshop_count = schedule.getString("counter");
             } catch (Exception e) {System.err.println(e);}
             
 // Info and schedule            
@@ -149,7 +150,7 @@ public class index extends HttpServlet {
             "<tr><td><table style=\"height:100%\">" +// 2nd table (left)
                 "<tr><td class=\"tbhead\">Random ICT Event 2016</td></tr>" +
                 "<tr><td style=\"vertical-align:top; font-size: 150%;\">" +
-                    "<p>There are currently "+sched_count+" workshops scheduled</p>" +
+                    "<p>There are currently "+workshop_count+" workshops scheduled</p>" +
                     "<p>Events will take place on Monday the 9th of May, 2016</p>" +
                     "<p>A number of keynote speakers, and exhibitors are also already scheduled</p>" +
                     "<p>Register online for information on tickets. Or as an administrator to add a workshop, keynote speaker, or exhibitor.</p>" +
@@ -232,7 +233,7 @@ public class index extends HttpServlet {
 // Show Workshops
             out.println("<tr><th colspan=\"4\" class=\"thead\">Workshops</th></tr>" + 
                         "<tr><td colspan=\"4\">&nbsp;</td></tr>" +
-                        "<tr><td colspan=\"4\">"+sched_count+" workshops have been scheduled for the event including: </td></tr>" +
+                        "<tr><td colspan=\"4\">"+workshop_count+" workshops have been scheduled for the event including: </td></tr>" +
                         "<tr><td colspan=\"4\">&nbsp;</td></tr>"
                         + "<tr><td colspan=\"4\"><div style=\"height: 200px; overflow: scroll; overflow-x: hidden;\"><table style=\"width: 100%;\">");  // Table in a table 
             try {
@@ -300,22 +301,12 @@ public class index extends HttpServlet {
             out.println("<tr><td class=\"tablebutton\" colspan=\"4\"><form><a href=\"show_exhibitors\" title=\"Go To Exhibitors Page\"><button name=\"btn_exhibitors\" value=\"OK\" type=\"button\">View All Exhibitors</button></a></form></td></tr>" +
                         "<tr><td colspan=\"4\">&nbsp;</td></tr>");
             out.println("</table></div><br>");
-               
-// Navigation menu
-            out.println("<div class=\"navigation\">" +
-                        "<form style=\"display: inline\" action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
-                        "<form style=\"display: inline\" action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Event Workshops</button></form>" +
-                        "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
-                        "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
-                        "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
-                        "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
-                        "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\" style=\"color: blue; background-color: white;\">Home</button></form>" +
-                    "</div>");
+ 
 // Bottom Links                    
             out.println("<div id=\"bl\" class=\"bottomlinks\">" +
                 "<table align=\"center\">" +
                     "<tr><th>Display:</th><th>Register:</th><td rowspan=\"5\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\"style=\"width:100px;height:100px;\"></a></td></tr>" +
-                    "<tr><td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td><td><a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td></tr>" +
+                    "<tr><td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td><td><a href=\"reg_admin\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td></tr>" +
                     "<tr><td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td><td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td><td></td></tr>" +
                     "<tr><td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td><td></td><td></td></tr>" +
                     "<tr><td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td><td></td><td></td></tr>" +

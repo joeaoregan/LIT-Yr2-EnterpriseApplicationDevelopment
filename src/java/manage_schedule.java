@@ -24,42 +24,27 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(urlPatterns = {"/manage_schedule"})
 public class manage_schedule extends HttpServlet {
+    String title = "Manage Schedule";
     String[] times = {"08:00:00", "08:30:00", "09:00:00", "09:30:00", "10:00:00", "10:30:00", "11:00:00", "11:30:00", "12:00:00", "12:30:00", "13:00:00", "13:30:00", "14:00:00", "14:30:00", "15:00:00", "15:30:00", "16:00:00", "16:30:00", "17:00:00", "17:30:00"};
-    //String[] status = {"","","","","disabled","","","","","","disabled","","","","","","disabled","","",""};
-    //String[] status2 = {"disabled","disabled","disabled","disabled","disabled","disabled","disabled","disabled","disabled","disabled","disabled","disabled","disabled","disabled","disabled","disabled","disabled","disabled","disabled","disabled"};
-    String[] status = new String[20];
-    String[] status2 = new String[20];
-    String[] status3 = new String[20];
-
+    // set list option as enabled / disabled
+    String[] status = new String[20]; // time slot to add
+    String[] status2 = new String[20]; // time slot to delete
+    // Add to schedule list items
     String[] Array_WS_names = {"","","","","","","","","","","","","","","","","","","",""};
     String[] Array_WS_values = {"","","","","","","","","","","","","","","","","","","",""};
-    String[] workshopids = {"","","","","","","","","","","","","","","","","","","",""};
-    String[] rooms = {"Room A101","Room A102","Room A103","Room B101","Room B102","Room B103","Room C101","Room C102","Room C103"};
-    String breaktime = "disabled";
-    String time800="08:00:00";  
-    String time830="08:30:00";
-    String slot800 = "";
-    String slot830 = "";
-    
+    String[] rooms = {"Room A101","Room A102","Room A103","Room B101","Room B102","Room B103","Room C101","Room C102","Room C103"}; // schedule_location
+    String breaktime = "disabled"; // make breaks times unselectable - added to Schedule table when initialised
+    // Output table
     String sched_time;
     String ws_name;
     String sched_location;
     
-    String location;
     String workshop_id;
-    String speaker_fname;
-    String speaker_name;
-    String workshop_option ="";
     String workshop_name;
-    String WSnameDisabled ="";
     
-    // update
-    String TimeToEdit="";
-    
-    // test variables
-    int blah;
-    String each_workshop_id;
-    String test;
+    // available timeslot count
+    int time_slots = 0;
+    int slots_remaining =19;
     
     Connection conn;
     PreparedStatement prepStat;
@@ -93,7 +78,6 @@ public class manage_schedule extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //sched_location = request.getParameter("schedule_location");
         response.setContentType("text/html;charset=UTF-8");
         
         try (PrintWriter out = response.getWriter()) {
@@ -101,132 +85,117 @@ public class manage_schedule extends HttpServlet {
                         "<html>" +
                         "<head>" +
 "                           <link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">");
-            out.println("<title>Manage Schedules</title>");            
-            out.println("</head>");
-            out.println("<body>"
-                        + "<div class=\"heading\">\n" +
-"                           <br><h1 style=\"text-align:center\">Manage Schedule Details</h1><br>\n" +
-                        "</div>"
-// Navigation menu
-                    + "<div class=\"navigation\">" +
-                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 0)\">Event Schedule</button></form>\n" +
-                            "<form style=\"display: inline\" action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + 1)\">Manage Speakers</button></form>\n" +
-                            "<form style=\"display: inline\" action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + 2)\">Manage Workshops</button></form>\n" +
-                            "<form style=\"display: inline\" action=\"manage_schedule\" method=\"get\"><button style=\"color: blue; background-color: white;\" name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + 3)\">Manage Schedules</button></form>\n" +
-                            "<form style=\"display: inline\" action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + 4)\">Manage Exhibitors</button></form> \n" +
-                            "<form style=\"display: inline\" action=\"eventAdministration.html\" method=\"get\"><button name=\"buttonEventAdmin\" title=\"Return To Event Administration (Alt + 5)\">Event Administration</button></form>\n" +
+            out.println("<title>"+title+"</title>");            
+            out.println("</head>" +
+                    "<body>");
+// Heading
+            out.println("<div class=\"heading\">" +
+                        "<table>" +
+                            "<tr><td>&nbsp;</td></tr>" +
+                            "<tr><td>&nbsp;</td></tr>" +
+                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
+                            "<td><h1 style=\"text-align:center\">" + title + "</h1></td></tr>" +
+                        "</table>" +
+                    "</div>");
+            
+// Navigation menu (Schedule Highlighted)
+            out.println("<div class=\"navigation\">" +
+                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + h)\">Manage Speakers</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" style=\"color: blue; background-color: white;\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
+                            "<form style=\"display: inline\" action=\"eventAdministration.html\" method=\"get\"><button name=\"buttonEventAdmin\" title=\"Return To Event Administration (Alt + 8)\">Event Administration</button></form>" +
+                            "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
                         "</div>");
-                    
-// Add to schedule
-            out.println("<div class=\"mainbody\">"
-                    + "<h2>Add Workshop To Schedule</h2>");
-                    try{
-                        java.sql.Statement stmt = conn.createStatement(); 
-                        //ResultSet result = stmt.executeQuery("SELECT * FROM Schedule");  
-                        ResultSet schedule = stmt.executeQuery("SELECT schedule_time,schedule_location FROM Schedule");  
-                        
-                        //for(int j=0;j<9;j++)
-                        //{
-                            //ResultSet result = stmt.executeQuery("SELECT schedule_time,schedule_location FROM Schedule WHERE schedule_location LIKE " + rooms[j] + "");  
-                            for(int i = 0; i <20; i++)
-                            {
-                                status[i]="";
-                            }
-                            while(schedule.next())
-                            {
-                                sched_time = schedule.getString("schedule_time");  
-                                sched_location = schedule.getString("schedule_location");
-                                //if (scheduletime.contentEquals("08:00:00")) slot800 = "disabled";
-                                //if (scheduletime.contentEquals("08:30:00")) slot830 = "disabled";
-                                for(int i = 0; i <20; i++)
-                                {
-                                    if (sched_time.contentEquals(times[i])) status[i] = "disabled"; // If the time is already in the schedule, disable to prevent double booking
-                                    //else status[i] = "";
-                                    
-                                    //out.println("time: " + sched_time + " enabled? " + status2[i] + "<br>");
-                                }
-                                //out.println("time: " + scheduletime + "<br>");
-                            }   
-                    }
-                    catch(Exception e)
+// Initialise schedule
+            try{
+                java.sql.Statement stmt = conn.createStatement(); 
+                ResultSet schedule = stmt.executeQuery("SELECT schedule_time,schedule_location FROM Schedule");   
+                time_slots = 0;
+                    while(schedule.next())
                     {
-                        System.err.println(e);
+                        time_slots++;
                     }   
-                    //out.println("<br>END OF TEST");
-                        
-                out.println("<form action=\"add_schedule\" method=\"POST\"><br>" +
-                "                <table align=\"center\">");
+            }
+            catch(Exception e)
+            {
+                System.err.println(e);
+            }   
+            //out.println("<h2>"+time_slots+"</h2>");
+            if(time_slots==0)
+            {
+                out.println("<div class=\"mainbody\">" +
+                                "<h2 class=\"tbhead\">Initialise Schedule Table</h2>" +
+                                "<p>Sets up the schedule table by 1st creating the table, and then adding the break times" +
+                                "<form action=\"init_sched\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Initialise the schedule table\">Initialise Schedule Table</button></form>" +
+                            "</div>");
+            }
+// Add to schedule
+            try{
+                java.sql.Statement stmt = conn.createStatement(); 
+                ResultSet schedule = stmt.executeQuery("SELECT schedule_time,schedule_location FROM Schedule");  
+                for(int i = 0; i <20; i++) // initialise / reset all list items to enabled
+                {
+                    status[i]="";
+                }
+                while(schedule.next())
+                {
+                    sched_time = schedule.getString("schedule_time");  
+                    sched_location = schedule.getString("schedule_location");
+                    for(int i = 0; i <20; i++)
+                    {
+                        if (sched_time.contentEquals(times[i])) status[i] = "disabled"; // If the time is already in the schedule, disable to prevent double booking
+                    }
+                }   
+            }
+            catch(Exception e)
+            {
+                System.err.println(e);
+            }  
+            slots_remaining = 19 - time_slots; // total slots (19 incl 1 hour lunch) - slots already in schedule table
+            out.println("<div id=\"addws\" class=\"mainbody\">" +
+                            "<h2 class=\"tbhead\">Add Workshop To Schedule</h2>" +
+                            "<p>There are currently "+slots_remaining+" time slots available"); 
+            out.println("<form action=\"add_schedule\" method=\"POST\"><br>" +
+                            "<table align=\"center\">");
                 
 // Schedule Time (shedule_time)
-                out.println("<tr>" +
-                "               <th>Time:</th>\n" +
-                "                   <td>\n" +
-                "                       <!--Schedule Times (minus breaks)-->\n" +
-                "                       <!--input list=\"schedule_time\" autofocus=\"autofocus\" name=\"schedule_time\" title=\"Select A Time From The List\"><datalist-->\n" +
-                "                           <select autofocus=\"autofocus\" name=\"schedule_time\" title=\"Select A Time From The List\" id=\"schedule_time\" style=\"width:100%\">\n" +
-                "                               <option value=\"08:00:00\" " + status[0] + ">8.00 am</option>" +
-                "                               <option value=\"08:30:00\" " + status[1] + ">8.30 am</option>" +
-                "                               <option value=\"09:00:00\" " + status[2] + ">9.00 am</option>" +
-                "                               <option value=\"09:30:00\" " + status[3] + ">9.30 am</option>" +
-                "                               <option value=\"10:00:00\" " + breaktime + ">10 am Break</option>" +
-                "                               <option value=\"10:30:00\" " + status[5] + ">10.30 am</option>" +
-                "                               <option value=\"11:00:00\" " + status[6] + ">11.00 am</option>" +
-                "                               <option value=\"11:30:00\" " + status[7] + ">11.30 am</option>" +
-                "                               <option value=\"12:00:00\" " + status[8] + ">12.00 pm</option>" +
-                "                               <option value=\"12:30:00\" " + status[9] + ">12.30 pm</option>" +
-                "                               <option value=\"13:00:00\" " + breaktime + ">1 pm Lunch</option>" +
-                "                               <option value=\"14:00:00\" " + status[12] + ">2.00 pm</option>" +
-                "                               <option value=\"14:30:00\" " + status[13] + ">2.30 pm</option>" +
-                "                               <option value=\"15:00:00\" " + status[14] + ">3.00 pm</option>" +
-                "                               <option value=\"15:30:00\" " + status[15] + ">3.30 pm</option>" +
-                "                               <option value=\"16:00:00\" " + breaktime + ">4 pm Break</option>" +
-                "                               <option value=\"16:30:00\" " + status[17] + ">4.30 pm</option>" +
-                "                               <option value=\"17:00:00\" " + status[18] + ">5.00 pm</option>" +
-                "                               <option value=\"17:30:00\" " + status[19] + ">5.30 pm</option>" +
-                "                          </select></td>" +
-                "           </tr>");
+            out.println("<tr><th>Time:</th>" +
+                            "<td><select autofocus=\"autofocus\" name=\"schedule_time\" title=\"Select A Time From The List\" id=\"schedule_time\" style=\"width:100%\">" +
+                                "<option value=\"08:00:00\" " + status[0] + ">8.00 am</option>" +
+                                "<option value=\"08:30:00\" " + status[1] + ">8.30 am</option>" +
+                                "<option value=\"09:00:00\" " + status[2] + ">9.00 am</option>" +
+                                "<option value=\"09:30:00\" " + status[3] + ">9.30 am</option>" +
+                                "<option value=\"10:00:00\" " + breaktime + ">10 am Break</option>" +
+                                "<option value=\"10:30:00\" " + status[5] + ">10.30 am</option>" +
+                                "<option value=\"11:00:00\" " + status[6] + ">11.00 am</option>" +
+                                "<option value=\"11:30:00\" " + status[7] + ">11.30 am</option>" +
+                                "<option value=\"12:00:00\" " + status[8] + ">12.00 pm</option>" +
+                                "<option value=\"12:30:00\" " + status[9] + ">12.30 pm</option>" +
+                                "<option value=\"13:00:00\" " + breaktime + ">1 pm Lunch</option>" +
+                                "<option value=\"14:00:00\" " + status[12] + ">2.00 pm</option>" +
+                                "<option value=\"14:30:00\" " + status[13] + ">2.30 pm</option>" +
+                                "<option value=\"15:00:00\" " + status[14] + ">3.00 pm</option>" +
+                                "<option value=\"15:30:00\" " + status[15] + ">3.30 pm</option>" +
+                                "<option value=\"16:00:00\" " + breaktime + ">4 pm Break</option>" +
+                                "<option value=\"16:30:00\" " + status[17] + ">4.30 pm</option>" +
+                                "<option value=\"17:00:00\" " + status[18] + ">5.00 pm</option>" +
+                                "<option value=\"17:30:00\" " + status[19] + ">5.30 pm</option>" +
+                            "</select></td></tr>");
                 
 // Schedule Workshop Name (workshop_name)
-/* */
-/* */
-                out.println("<th>Workshop:</th><td><select id=\"workshop_name\" name=\"workshop_name\" title=\"Select A Workshop From The List\" style=\"width:100%\">");
+                out.println("<tr><th>Workshop:</th><td><select id=\"workshop_name\" name=\"workshop_name\" title=\"Select A Workshop From The List\" style=\"width:100%\" required>");
                 try{
                     java.sql.Statement stmt = conn.createStatement(); 
-                    //ResultSet workshop = stmt.executeQuery("SELECT ws_id,ws_name from Workshops");
-                    ResultSet workshop = stmt.executeQuery("select ws_id,ws_name from workshops where ws_id not in (select workshop_id from schedule);"); // workshop ids not already in schedule
-                    //ResultSet testresult = stmt.executeQuery("SELECT * FROM Schedule Where ws_id like('"+each_workshop_id+"')");                    
-                    //workshop_id = workshop.getString("ws_id");
-                        int nameCounter = 0;
-                        //workshop_option ="";                        
-                        for(int i = 0; i <20; i++)
-                        {
-                            status3[i]="";
-                        }
+                    ResultSet workshop = stmt.executeQuery("select ws_id,ws_name from workshops where ws_id not in(select workshop_id from schedule);"); // workshop ids not already in schedule
+                        int nameCounter = 0;  
                         while(workshop.next())
                         {
-                            Array_WS_names[nameCounter] = workshop.getString("ws_name"); 
-                            Array_WS_values[nameCounter] = workshop_id = workshop.getString("ws_id");                                           // add each workshop id to array list
-                            // if Array_WS_values[nameCounter] = in "select workshop_id from shedule"
-                            // WSnameDisabled = "Disabled";    
-                            /*
-                            try{
-                                //ResultSet workshopid = stmt.executeQuery("SELECT * from Schedule");    // Get workshop id from db;
-                                ResultSet workshopid = stmt.executeQuery("select ws_id  from workshops Join schedule where workshop_id = ws_id;");
-                                //ResultSet testresult = stmt.executeQuery("SELECT * FROM Schedule Where ws_id like('"+each_workshop_id+"')");    
-
-                                //workshop = stmt.getMoreResults();
-                                while(workshopid.next())
-                                {                                                    // add each workshop name to array list  
-                                    each_workshop_id = workshop.getString("ws_id");
-                                    each_workshop_id = workshop.getString("ws_id");
-                                    for(int i = 0; i <20; i++)
-                                    {
-                                    if (each_workshop_id.contentEquals(Array_WS_values[i])) WSnameDisabled = "disabled";
-                                    }
-                                }
-                             */
+                            Array_WS_names[nameCounter] = workshop.getString("ws_name");  // Add each workshop name to array list
+                            Array_WS_values[nameCounter] = workshop_id = workshop.getString("ws_id");  // Add each workshop id to array list
                             
-                            out.println("<option value=\"" + Array_WS_values[nameCounter] + "\""+WSnameDisabled+">" + Array_WS_names[nameCounter] + "</option>"); // output each list item
+                            out.println("<option value=\"" + Array_WS_values[nameCounter] + "\">" + Array_WS_names[nameCounter] + "</option>");  // Output each list item
                             nameCounter++;
                         }
                 }
@@ -234,58 +203,40 @@ public class manage_schedule extends HttpServlet {
                 {
                     System.err.println(e);
                 }  
-                out.println("</select></td><td></td></tr>"); 
-
-/* */                
-// Schedule Location Row (schedule_location)     
-                out.println("<tr>\n" +
-                "                        <th>Location:</th>\n" +
-                "                        <!--td><input type=\"text\" name=\"schedule_location\" title=\"Enter location\"></td-->\n" +
-                "                        <td><!--input list=\"schedule_location\" name=\"schedule_location\" title=\"Select A Location From The List\">" +
-                "                              <datalist id=\"schedule_location\"-->\n" +
-                "                            <select id=\"schedule_location\" name=\"schedule_location\" title=\"Select A Location From The List\" style=\"width:100%\">" +
-                                                "<option value=\"" + rooms[0] +"\">" + rooms[0] +"</option>" +
-                "                                <option value=\"" + rooms[1] +"\">" + rooms[1] +"</option>" +
-                "                                <option value=\"" + rooms[2] +"\">" + rooms[2] +"</option>" +
-                "                                <option value=\"" + rooms[3] +"\">" + rooms[3] +"</option>" +
-                "                                <option value=\"" + rooms[4] +"\">" + rooms[4] +"</option>" +
-                "                                <option value=\"" + rooms[5] +"\">" + rooms[5] +"</option>" +
-                "                                <option value=\"" + rooms[6] +"\">" + rooms[6] +"</option>" +
-                "                                <option value=\"" + rooms[7] +"\">" + rooms[7] +"</option>" +
-                "                                <option value=\"" + rooms[8] +"\">" + rooms[8] +"</option>" +
-                "                              </select></td><td></td>\n" +
-                "                    </tr>");
+                out.println("</select></td></tr>"); 
                 
+// Schedule Location Row (schedule_location)     
+                out.println("<tr><th>Location:</th>" +
+                                "<td><select id=\"schedule_location\" name=\"schedule_location\" title=\"Select A Location From The List\" style=\"width:100%\">");
+                                    for (int i = 0; i<9; i++) // output each element of the room array
+                                    {
+                                        out.println("<option value=\"" + rooms[i] +"\">" + rooms[i] +"</option>");
+                                    }
+                                    out.println("</select></td></tr>");
 // Submit Button Row
-                out.println("<tr>" +
-                "                        <td></td>" +
-                "                    <td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td><td></td>\n" +
-                "                    </tr>\n" +
-                "                </table>\n" +
-                "            </form><br>\n");
+                out.println("<tr><td colspan=\"2\" style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td></tr>" +
+                        "</table>" +
+                    "</form><br>");
                 
                 out.println("<p>* Only <b>available</b> time slots can be selected</p>" +
-                "        </div><br>");
+                            "</div><br>");
                 
 /** Output the Schedule Table */                 
             out.println("<div class=\"mainbody\">" + 
-                            "<h2>Current Schedule</h2>" +
-                            "<p>A list of the workshops currently scheduled:</p>"
-                            + "<table align=\"center\">"
-                                + "<tr><th>Time</th><th>Name</th><th>Location</th>"
-                                + "</tr>");
+                            "<h2 class=\"tbhead\">Current Schedule</h2>" +
+                            "<p>A list of the workshops currently scheduled:" +
+                            "<table align=\"center\">" +
+                                "<tr><th>Time</th><th>Name</th><th>Location</th></tr>");
                                 try {
                                     java.sql.Statement stmt = conn.createStatement();
-                                    //ResultSet schedule = stmt.executeQuery("SELECT * from Schedule ORDER BY schedule_time ASC");  // Display table in order of scheduled_time
                                     ResultSet schedule = stmt.executeQuery("SELECT schedule_time,ws_name,schedule_location FROM Schedule JOIN Workshops ON Schedule.workshop_id = Workshops.ws_id ORDER BY schedule_time ASC");
                                     
-                                    workshop_option = "";
                                     while (schedule.next()) {
                                         sched_time = schedule.getString("schedule_time");
                                         ws_name = schedule.getString("ws_name");
                                         sched_location = schedule.getString("schedule_location");
+                                        if (ws_name.contentEquals("Break")) sched_location = ""; // Leave location blank for break
                                     out.println("<tr><td>" + sched_time + "</td><td>" + ws_name + "</td><td>" + sched_location + "</td></tr>");
-                                        //out.println("time: " + sched_time + "<br>");
                                     }
                                 } catch (Exception e) {
                                     System.err.println(e);
@@ -293,87 +244,80 @@ public class manage_schedule extends HttpServlet {
             out.println("</table></div><br>");
             
 // Select record to delete
-            try{
+            try{ // Initialise the list
                 java.sql.Statement stmt = conn.createStatement();            
                 ResultSet schedule = stmt.executeQuery("SELECT schedule_time from Schedule");
                 
-                for (int i=0;i<20;i++){ status2[i]="disabled";}
-                //boolean compare;
-                blah = 1;
+                for (int i=0;i<20;i++){ status2[i]="disabled";} // set each array element to disabled (unable to select)
                 while(schedule.next())
                 {
                     sched_time = schedule.getString("schedule_time");  // get each record
-                    //out.println("<br>time: " + sched_time + " " + blah);
-                    blah++;
                     for(int i = 0; i <20; i++)
                         {
                             if (sched_time.contentEquals(times[i])) status2[i] = "";
-                            //if(sched_time.contains(times[i])) status2[i]="";
-                            //out.println("time: " + sched_time + " enabled? " + status2[i] + "<br>");
                         }
                 }
             }
             catch(Exception e)
             {
                 System.err.println(e);
-            } 
-                    
-            out.println("<div class=\"mainbody\">"
-                    +"<h2>Edit Schedule Details</h2>"
-                    + "<p>Select time slot to delete</p>"
-                    + "<form action=\"delete_schedule\" method=\"POST\">"
-                    + "<table align=\"center\">"
-                        + "<tr>" +
-                "               <th>Time To Delete:</th>\n" +
-                "                   <td><select name=\"deletetime\" title=\"Select A Time From The List\" style=\"width:100%\">\n" +
-                "                               <option value=\"08:00:00\" "+status2[0]+">8.00 am</option>" +
-                "                               <option value=\"08:30:00\" "+status2[1]+">8.30 am</option>" +
-                "                               <option value=\"09:00:00\" "+status2[2]+">9.00 am</option>" +
-                "                               <option value=\"09:30:00\" "+status2[3]+">9.30 am</option>" +
-                "                               <option value=\"10:00:00\" " + breaktime + ">10 am Break</option>" +
-                "                               <option value=\"10:30:00\" "+status2[5]+">10.30 am</option>" +
-                "                               <option value=\"11:00:00\" "+status2[6]+">11.00 am</option>" +
-                "                               <option value=\"11:30:00\" "+status2[7]+">11.30 am</option>" +
-                "                               <option value=\"12:00:00\" "+status2[8]+">12.00 pm</option>" +
-                "                               <option value=\"12:30:00\" "+status2[9]+">12.30 pm</option>" +
-                "                               <option value=\"13:00:00\" " + breaktime + ">1 pm Lunch</option>" + // 1 hour for lunch
-                "                               <option value=\"14:00:00\" "+status2[12]+">2.00 pm</option>" +
-                "                               <option value=\"14:30:00\" "+status2[13]+">2.30 pm</option>" +
-                "                               <option value=\"15:00:00\" "+status2[14]+">3.00 pm</option>" +
-                "                               <option value=\"15:30:00\" "+status2[15]+">3.30 pm</option>" +
-                "                               <option value=\"16:00:00\" " + breaktime + ">4 pm Break</option>" +
-                "                               <option value=\"16:30:00\" "+status2[17]+">4.30 pm</option>" +
-                "                               <option value=\"17:00:00\" "+status2[18]+">5.00 pm</option>" +
-                "                               <option value=\"17:30:00\" "+status2[19]+">5.30 pm</option>" +
-                "                          </select></td>" +
-                                "<td style=\"text-align:right\"><input type=\"submit\" value=\"Delete\" title=\"Delete Time\"/></td>" +
-                "           </tr>"
-                    + "</table>" +
-                        "</form>" +
-                   "<p>* Only <b>booked</b> time slots can be deleted</p>" +
-                "</div>");
-
-// Navigation menu
-            out.println("<div class=\"navigation\">" +
-                "            <form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 6)\">Administrator Registration</button></form>\n" +
-                "            <form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 7)\">Attendee Registration</button></form>\n" +
-                "            <form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Home Page (Alt + 8)\">Return To Home Page</button></form>\n" +
-                "        </div>");
-// Bottom Links                    
+            }   
+            out.println("<div class=\"mainbody\">" + // Display the list of times to delete
+                            "<h2 class=\"tbhead\">Edit Schedule Details</h2>" +
+                            "<p>Select time slot to delete" +
+                            "<form action=\"delete_schedule\" method=\"POST\">" +
+                            "<table align=\"center\">" +
+                                "<tr><th>Time To Delete:</th>" +
+                                    "<td><select name=\"deletetime\" title=\"Select A Time From The List\" style=\"width:100%\">" +
+                                        "<option value=\"08:00:00\" "+status2[0]+">8.00 am</option>" +
+                                        "<option value=\"08:30:00\" "+status2[1]+">8.30 am</option>" +
+                                        "<option value=\"09:00:00\" "+status2[2]+">9.00 am</option>" +
+                                        "<option value=\"09:30:00\" "+status2[3]+">9.30 am</option>" +
+                                        "<option value=\"10:00:00\" " + breaktime + ">10 am Break</option>" + // break times already initialised
+                                        "<option value=\"10:30:00\" "+status2[5]+">10.30 am</option>" +
+                                        "<option value=\"11:00:00\" "+status2[6]+">11.00 am</option>" +
+                                        "<option value=\"11:30:00\" "+status2[7]+">11.30 am</option>" +
+                                        "<option value=\"12:00:00\" "+status2[8]+">12.00 pm</option>" +
+                                        "<option value=\"12:30:00\" "+status2[9]+">12.30 pm</option>" +
+                                        "<option value=\"13:00:00\" " + breaktime + ">1 pm Lunch</option>" + // 1 hour for lunch
+                                        "<option value=\"14:00:00\" "+status2[12]+">2.00 pm</option>" +
+                                        "<option value=\"14:30:00\" "+status2[13]+">2.30 pm</option>" +
+                                        "<option value=\"15:00:00\" "+status2[14]+">3.00 pm</option>" +
+                                        "<option value=\"15:30:00\" "+status2[15]+">3.30 pm</option>" +
+                                        "<option value=\"16:00:00\" " + breaktime + ">4 pm Break</option>" +
+                                        "<option value=\"16:30:00\" "+status2[17]+">4.30 pm</option>" +
+                                        "<option value=\"17:00:00\" "+status2[18]+">5.00 pm</option>" +
+                                        "<option value=\"17:30:00\" "+status2[19]+">5.30 pm</option>" +
+                                    "</select></td>" +
+                                    "<td style=\"text-align:right\"><input type=\"submit\" value=\"Delete\" title=\"Delete Time\"/></td>" +
+                                "</tr>" +
+                            "</table>" +
+                            "</form>" +
+                            "<p>* Only <b>booked</b> time slots can be deleted</p>" +
+                        "</div>");
+// Bottom Links (Manage)             
             out.println("<div  id=\"bl\" class=\"bottomlinks\">" +
-                "            <a class=\"class1\" href=\"show_schedule\" title=\"Event Schedule (Alt + 0)\" accesskey=\"0\">0. Event Schedule</a><br>" +
-                "            <a href=\"manage_speakers\" title=\"Manage Speaker Details (Alt + 1)\" accesskey=\"1\">1. Manage Speaker Details</a><br>" +
-                "            <a href=\"manage_workshops\" title=\"Manage Workshop Details (Alt + 2)\" accesskey=\"2\">2. Manage Workshop Details</a><br>" +
-                "            <a href=\"manage_schedule\" title=\"Manage Schedule Details (Alt + 3)\" accesskey=\"3\">3. Manage Schedule Details</a><br>" +
-                "            <a href=\"manage_exhibitors\" title=\"Manage Exhibitor Details (Alt + 4)\" accesskey=\"4\">4. Manage Exhibitor Details</a><br>" +
-                "            <a href=\"eventAdministration.html\" title=\"Event Administration Page (Alt + 5)\" accesskey=\"5\">5. Event Administration</a><br>" +
-                "            <a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 6)\" accesskey=\"1\">6. Administrator Registration</a><br>" +
-                "            <a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 7)\" accesskey=\"2\">7. Attendee Registration</a><br>" +
-                "            <a href=\"index\" title=\"Return To Homepage (Alt + 8)\" accesskey=\"6\">8. Return To Home Page</a>" +
-                "    </div>");
-                        
-            out.println("</body>" +
-            "</html>");
+                            "<table align=\"center\">" +
+                                "<tr><th>Manage:</th><th>Display:</th><th>Register:</th><th>Other:</th><tr>" +
+                                "<tr><td><a href=\"manage_speakers\" title=\"Manage Speakers (Alt + h)\" accesskey=\"h\">h. Manage Speakers</a></td>"
+                                    + "<td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td>"
+                                    + "<td><a href=\"reg_admin\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td>"
+                                    + "<td><a href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
+                                "<tr><td><a href=\"manage_workshops\" title=\"Manage Workshops (Alt + j)\" accesskey=\"j\">j. Manage Workshops</a></td>"
+                                    + "<td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td>"
+                                    + "<td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td>"
+                                    + "<td><a href=\"eventAdministration.html\" title=\"Event Administration Page (Alt + 8)\" accesskey=\"8\">8. Event Administration</a></td></tr>" +
+                                "<tr><td><a href=\"manage_schedule\" title=\"Manage Schedule (Alt + k)\" accesskey=\"k\">k. Manage Schedule</a></td>"
+                                    + "<td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td>"
+                                    + "<td></td>"
+                                    + "<td></td></tr>" +
+                                "<tr><td><a href=\"manage_exhibitors\" title=\"Manage Exhibitors (Alt + l)\" accesskey=\"l\">l. Manage Exhibitors</a></td>"
+                                    + "<td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td>"
+                                    + "<td></td>"
+                                    + "<td></td></tr>" +
+                            "</table>" +
+                        "</div>" +                    
+                    "</body></html>");
         }
     }
 

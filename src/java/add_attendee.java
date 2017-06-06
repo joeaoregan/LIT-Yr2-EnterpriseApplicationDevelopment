@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe O'Regan
  * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/RegisterAttendee"})
-public class RegisterAttendee extends HttpServlet {
+@WebServlet(urlPatterns = {"/add_attendee"})
+public class add_attendee extends HttpServlet {
     String attendee_fname;
     String attendee_lname;
     String attendee_email;
@@ -128,9 +128,15 @@ public class RegisterAttendee extends HttpServlet {
             conn = (Connection) DriverManager.getConnection
                     (url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
-            //stat.execute("DROP TABLE Attendees");
-            stat.execute("CREATE TABLE IF NOT EXISTS Attendees " + 
-                    "(attendee_fname CHAR(40), attendee_lname CHAR(40), attendee_email CHAR(40), attendee_phone CHAR(40), attendee_addr1 CHAR(40), attendee_addr2 CHAR(40), attendee_town CHAR(40), attendee_county CHAR(40))");
+            stat.execute("CREATE TABLE IF NOT EXISTS Attendees(" +
+                         "attendee_fname CHAR(40) NOT NULL, " +
+                         "attendee_lname CHAR(40) NOT NULL, " +
+                         "attendee_email VARCHAR(40) PRIMARY KEY, " +
+                         "attendee_phone VARCHAR(18), " +
+                         "attendee_addr1 CHAR(40), " +
+                         "attendee_addr2 CHAR(40), " +
+                         "attendee_town CHAR(40), " +
+                         "attendee_county CHAR(40))");
         } catch (Exception e) 
         {
             System.err.println(e);

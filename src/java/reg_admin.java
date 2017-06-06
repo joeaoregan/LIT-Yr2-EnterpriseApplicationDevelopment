@@ -67,29 +67,29 @@ public class reg_admin extends HttpServlet {
                             "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
                             "<title>"+title+"</title>" +
                         "</head>");
-            
 // Admin Login
-            out.println("<body>"
-                        + "<div class=\"heading\">" +
-                            "<div style=\" background-color:white\">" +
+            out.println("<body>" +
+                            "<div class=\"login\">" +
                                 "<form action=\"Login\" method=\"Get\">" +
-                                    "<table style=\"width:100%; position: fixed; top: 0; right: 0;\" class=\"login\">" +
+                                    "<table>" +
                                         "<tr>" +
                                             "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:50px;height:50px;\"></a></td>" +
                                             "<th style=\"text-align:center\">Administrator</th>" +
                                             "<td>Username:</td>" +
-                                            "<td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\" maxlength=\"40\"></td>" +
+                                            "<td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\"></td>" +
                                             "<td></td>" +
                                         "</tr>" +
                                         "<tr>" +
                                             "<th style=\"text-align:center\">Login</th>" +
                                             "<td>Password:</td>" +
-                                            "<td><input type=\"password\" name=\"password\" title=\"Please enter password\" maxlength=\"40\"></td>" +
+                                            "<td><input type=\"password\" name=\"password\" title=\"Please enter password\"></td>" +
                                             "<td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
                                         "</tr>" +
                                     "</table>" +
                                 "</form>" +
-                            "</div>" +
+                            "</div>");
+// Heading
+            out.println("<div class=\"heading\">" +
                             "<table>" +
                                 "<tr><td>&nbsp;</td></tr>" +
                                 "<tr><td>&nbsp;</td></tr>" +
@@ -113,46 +113,46 @@ public class reg_admin extends HttpServlet {
 // Register Admin
             //request.setAttribute("admin_username", form_username);
             out.println("<div class=\"mainbody\">" +
-                            "<form action=\"RegisterAdmin\" method=\"POST\"><br>" +
+                            "<form action=\"add_admin\" method=\"POST\"><br>" +
                                 "<table align=\"center\">" +
                                     "<tr><td class=\"tbhead\" colspan=\"3\">"+title+"</td></tr>" +
                                     "<tr><td><b>Username:</b></td>" +
-                                        "<td><input type=\"text\" name=\"admin_username\" autofocus=\"autofocus\" title=\"Enter username\" maxlength=\"40\"></td><td>(Max 40 chars)</td>" +
+                                        "<td><input type=\"text\" name=\"admin_username\" autofocus=\"autofocus\" title=\"Enter username\" maxlength=\"40\" placeholder=\"Required Field\"></td><td>Max 40 characters</td>" +
                                     "</tr>" +
                                     "<tr><td><b>Password:</b></td>" +
-                                        "<td><input type=\"password\" name=\"admin_password\" title=\"Enter password\" maxlength=\"40\"></td><td>(Max 40 chars)</td>" +
+                                        "<td><input type=\"password\" name=\"admin_password\" title=\"Enter password\" maxlength=\"40\" placeholder=\"Required Field\"></td><td>Max 40 characters</td>" +
                                     "</tr>" +
                                     "<tr><td colspan=\"3\"><br></td></tr>" +
                     
                                     "<tr><td><b>First Name:</b></td>" +
-                                        "<td><input type=\"text\" name=\"admin_fname\" title=\"Enter administrator first name\" maxlength=\"40\"></td><td>(Max 40 chars)</td>" +
+                                        "<td><input type=\"text\" name=\"admin_fname\" title=\"Enter administrator first name\" maxlength=\"40\"></td><td>Max 40 characters</td>" +
                                     "</tr>" +
                                     "<tr><td><b>Last Name:</b></td>" +
-                                        "<td><input type=\"text\" name=\"admin_lname\" title=\"Enter administrator last name\" maxlength=\"40\"></td><td>(Max 40 chars)</td>" +
+                                        "<td><input type=\"text\" name=\"admin_lname\" title=\"Enter administrator last name\" maxlength=\"40\"></td><td>Max 40 characters</td>" +
                                     "</tr>" +
                                     "<tr><td><b>Email Address:</b></td>" +
-                                        "<td><input type=\"text\" name=\"admin_email\" title=\"Enter an email address\" maxlength=\"60\"></td><td>(Max 60 chars)</td>" +
+                                        "<td><input type=\"text\" name=\"admin_email\" title=\"Enter an email address\" maxlength=\"60\" placeholder=\"Required Field\"></td><td>Max 60 Characters</td>" +
                                     "</tr>" +
                                     "<tr><td><b>Phone Number:</b></td>" +
-                                        "<td><input type=\"text\" name=\"admin_phone\" title=\"Enter a phone number\" maxlength=\"18\"></td><td>(Max 18 chars)</td>" +
+                                        "<td><input type=\"text\" name=\"admin_phone\" title=\"Enter a phone number\" maxlength=\"18\"></td><td>Max 18 characters</td>" +
                                     "</tr>" +
                                     "<tr><td><b>Address Line 1:</b></td>" +
-                                        "<td><input type=\"text\" name=\"admin_addr1\" title=\"Enter address line 1\" maxlength=\"40\"></td><td>(Max 40 chars)</td>" +
+                                        "<td><input type=\"text\" name=\"admin_addr1\" title=\"Enter address line 1\" maxlength=\"40\"></td><td>Max 40 characters</td>" +
                                     "</tr>" +
                                     "<tr><td><b>Address Line 2:</b></td>" +
-                                        "<td><input type=\"text\" name=\"admin_addr2\" title=\"Enter address line 2\" maxlength=\"40\"></td><td>(Max 40 chars)</td>" +
+                                        "<td><input type=\"text\" name=\"admin_addr2\" title=\"Enter address line 2\" maxlength=\"40\"></td><td>Max 40 characters</td>" +
                                     "</tr>" +
                                         "<tr><td><b>Town:</b></td>" +
-                                        "<td><input type=\"text\" name=\"admin_town\" title=\"Enter a town\" maxlength=\"40\"></td><td>(Max 40 chars)</td>" +
+                                        "<td><input type=\"text\" name=\"admin_town\" title=\"Enter a town\" maxlength=\"40\"></td><td>Max 40 characters</td>" +
                                     "</tr>" +
                                     "<tr><td><b>County:</b></td>" +
-                                        "<td><input list=\"admin_county\" name=\"admin_county\" title=\"Select A Country\" maxlength=\"40\"><td>(Max 40 chars)</td>" +
+                                        "<td><input list=\"admin_county\" name=\"admin_county\" title=\"Select A Country\" maxlength=\"40\">" +
                                         "<datalist id=\"admin_county\">");
                                         for (int i=0;i<26;i++)
                                         {
                                             out.println("<option value=\""+counties[i]+"\">");
                                         }
-                                        out.println("</datalist></td>" +
+                                        out.println("</datalist></td><td>Max 40 characters</td>" +
                                     "</tr>" +
                                     "<tr><td></td><td></td><td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
                                     "</tr>" +

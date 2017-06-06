@@ -28,6 +28,7 @@ public class manage_workshops extends HttpServlet {
     PreparedStatement prepStat;
     Statement stat;
     
+    String title = "Manage Workshops";
     String ws_id;
     String ws_name;
     String ws_pres1;
@@ -69,74 +70,84 @@ public class manage_workshops extends HttpServlet {
             out.println("<!DOCTYPE html>" +
                         "<html>" +
                         "<head>" +
-"                           <link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
-                        "<title>Manage Workshops</title>" +
+                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
+                        "<title>"+title+"</title>" +
                     "</head>");
+            out.println("<body>");
+// Heading
+            out.println("<div class=\"heading\">" +
+                        "<table>" +
+                            "<tr><td>&nbsp;</td></tr>" +
+                            "<tr><td>&nbsp;</td></tr>" +
+                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
+                            "<td><h1 style=\"text-align:center\">" + title + "</h1></td></tr>" +
+                        "</table>" +
+                    "</div>");
             
-            out.println("<body>"
-                        + "<div class=\"heading\">" +
-"                           <br><h1 style=\"text-align:center\">Manage Workshop Details</h1><br>\n" +
-                        "</div>"
-// Navigation menu
-                    + "<div class=\"navigation\">" +
-                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 0)\">Event Schedule</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + 1)\">Manage Speakers</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_workshops\" method=\"get\"><button style=\"color: blue; background-color: white;\" name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + 2)\">Manage Workshops</button></form>\n" +
-                            "<form style=\"display: inline\" action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + 3)\">Manage Schedules</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + 4)\">Manage Exhibitors</button></form>" +
-                            "<form style=\"display: inline\" action=\"eventAdministration.html\" method=\"get\"><button name=\"buttonEventAdmin\" title=\"Return To Event Administration (Alt + 5)\">Event Administration</button></form>" +
+// Navigation menu (Workshops Highlighted)
+            out.println("<div class=\"navigation\">" +
+                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + h)\">Manage Speakers</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" style=\"color: blue; background-color: white;\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
+                            "<form style=\"display: inline\" action=\"eventAdministration.html\" method=\"get\"><button name=\"buttonEventAdmin\" title=\"Return To Event Administration (Alt + 8)\">Event Administration</button></form>" +
+                            "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
                         "</div>");
-// Workshop input            
+// Workshop Form Input
             out.println("<div class=\"mainbody\">" +
-                    "<h2>Enter Workshop Details</h2>" +
-"            <form action=\"add_workshop\" method=\"POST\"><br>" +
-"                <table align=\"center\">" +
-"                    <tr>" +
-"                        <th>Name:</th>" +
-"                        <td><input type=\"text\" name=\"ws_name\" autofocus=\"autofocus\" title=\"Enter a name for the workshop\"></td>" +
-"                    </tr>\n" +
-"                    <tr>\n" +
-"                        <th>Presenter 1:</th>\n" +
-"                        <td><input type=\"text\" name=\"ws_presenter1\" title=\"Enter first presenters name\"></td>" +
-"                    </tr>\n" +
-"                    <tr>\n" +
-"                        <th>Presenter 2:</th>\n" +
-"                        <td><input type=\"text\" name=\"ws_presenter2\" title=\"Enter second presenters name\"></td>" +
-"                    </tr>\n" +
-"                    <tr>\n" +
-"                        <th>Information:</th>\n" +
-"                        <td><textarea rows=\"15\" cols=\"50\" name=\"ws_info\" title=\"Enter information about the workshop\"></textarea></td>" +
-"                    </tr>\n" +
-"                    <tr>\n" +
-"                        <td></td>\n" +
-"                    <td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>\n" +
-"                    </tr>\n" +
-"                </table>\n" +
-"            </form><br>\n" +
-"        </div><br>");
+                            "<form action=\"add_workshop\" method=\"POST\"><br>" +
+                                "<table align=\"center\">" +
+                                    "<tr><td class=\"tbhead\" colspan=\"3\">Enter Workshop Details</td></tr>" +
+                                    "<tr><td colspan=\"3\">&nbsp;</td></tr>" +
+                                    "<tr>" +
+                                        "<th>Name:</th>" + // Required field, max length of 60
+                                        "<td><input type=\"text\" name=\"ws_name\" autofocus=\"autofocus\" title=\"Enter a name for the workshop\" maxlength=\"60\" placeholder=\"Required Field\" required></td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<th>Presenter 1:</th>" + // Required field, max length of 40
+                                        "<td><input type=\"text\" name=\"ws_presenter1\" title=\"Enter first presenters name\" maxlength=\"40\" placeholder=\"Required Field\" required></td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<th>Presenter 2:</th>" + // Max length of 40
+                                        "<td><input type=\"text\" name=\"ws_presenter2\" title=\"Enter second presenters name\" maxlength=\"40\"></td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<th>Information:</th>" + // Required field
+                                        "<td><textarea rows=\"15\" cols=\"50\" name=\"ws_info\" title=\"Enter information about the workshop\" placeholder=\"Required Field\" required></textarea></td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<td></td>" +
+                                        "<td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
+                                    "</tr>" +
+                                "</table>" +
+                            "</form><br>" +
+                        "</div><br>");
 
 // Current Workshops            
             out.println("<div class=\"mainbody\">" +
-                    "<h2>Current Workshops</h2>" +
-                    "<p>A list of the workshops currently scheduled:</p>" +
-                        "<table align=\"center\">");                    
+                            "<table align=\"center\">" +
+                                "<tr><td class=\"tbhead\" colspan=\"3\">Current Workshops</td></tr>" + // Table heading
+                                "<tr><td colspan=\"3\">&nbsp;</td></tr>" + // Blank Line
+                                "<tr><td colspan=\"3\">A list of the workshops currently scheduled:</td></tr>" + // Table info
+                                "<tr><td colspan=\"3\">&nbsp;</td></tr>"); // Blank Line
             try {
                 java.sql.Statement stmt = conn.createStatement();
                 ResultSet speakers = stmt.executeQuery("SELECT * FROM Workshops WHERE ws_name NOT LIKE 'Break'");
                 
-                ws_num=1;                                                                                                               // workshop number
-                while (speakers.next()) {
+                ws_num=1;  // workshop number
+                while (speakers.next()) {  // Display each speakers details
                     ws_id = speakers.getString("ws_id");
                     ws_name = speakers.getString("ws_name");
                     ws_pres1 = speakers.getString("ws_presenter1");
                     ws_pres2 = speakers.getString("ws_presenter2");
                     ws_info = speakers.getString("ws_info");
                     
-                out.println("<tr><th colspan=\"4\" style=\"text-align: center\">Workshop "+ws_num+"</th></tr>" +                 // heading
-                            "<tr><th>Workshop Name:</th><td>"+ws_name+"</td><th>Workshop DB ID:</th><td>"+ws_id+"</td></tr>" +          // name & id                
-                            "<tr><th>Presenter 1:</th><td>"+ws_pres1+"</td><th>Presenter 2:</th><td>"+ws_pres2+"</td></tr>" +           // presenter names
-                            "<tr><th>About:</th><td colspan=\"3\">"+ws_info+"</td>" +
-                            "<tr><td colspan=\"4\"><hr></td></tr>");                                                                    // line
+                out.println("<tr><th colspan=\"4\" style=\"text-align: center\">Workshop "+ws_num+"</th></tr>" +  // heading
+                            "<tr><th>Workshop Name:</th><td>"+ws_name+"</td><th>Workshop DB ID:</th><td>"+ws_id+"</td></tr>" +  // Workshop name & id                
+                            "<tr><th>Presenter 1:</th><td>"+ws_pres1+"</td><th>Presenter 2:</th><td>"+ws_pres2+"</td></tr>" +  // presenter names
+                            "<tr><th>About:</th><td colspan=\"3\">"+ws_info+"</td>" + // Workshop information
+                            "<tr><td colspan=\"4\"><hr></td></tr>");  // line
                 ws_num++;
                 }
             }
@@ -146,15 +157,16 @@ public class manage_workshops extends HttpServlet {
             }            
             out.println("</table></div><br>");
             
-// Edit Workshops ***********            
-            out.println("<div class=\"mainbody\">"
-                    +"<h2>Edit Workshop Details</h2>"
-                    + "<p>Select workshop to delete</p>"
-                    + "<form action=\"delete_workshop\" method=\"POST\">"
-                    + "<table align=\"center\">"
-                        + "<tr>" +
-                "               <th>Workshop To Delete:</th>\n" +
-                "                   <td><select name=\"delete_workshop\" title=\"Select A Name From The List\" style=\"width:100%\">");
+// Edit Workshops          
+            out.println("<div class=\"mainbody\">" +
+                            "<form action=\"delete_workshop\" method=\"POST\">" +
+                            "<table align=\"center\">" +
+                                "<tr><td class=\"tbhead\" colspan=\"3\">Edit Workshop Details</td></tr>" +
+                                "<tr><td colspan=\"3\">&nbsp;</td></tr>" +
+                                "<tr><td colspan=\"3\">Select workshop to delete</td></tr>" +
+                                "<tr><td colspan=\"3\">&nbsp;</td></tr>" +
+                                "<tr><th>Workshop To Delete:</th>\n" +
+                                    "<td><select name=\"delete_workshop\" title=\"Select A Name From The List\" style=\"width:100%\">");
             try{
                 java.sql.Statement stmt = conn.createStatement();            
                 ResultSet Workshop = stmt.executeQuery("SELECT ws_id,ws_name FROM Workshops WHERE ws_name NOT LIKE 'Break'");
@@ -178,28 +190,30 @@ public class manage_workshops extends HttpServlet {
                         "</form>" +
                     "<p>Choose the workshop ID & name to select</p>" +
                 "</div><br>");
- 
-// Navigation menu
-            out.println("<div class=\"navigation\">" +
-                "            <form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 6)\">Administrator Registration</button></form>\n" +
-                "            <form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 7)\">Attendee Registration</button></form>\n" +
-                "            <form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Home Page (Alt + 8)\">Return To Home Page</button></form>\n" +
-                "        </div>");
-// Bottom Links                    
+            
+// Bottom Links (Manage)             
             out.println("<div  id=\"bl\" class=\"bottomlinks\">" +
-                "            <a class=\"class1\" href=\"show_schedule\" title=\"Event Schedule (Alt + 0)\" accesskey=\"0\">0. Event Schedule</a><br>" +
-                "            <a href=\"manage_speakers\" title=\"Manage Speaker Details (Alt + 1)\" accesskey=\"1\">1. Manage Speaker Details</a><br>" +
-                "            <a href=\"manage_workshops\" title=\"Manage Workshop Details (Alt + 2)\" accesskey=\"2\">2. Manage Workshop Details</a><br>" +
-                "            <a href=\"manage_schedule\" title=\"Manage Schedule Details (Alt + 3)\" accesskey=\"3\">3. Manage Schedule Details</a><br>" +
-                "            <a href=\"manage_exhibitors\" title=\"Manage Exhibitor Details (Alt + 4)\" accesskey=\"4\">4. Manage Exhibitor Details</a><br>" +
-                "            <a href=\"eventAdministration.html\" title=\"Event Administration Page (Alt + 5)\" accesskey=\"5\">5. Event Administration</a><br>" +
-                "            <a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 6)\" accesskey=\"1\">6. Administrator Registration</a><br>" +
-                "            <a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 7)\" accesskey=\"2\">7. Attendee Registration</a><br>" +
-                "            <a href=\"index\" title=\"Return To Homepage (Alt + 8)\" accesskey=\"6\">8. Return To Home Page</a>" +
-                "    </div>");
-                        
-            out.println("</body>" +
-            "</html>");
+                            "<table align=\"center\">" +
+                                "<tr><th>Manage:</th><th>Display:</th><th>Register:</th><th>Other:</th><tr>" +
+                                "<tr><td><a href=\"manage_speakers\" title=\"Manage Speakers (Alt + h)\" accesskey=\"h\">h. Manage Speakers</a></td>"
+                                    + "<td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td>"
+                                    + "<td><a href=\"reg_admin\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td>"
+                                    + "<td><a href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
+                                "<tr><td><a href=\"manage_workshops\" title=\"Manage Workshops (Alt + j)\" accesskey=\"j\">j. Manage Workshops</a></td>"
+                                    + "<td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td>"
+                                    + "<td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td>"
+                                    + "<td><a href=\"eventAdministration.html\" title=\"Event Administration Page (Alt + 8)\" accesskey=\"8\">8. Event Administration</a></td></tr>" +
+                                "<tr><td><a href=\"manage_schedule\" title=\"Manage Schedule (Alt + k)\" accesskey=\"k\">k. Manage Schedule</a></td>"
+                                    + "<td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td>"
+                                    + "<td></td>"
+                                    + "<td></td></tr>" +
+                                "<tr><td><a href=\"manage_exhibitors\" title=\"Manage Exhibitors (Alt + l)\" accesskey=\"l\">l. Manage Exhibitors</a></td>"
+                                    + "<td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td>"
+                                    + "<td></td>"
+                                    + "<td></td></tr>" +
+                            "</table>" +
+                        "</div>" +                    
+                    "</body></html>");
         }
     }
 
