@@ -43,6 +43,7 @@ button{
   margin-right: auto ;
 }
 .mainbody{
+    text-align: center;
     width:90%;
     margin: auto;
     background-color: #cce6ff;
@@ -70,12 +71,11 @@ a.class1:hover {text-decoration: underline; color: red;}
 a.class1:active {text-decoration: none; color: red;}
 a.bottomlinks:hover{color:white;}*/
 
-table#table1 {
-    
+table#table1 {    
     text-align:center; 
     margin-left:auto; 
     margin-right:auto; 
-    width:100px;
+    width:300px;
   }
   tr,td {text-align:left;}
   

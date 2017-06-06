@@ -25,8 +25,7 @@ public class speakers extends HttpServlet {
     String speaker_fname;
     String speaker_lname;
     String speaker_bio;
-    String speaker_website1;
-    String speaker_website2;
+    String speaker_website;
     
     Connection conn;
     PreparedStatement prepStat;
@@ -48,17 +47,15 @@ public class speakers extends HttpServlet {
         speaker_fname = request.getParameter("speaker_fname");
         speaker_lname = request.getParameter("speaker_lname");
         speaker_bio = request.getParameter("speaker_bio");
-        speaker_website1 = request.getParameter("speaker_website1");
-        speaker_website2 = request.getParameter("speaker_website2");
+        speaker_website = request.getParameter("speaker_website");
         
         try {
-            String query = "INSERT INTO Speakers (speaker_fname, speaker_lname, speaker_bio, speaker_website1, speaker_website2) VALUES (?,?,?,?,?)";
+            String query = "INSERT INTO Speakers (speaker_fname, speaker_lname, speaker_bio, speaker_website) VALUES (?,?,?,?)";
             prepStat = (PreparedStatement) conn.prepareStatement(query);
             prepStat.setString(1, speaker_fname);
             prepStat.setString(2, speaker_lname);
             prepStat.setString(3, speaker_bio);
-            prepStat.setString(4, speaker_website1);
-            prepStat.setString(5, speaker_website2);
+            prepStat.setString(4, speaker_website);
             prepStat.executeUpdate();
             }
         catch (Exception e)
@@ -121,7 +118,7 @@ public class speakers extends HttpServlet {
             stat = (Statement) conn.createStatement();
             //stat.execute("DROP TABLE Speakers");
             stat.execute("CREATE TABLE IF NOT EXISTS Speakers " + 
-                    "(speader_id INT PRIMARY KEY AUTO_INCREMENT, speaker_fname CHAR(40), speaker_lname CHAR(40), speaker_bio TEXT, speaker_website1 VARCHAR(60), speaker_website2 VARCHAR(60))");
+                    "(speaker_id INT PRIMARY KEY AUTO_INCREMENT, speaker_fname CHAR(40), speaker_lname CHAR(40), speaker_bio TEXT, speaker_website VARCHAR(60))");
         } catch (Exception e) 
         {
             System.err.println(e);

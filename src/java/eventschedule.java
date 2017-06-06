@@ -17,11 +17,12 @@ public class eventschedule extends HttpServlet {
     PreparedStatement prepStat;
     com.mysql.jdbc.Statement stat;    
     String scheduletime;
-    String scheduletitle;
+    String workshopname;
     String schedulelocation;
     String speakername;
     String speakersite;
     String checkboxname;
+    String checkboxvisible;
     
     public void init() throws ServletException
     {
@@ -72,26 +73,36 @@ public class eventschedule extends HttpServlet {
                         "<div class=\"mainbody\"><br>" +
                             "<h2 style=\"text-align:center\">Times of Events</h2>" +
                             "<form action=\"out_cust_schedule.html\" method=\"GET\"><br>"
-                    +       "<table id=\"table1\">");
+                    //+       "<table id=\"table1\">");
+                    + "<table align=\"center\">");
             
             try{
             Statement stmt = conn.createStatement(); 
-            ResultSet result = stmt.executeQuery("SELECT * FROM Speakers JOIN schedule WHERE speakers.speaker_id = schedule.schedule_speaker_id GROUP BY schedule_time, schedule_title;");  
+           // ResultSet result = stmt.executeQuery("SELECT * FROM Speakers JOIN schedule WHERE speakers.speaker_id = schedule.schedule_speaker_id GROUP BY schedule_time, schedule_title;"); 
+            ResultSet result = stmt.executeQuery("SELECT * FROM schedule;");  
             
             out.println("<tr style=\"font-size:20px\"><td><b>Event Time</b></td><td><b>Event Title</b></td><td><b>Location</b></td><td><b>Attend</b></td></tr><tr><td></td></tr>");
             out.println("<tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>");
             while(result.next())
             {
                 scheduletime = result.getString("schedule_time");
-                scheduletitle = result.getString("schedule_title");
+                workshopname = result.getString("workshop_name");
                 schedulelocation = result.getString("schedule_location");
-                speakername = result.getString("speaker_fname") + " " + result.getString("speaker_lname");
-                speakersite = result.getString("speaker_website1");
-                checkboxname = result.getString("schedule_id");
+                //speakername = result.getString("speaker_fname") + " " + result.getString("speaker_lname");
+                //speakersite = result.getString("speaker_website1");
+                //checkboxname = result.getString("schedule_id");
                 
-                out.println("<tr style=\"font-size:20px\"><td>" + scheduletime + "</td><td>" + scheduletitle + "</td><td>" + schedulelocation + "</td><td><input type=\"checkbox\"/ name=" + checkboxname + "></td></tr>");
-                out.println("<tr><td colspan=\"2\"><b>Speaker: </b>" + speakername + "</td><td></td><td></td></tr>");
-                out.println("<tr><td colspan=\"2\"><b>Website: </b><a href=" + speakersite + ">" + speakersite + "</a></td><td></td><td></td></tr>");
+               // out.println("<tr style=\"font-size:20px\"><td>" + scheduletime + "</td><td>" + scheduletitle + "</td><td>" + schedulelocation + "</td><td><input type=\"checkbox\"/ name=" + checkboxname + "></td></tr>");
+               // out.println("<tr><td colspan=\"2\"><b>Speaker: </b>" + speakername + "</td><td></td><td></td></tr>");
+               // out.println("<tr><td colspan=\"2\"><b>Website: </b><a href=" + speakersite + ">" + speakersite + "</a></td><td></td><td></td></tr>");
+                out.println("<tr style=\"font-size:20px\"><td>" + scheduletime + "</td><td>" + workshopname + "</td><td>" + schedulelocation + "</td>");
+                
+                if(workshopname.contentEquals( "Break" ) ) checkboxvisible = "";
+                else if (workshopname.contentEquals( "Lunch" ) ) checkboxvisible = "";
+                else checkboxvisible ="<input type=\"checkbox\"/ name=" + checkboxname + ">";
+                
+                out.println("<td>"+ checkboxvisible +"</td></tr>");
+                
                 out.println("<tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>");
             }
                 out.println("<tr><td colspan=\"4\" style=\"text-align:right\"><input type=\"submit\" value=\"Submit Custom Time Table\" title=\"Submit Custom Table\"/></td></tr>");

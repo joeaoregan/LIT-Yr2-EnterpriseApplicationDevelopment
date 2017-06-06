@@ -44,13 +44,13 @@ public class workshops extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        workshop_name = request.getParameter("workshop_name");
-        workshop_presenter1 = request.getParameter("workshop_presenter1");
-        workshop_presenter2 = request.getParameter("workshop_presenter2");
-        workshop_info = request.getParameter("workshop_info");
+        workshop_name = request.getParameter("ws_name");
+        workshop_presenter1 = request.getParameter("ws_presenter1");
+        workshop_presenter2 = request.getParameter("ws_presenter2");
+        workshop_info = request.getParameter("ws_info");
         
         try {
-            String query = "INSERT INTO Workshops VALUES (?,?,?,?)";
+            String query = "INSERT INTO Workshops(ws_name,ws_presenter1,ws_presenter2,ws_info) VALUES (?,?,?,?)";
             prepStat = (PreparedStatement) conn.prepareStatement(query);
             prepStat.setString(1, workshop_name);
             prepStat.setString(2, workshop_presenter1);
@@ -116,8 +116,7 @@ public class workshops extends HttpServlet {
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
             //stat.execute("DROP TABLE Workshops");
-            stat.execute("CREATE TABLE IF NOT EXISTS Workshops " + 
-                    "(workshop_name CHAR(40), workshop_presenter1 CHAR(40), workshop_presenter2 CHAR(40), workshop_info TEXT)");
+            stat.execute("CREATE TABLE IF NOT EXISTS Workshops(ws_id INT PRIMARY KEY AUTO_INCREMENT,ws_name char(40),ws_presenter1 char(40),ws_presenter2 char(40),ws_info text)");
         } catch (Exception e) 
         {
             System.err.println(e);
