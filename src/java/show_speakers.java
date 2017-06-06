@@ -104,14 +104,22 @@ public class show_speakers extends HttpServlet {
                     speak_bio = speakers.getString("speaker_bio");
                     speak_site = speakers.getString("speaker_website");
                     speak_pic = speakers.getString("speaker_pic");
-                
-                out.println("<tr><td rowspan=\"6\"><img src="+speak_pic+" alt=\"Speaker Picture\" style=\"width:200px;height:200px;\"></td><td></td><td></td></tr>" +
-                            "<tr><th colspan=\"2\" style=\"text-align: center\">Keynote Speaker "+speak_num+"</th></tr>" +
+                /*
+                out.println("<tr><td rowspan=\"6\"><img src="+speak_pic+" alt=\"Speaker Picture For "+speak_name+"\" style=\"width:200px;height:200px;\"></td><td></td><td></td></tr>" +
+                            //"<tr><th colspan=\"2\" style=\"text-align: center\">Keynote Speaker "+speak_num+"</th></tr>" +
+                            "<tr><th colspan=\"2\" class=\"thead\">Keynote Speaker "+speak_num+"</th></tr>" +
                             "<tr><th>DB ID:</th><td>" + sp_id + "</td></tr>" +
                             "<tr><th>Name:</th><td>" + speak_name + "</td></tr>" +
                             "<tr valign=\"top\"><th>Biography:</th><td>" + speak_bio + "</td></tr>" +
-                            "<tr><th>Website:</th><td><a href=\"" + speak_site + "\">\"" + speak_site + "\"</a></td></tr>" +
-                            "<tr><td colspan=\"3\"><hr></td></tr>");
+                            "<tr><th>Website:</th><td><a href=\"" + speak_site + "\">\"" + speak_site + "\"</a></td></tr>"
+                            ); //+ "<tr><td colspan=\"3\"><hr></td></tr>");
+                */
+                out.println("<tr><th colspan=\"3\" class=\"thead\">Keynote Speaker "+speak_num+": "+speak_name+"</th></tr>" +
+                            "<tr><td rowspan=\"3\"><img src="+speak_pic+" alt=\"Speaker Picture For "+speak_name+"\" style=\"width:200px;height:200px;\"></td><td></td><td></td></tr>" +
+                            //"<tr><th>DB ID:</th><td>" + sp_id + "</td></tr>" +
+                            //"<tr><th>Name:</th><td>" + speak_name + "</td></tr>" +
+                            "<tr valign=\"top\"><th>About:</th><td>" + speak_bio + "</td></tr>" +
+                            "<tr><th>Website:</th><td><a href=\"" + speak_site + "\">\"" + speak_site + "\"</a></td></tr>");
                 speak_num++;
                 }
             }

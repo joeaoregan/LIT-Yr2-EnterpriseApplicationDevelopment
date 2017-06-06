@@ -86,8 +86,8 @@ public class show_schedule extends HttpServlet {
                 Statement stmt = conn.createStatement();
                 ResultSet result = stmt.executeQuery("SELECT schedule_time,ws_id,ws_name,schedule_location,ws_presenter1,ws_presenter2,ws_info FROM Schedule JOIN Workshops ON Schedule.workshop_id = Workshops.ws_id ORDER BY schedule_time;");
 
-                out.println("<tr style=\"font-size:20px\"><td><b>Event Time</b></td><td><b>Event Title</b></td><td><b>Location</b></td><td><b>Attend</b></td></tr><tr><td></td></tr>");
-                out.println("<tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>");
+                //out.println("<tr style=\"font-size:20px\"><td><b>Event Time</b></td><td><b>Event Title</b></td><td><b>Location</b></td><td><b>Attend</b></td></tr><tr><td></td></tr>");
+                //out.println("<tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>");
                 checkboxno = 1;
                 while(result.next())
                 {
@@ -100,32 +100,46 @@ public class show_schedule extends HttpServlet {
                     ws_info = result.getString("ws_info");
                     checkboxname = "btn" + checkboxno;
                     
-                    out.println("<tr style=\"font-size:20px\"><td>" + scheduletime + "</td><td>" + workshopname + "</td>");
+                    out.println("<tr class=\"thead\"><td>" + scheduletime + "</td><td>" + workshopname + "</td>");
                     
                     checkFormat = workshopname.contentEquals( "Break" );                                                                  // compare content of workshopname to "break"
                     
-                    if( checkFormat )                                                                                                           // don't output checkbox for breaks
-                        checkboxvisible = "<td></td><td></td>";
+                    if( checkFormat )
+                    {
+                        //checkboxvisible = "<td></td><td></td>";                                                                               // don't output checkbox for breaks
+                        checkboxvisible = "<td></td>";
+                    out.println(""+ checkboxvisible +"</tr>");                    
+                    //out.println("<tr><td></td><td>" + schedulelocation + "</td><td></td></tr>");
+                    }
                     else 
-                        checkboxvisible ="<td>" + schedulelocation + "</td><td><input type=\"checkbox\"/ name=" + checkboxname + "></td>";
-                    
-                    out.println(""+ checkboxvisible +"</tr>");
+                    {
+                        //checkboxvisible ="<td>" + schedulelocation + "</td><td><input type=\"checkbox\"/ name=" + checkboxname + "></td>";
+                        checkboxvisible ="<td><input type=\"checkbox\"/ name=" + checkboxname + "></td>";
+                    out.println(""+ checkboxvisible +"</tr>");                    
+                    out.println("<tr><td><b>Location:</b></td><td>" + schedulelocation + "</td><td></td></tr>");
+                    }
                     
                     if(!checkFormat)                                                                                                            // don't output presenters for breaks
                     {
                         if (ws_pres2.contentEquals( "" )) 
                         {
-                            out.println("<tr><td><b>Presenter:</b></td><td>"+ws_pres1+"</td><td></td><td></td></tr>");                           // output if only 1 presenter   
-                            out.println("<tr><td><b>About:</b></td><td colspan=\"3\">"+ws_info+"</td></tr>");                           
+                            //out.println("<tr><td><b>Presenter:</b></td><td>"+ws_pres1+"</td><td></td><td></td></tr>");                        // output if only 1 presenter   
+                            //out.println("<tr><td><b>About:</b></td><td colspan=\"3\">"+ws_info+"</td></tr>");    
+                            out.println("<tr><td><b>Presenter:</b></td><td>"+ws_pres1+"</td><td></td></tr>");                                   // output if only 1 presenter   
+                            out.println("<tr><td><b>About:</b></td><td colspan=\"2\">"+ws_info+"</td></tr>");                           
                         }
                         else 
                         {
-                            out.println("<tr><td><b>Presenters:</b></td><td>"+ws_pres1+" and "+ws_pres2+"</td><td></td><td></td></tr>");         // output if 2 presenters 
-                            out.println("<tr><td><b>About:</b></td><td colspan=\"3\">"+ws_info+"</td></tr>");                           
+                            //out.println("<tr><td><b>Presenters:</b></td><td>"+ws_pres1+" and "+ws_pres2+"</td><td></td><td></td></tr>");      // output if 2 presenters 
+                            //out.println("<tr><td><b>About:</b></td><td colspan=\"3\">"+ws_info+"</td></tr>"); 
+                            out.println("<tr><td><b>Presenters:</b></td><td>"+ws_pres1+" and "+ws_pres2+"</td><td></td></tr>");        // output if 2 presenters 
+                            out.println("<tr><td><b>About:</b></td><td colspan=\"2\">"+ws_info+"</td></tr>");                           
                         }
                     }
-                    out.println("<tr><td colspan=\"4\">"+checkboxname+"</td></tr>"); checkboxno++; //test
-                    out.println("<tr><td colspan=\"4\"><hr></td></tr>");
+                    //out.println("<tr><td colspan=\"4\">"+checkboxname+"</td></tr>"); checkboxno++; //test
+                    //out.println("<tr><td><b>Location:<\b></td><td>" + schedulelocation + "</td><td></td><td></td></tr>");
+                    //out.println("<tr><td colspan=\"4\"><hr></td></tr>");
+                    out.println("<td colspan=\"3\">&nbsp;</td>");
                 }
                 out.println("<tr><td colspan=\"4\" style=\"text-align:right\"><input type=\"submit\" value=\"Submit Custom Time Table\" title=\"Submit Custom Table\"/></td></tr>");
                 out.println("</table></form><br>" +

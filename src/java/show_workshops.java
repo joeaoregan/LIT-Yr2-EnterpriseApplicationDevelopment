@@ -104,12 +104,12 @@ public class show_workshops extends HttpServlet {
                     ws_pres1 = speakers.getString("ws_presenter1");
                     ws_pres2 = speakers.getString("ws_presenter2");
                     ws_info = speakers.getString("ws_info");
-                    
-                out.println("<tr><th colspan=\"4\" style=\"text-align: center\">Workshop "+ws_num+"</th></tr>" +                        // heading
-                            "<tr><th>Workshop Name:</th><td>"+ws_name+"</td><th>Workshop DB ID:</th><td>"+ws_id+"</td></tr>" +          // name & id                
+                 
+                out.println("<tr><th colspan=\"4\" class=\"thead\">Workshop "+ws_num+": "+ws_name+"</th></tr>" +                        // heading
+                            //"<tr><th>Workshop Name:</th><td>"+ws_name+"</td><th>Workshop DB ID:</th><td>"+ws_id+"</td></tr>" +          // name & id                
                             "<tr><th>Presenter 1:</th><td>"+ws_pres1+"</td><th>Presenter 2:</th><td>"+ws_pres2+"</td></tr>" +           // presenter names
-                            "<tr><th>About:</th><td colspan=\"3\">"+ws_info+"</td>" +
-                            "<tr><td colspan=\"4\"><hr></td></tr>");                                                                    // line
+                            "<tr><th>About:</th><td colspan=\"3\">"+ws_info+"</td></tr>" +                                                 // line
+                            "<tr><td colspan=\"3\">&nbsp;</td></tr>");
                 ws_num++;
                 }
             }

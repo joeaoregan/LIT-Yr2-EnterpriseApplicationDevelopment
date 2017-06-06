@@ -8,7 +8,9 @@ and open the template in the editor.
     Author     : Joe
 */
 
-td,th {text-align:left; padding-left: 15px;}
+td,th {text-align:left; 
+       padding-left: 15px;
+}
 a:hover {
     background-color: activecaption;
 }
@@ -58,11 +60,18 @@ button{
     background-color: #0080ff;  
     padding: 10px;
 }
+.thead{
+    text-align:center; 
+    background-color: 
+    #0080ff; color: white;
+    font-size:20px
+}
 
 #bl a:link{color:white;}
 #bl a:visited{color:darkgrey;}
 #bl a:hover{color:white;}
 #bl th, td {padding-left:25px}
+
 
 /*
 a.class1 {color:red;}

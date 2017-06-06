@@ -98,8 +98,7 @@ public class show_exhibitors extends HttpServlet {
                                     java.sql.Statement stmt = conn.createStatement();
                                     ResultSet exhibitors = stmt.executeQuery("SELECT * FROM exhibitors ORDER BY exhibitor_lname;"); // Select in ascending alphabetical order by last name
                                     ex_count = 1;
-                                    while (exhibitors.next()) {
-                                        ex_id = exhibitors.getString("exhibitor_id"); 
+                                    while (exhibitors.next()) { 
                                         ex_fname = exhibitors.getString("exhibitor_fname");
                                         ex_lname = exhibitors.getString("exhibitor_lname");
                                         ex_bio = exhibitors.getString("exhibitor_bio");
@@ -107,12 +106,11 @@ public class show_exhibitors extends HttpServlet {
                                         ex_pic = exhibitors.getString("exhibitor_pic");
                                         ex_pic_name = ex_fname + " " + ex_lname;
                                     
-                                    out.println("<tr><td rowspan=\"5\"><img src="+ex_pic+" alt=\"Picture of "+ex_pic_name+"\" style=\"width:200px;height:200px;\"></td><th style=\"text-align:center\"colspan=\"2\">Exhibitor " + ex_count + "</th></tr>" +                                             
-                                                "<tr><th>Database ID:</th><td>" + ex_id + "</td></tr>" +
-                                                "<tr><th>Name:</th><td>" + ex_fname + " " + ex_lname + "</td></tr>"
-                                            +   "<tr><th>Website</th><td><a href=\"" + ex_web + "\">\"" + ex_web + "\"</a></td></tr>" + 
-                                                "<tr><th>About:</th><td>" + ex_bio + "</td></tr>" +
-                                                "<tr><td colspan=\"3\"><hr></td></tr>");
+                                    //out.println("<tr><td rowspan=\"5\"><img src="+ex_pic+" alt=\"Picture of "+ex_pic_name+"\" style=\"width:200px;height:200px;\"></td><th style=\"text-align:center; background-color: #0080ff; color: white;\" colspan=\"2\">Exhibitor " + ex_count + "</th></tr>" +                                             
+                                    out.println("<tr><th class=\"thead\" colspan=\"3\">Exhibitor " + ex_count + ": "+ex_pic_name+"</th></tr>" +                                             
+                                                "<tr><td rowspan=\"3\"><img src="+ex_pic+" alt=\"Picture of "+ex_pic_name+"\" style=\"width:100px;height:100px;\"></td><th>About:</th><td>" + ex_bio + "</td></tr>" +
+                                                "<tr><th>Website</th><td><a href=\"" + ex_web + "\">\"" + ex_web + "\"</a></td></tr>" +
+                                                "<tr><th>&nbsp;</th><td></td></tr>"); 
                                     ex_count++;
                                     }
                                 } catch (Exception e) {
