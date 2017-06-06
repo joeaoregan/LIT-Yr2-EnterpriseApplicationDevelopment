@@ -29,8 +29,9 @@ public class reg_admin extends HttpServlet {
     String[] counties = {"Antrim","Armagh","Carlow","Cavan","Clare","Cork","Derry","Donegal","Down","Dublin","Fermanagh",
                         "Galway","Kerry","Kildare","Kilkenny","Laois","Leitrim","Limerick","Longford","Louth","Mayo","Meath",
                         "Monaghan","Offaly","Roscommon","Sligo","Tipperary","Tyrone","Waterford","Westmeath","Wexford","Wicklow"};
-    String form_ad_username;
-       
+    String db_username;
+    String check_username;
+    
     public void init() throws ServletException
     {
         String url = "jdbc:mysql://localhost:3306/";
@@ -76,13 +77,13 @@ public class reg_admin extends HttpServlet {
                                             "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:50px;height:50px;\"></a></td>" +
                                             "<th style=\"text-align:center\">Administrator</th>" +
                                             "<td>Username:</td>" +
-                                            "<td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\"></td>" +
+                                            "<td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\" maxlength\"40\" required></td>" +
                                             "<td></td>" +
                                         "</tr>" +
                                         "<tr>" +
                                             "<th style=\"text-align:center\">Login</th>" +
                                             "<td>Password:</td>" +
-                                            "<td><input type=\"password\" name=\"password\" title=\"Please enter password\"></td>" +
+                                            "<td><input type=\"password\" name=\"password\" title=\"Please enter password\" maxlength\"40\" required></td>" +
                                             "<td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
                                         "</tr>" +
                                     "</table>" +
@@ -97,7 +98,6 @@ public class reg_admin extends HttpServlet {
                                 "<td><h1 style=\"text-align:center\">" + title + "</h1></td></tr>" +
                             "</table>" +
                         "</div>");
-                    
 // Navigation menu
             out.println("<div class=\"navigation\">" +
                             "<form style=\"display: inline\" action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
@@ -108,19 +108,28 @@ public class reg_admin extends HttpServlet {
                             "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
                             "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
                         "</div>");
-
+            
+// Check username available
+            out.println("<div class=\"mainbody\">" +
+                            "<form action=\"check_username\" method=\"POST\">" +
+                            "<table align=\"center\">" +
+                                "<tr><td class=\"tbhead\" colspan=\"2\">Check Username Available</td></tr>" +
+                                "<tr><th>Enter Username:</th><td><input type=\"text\" name=\"username\" maxlength=\"40\" placeholder=\"Enter up to 40 characters\" required></td></tr>" +
+                                "<tr><td colspan=\"2\" style=\"text-align:right\"><input type=\"submit\" value=\"Submit\"></td></tr>");
+            out.println("</table>" +  
+                        "</form>" + 
+                    "</div>");
             
 // Register Admin
-            //request.setAttribute("admin_username", form_username);
             out.println("<div class=\"mainbody\">" +
                             "<form action=\"add_admin\" method=\"POST\"><br>" +
                                 "<table align=\"center\">" +
                                     "<tr><td class=\"tbhead\" colspan=\"3\">"+title+"</td></tr>" +
                                     "<tr><td><b>Username:</b></td>" +
-                                        "<td><input type=\"text\" name=\"admin_username\" autofocus=\"autofocus\" title=\"Enter username\" maxlength=\"40\" placeholder=\"Required Field\"></td><td>Max 40 characters</td>" +
+                                        "<td><input type=\"text\" name=\"admin_username\" autofocus=\"autofocus\" title=\"Enter username\" maxlength=\"40\" placeholder=\"Required Field\" required></td><td>Max 40 characters</td>" +
                                     "</tr>" +
                                     "<tr><td><b>Password:</b></td>" +
-                                        "<td><input type=\"password\" name=\"admin_password\" title=\"Enter password\" maxlength=\"40\" placeholder=\"Required Field\"></td><td>Max 40 characters</td>" +
+                                        "<td><input type=\"password\" name=\"admin_password\" title=\"Enter password\" maxlength=\"40\" placeholder=\"Required Field\" required></td><td>Max 40 characters</td>" +
                                     "</tr>" +
                                     "<tr><td colspan=\"3\"><br></td></tr>" +
                     
@@ -131,7 +140,7 @@ public class reg_admin extends HttpServlet {
                                         "<td><input type=\"text\" name=\"admin_lname\" title=\"Enter administrator last name\" maxlength=\"40\"></td><td>Max 40 characters</td>" +
                                     "</tr>" +
                                     "<tr><td><b>Email Address:</b></td>" +
-                                        "<td><input type=\"text\" name=\"admin_email\" title=\"Enter an email address\" maxlength=\"60\" placeholder=\"Required Field\"></td><td>Max 60 Characters</td>" +
+                                        "<td><input type=\"text\" name=\"admin_email\" title=\"Enter an email address\" maxlength=\"60\" placeholder=\"Required Field\" required></td><td>Max 60 Characters</td>" +
                                     "</tr>" +
                                     "<tr><td><b>Phone Number:</b></td>" +
                                         "<td><input type=\"text\" name=\"admin_phone\" title=\"Enter a phone number\" maxlength=\"18\"></td><td>Max 18 characters</td>" +
@@ -148,7 +157,7 @@ public class reg_admin extends HttpServlet {
                                     "<tr><td><b>County:</b></td>" +
                                         "<td><input list=\"admin_county\" name=\"admin_county\" title=\"Select A Country\" maxlength=\"40\">" +
                                         "<datalist id=\"admin_county\">");
-                                        for (int i=0;i<26;i++)
+                                        for (int i=0;i<26;i++) // display each county as list item
                                         {
                                             out.println("<option value=\""+counties[i]+"\">");
                                         }
@@ -160,24 +169,17 @@ public class reg_admin extends HttpServlet {
                                 "</form>" +
                             "</div><br>");
             
-// Navigation menu
-            out.println("<div class=\"navigation\">" +
-                "            <form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 6)\">Administrator Registration</button></form>\n" +
-                "            <form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 7)\">Attendee Registration</button></form>\n" +
-                "            <form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Home Page (Alt + 8)\">Return To Home Page</button></form>\n" +
-                "        </div>");
+
 // Bottom Links                    
-            out.println("<div  id=\"bl\" class=\"bottomlinks\">" +
-                "            <a class=\"class1\" href=\"show_schedule\" title=\"Event Schedule (Alt + 0)\" accesskey=\"0\">0. Event Schedule</a><br>" +
-                "            <a href=\"manage_speakers\" title=\"Manage Speaker Details (Alt + 1)\" accesskey=\"1\">1. Manage Speaker Details</a><br>" +
-                "            <a href=\"manage_workshops\" title=\"Manage Workshop Details (Alt + 2)\" accesskey=\"2\">2. Manage Workshop Details</a><br>" +
-                "            <a href=\"manage_schedule\" title=\"Manage Schedule Details (Alt + 3)\" accesskey=\"3\">3. Manage Schedule Details</a><br>" +
-                "            <a href=\"manage_exhibitors\" title=\"Manage Exhibitor Details (Alt + 4)\" accesskey=\"4\">4. Manage Exhibitor Details</a><br>" +
-                "            <a href=\"eventAdministration.html\" title=\"Event Administration Page (Alt + 5)\" accesskey=\"5\">5. Event Administration</a><br>" +
-                "            <a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 6)\" accesskey=\"1\">6. Administrator Registration</a><br>" +
-                "            <a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 7)\" accesskey=\"2\">7. Attendee Registration</a><br>" +
-                "            <a href=\"index\" title=\"Return To Homepage (Alt + 8)\" accesskey=\"6\">8. Return To Home Page</a>" +
-                "    </div>");
+            out.println("<div id=\"bl\" class=\"bottomlinks\">" +
+                "<table align=\"center\">" +
+                    "<tr><th>Display:</th><th>Register:</th><th>Other:</th><tr>" +
+                    "<tr><td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td><td><a href=\"reg_admin\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td><td><a href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
+                    "<tr><td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td><td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td><td></td></tr>" +
+                    "<tr><td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td><td></td><td></td></tr>" +
+                    "<tr><td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td><td></td><td></td></tr>" +
+                "</table>" +
+            "</div>");
                         
             out.println("</body>" +
             "</html>");

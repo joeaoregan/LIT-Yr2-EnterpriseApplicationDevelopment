@@ -101,13 +101,13 @@ public class index extends HttpServlet {
                                             "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:50px;height:50px;\"></a></td>" +
                                             "<th style=\"text-align:center\">Administrator</th>" +
                                             "<td>Username:</td>" +
-                                            "<td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\"></td>" +
+                                            "<td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\" maxlength\"40\" required></td>" +
                                             "<td></td>" +
                                         "</tr>" +
                                         "<tr>" +
                                             "<th style=\"text-align:center\">Login</th>" +
                                             "<td>Password:</td>" +
-                                            "<td><input type=\"password\" name=\"password\" title=\"Please enter password\"></td>" +
+                                            "<td><input type=\"password\" name=\"password\" title=\"Please enter password\" maxlength\"40\" required></td>" +
                                             "<td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
                                         "</tr>" +
                                     "</table>" +
@@ -200,10 +200,9 @@ public class index extends HttpServlet {
                     i++;
                 }    
             } catch (Exception e) {System.err.println(e);}
+            // Random Speaker
             random_speaker_id = Math.random();
             random_speaker = (int) (random_speaker_id * 10 ) % sp_num;
-            //for (int i=0;i<sp_num;i++){out.println(anArray[i] + " ");} //test random
-            //out.println("<br>random1: "+random1+""); // test random
             
 // Randomly Show Speakers
             out.println("<tr><th colspan=\"4\" class=\"thead\">Keynote Speakers</th></tr>" + 

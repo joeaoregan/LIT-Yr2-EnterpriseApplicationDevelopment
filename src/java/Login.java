@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -10,6 +15,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
+ */
 @WebServlet(urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
         String URL = "JDBC:MYSQL://LOCALHOST:3306/";
@@ -23,6 +33,7 @@ public class Login extends HttpServlet {
         String password;
         String title = "Event Administration";
         String docType = "<!doctype html >";
+        boolean  passwordValidate;
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,14 +43,6 @@ public class Login extends HttpServlet {
         
         username = request.getParameter("username");    // username from html form
         password = request.getParameter("password");    // password form html form
-        
-        out.println(docType + 
-                "<html>" +                
-                  "<head>" +
-                    "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" + 
-                    "<title>" + title + "</title>" +
-                  "</head>" +    
-                  "<body>");
                         
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -53,9 +56,17 @@ public class Login extends HttpServlet {
         catch(Exception e)
         {
             System.err.println(e);
-        }
-           
-        boolean  passwordValidate = password.contentEquals( DB_password );
+        }           
+        passwordValidate = password.contentEquals( DB_password ); // see does password match database password
+        
+        out.println(docType + 
+                "<html>" +                
+                  "<head>" +
+                    "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" + 
+                    "<title>" + title + "</title>" +
+                  "</head>" +    
+                  "<body>");
+        
 
         if (passwordValidate == true)
         {        
@@ -73,13 +84,12 @@ public class Login extends HttpServlet {
                             "<form style=\"display: inline\" action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
                             "<form style=\"display: inline\" action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
                             "<form style=\"display: inline\" action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
-                            "<form style=\"display: inline\" action=\"eventAdministration.html\" method=\"get\"><button name=\"buttonEventAdmin\" style=\"color: blue; background-color: white;\" title=\"Return To Event Administration (Alt + 8)\">Event Administration</button></form>" +
+                            "<button style=\"display: inline; color: blue; background-color: white;\" name=\"buttonEventAdmin\" title=\"Return To Event Administration (Alt + 8)\">Event Administration</button>" +
                             "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
                         "</div>");
 // Successful Login Greeting
             out.println("<div class=\"mainbody\"><br>" +
                             "<ul><h2>Hello " + request.getParameter("username") + ", welcome back!!!</h2></ul>" +  // or FIRST NAME LAST NAME
-                            "<form><a href=\"eventAdministration.html\" title=\"Go To Event Administation Page\"><button name=\"button\" autofocus=\"autofocus\" value=\"OK\" type=\"button\">Continue</button></a></form><br>" +
                         "</div>");            
 // Event Administration
             out.println("<div class=\"mainbody\">" +
@@ -103,7 +113,7 @@ public class Login extends HttpServlet {
                                 "<tr><td><a href=\"manage_workshops\" title=\"Manage Workshops (Alt + j)\" accesskey=\"j\">j. Manage Workshops</a></td>"
                                     + "<td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td>"
                                     + "<td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td>"
-                                    + "<td><a href=\"eventAdministration.html\" title=\"Event Administration Page (Alt + 8)\" accesskey=\"8\">8. Event Administration</a></td></tr>" +
+                                    + "<td></td></tr>" +
                                 "<tr><td><a href=\"manage_schedule\" title=\"Manage Schedule (Alt + k)\" accesskey=\"k\">k. Manage Schedule</a></td>"
                                     + "<td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td>"
                                     + "<td></td>"
@@ -126,13 +136,13 @@ public class Login extends HttpServlet {
                                         "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:50px;height:50px;\"></a></td>" +
                                         "<th style=\"text-align:center\">Administrator</th>" +
                                         "<td>Username:</td>" +
-                                        "<td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\"></td>" +
+                                        "<td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\" maxlength\"40\" required></td>" +
                                         "<td></td>" +
                                     "</tr>" +
                                     "<tr>" +
                                         "<th style=\"text-align:center\">Login</th>" +
                                         "<td>Password:</td>" +
-                                        "<td><input type=\"password\" name=\"password\" title=\"Please enter password\"></td>" +
+                                        "<td><input type=\"password\" name=\"password\" title=\"Please enter password\" maxlength\"40\" required></td>" +
                                         "<td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
                                     "</tr>" +
                                 "</table>" +

@@ -34,20 +34,21 @@ and open the template in the editor.
         </div>
         
         <div class ="mainbody">
+            <p>Register now to receive event information and updates to your inbox
         <div align="center">
         <form action="add_attendee" method="POST"><br>
             <table>
                 <tr>
                     <td><b>First Name:</b></td>
-                    <td><input type="text" name="attendee_fname" autofocus="autofocus" title="Enter attendees first name" maxlength="40" placeholder="Required Field"></td>
+                    <td><input type="text" name="attendee_fname" autofocus="autofocus" title="Enter attendees first name" maxlength="40" placeholder="Required Field" required></td>
                 </tr>
                 <tr>
                     <td><b>Last Name:</b></td>
-                    <td><input type="text" name="attendee_lname" title="Enter attendees last name" maxlength="40" placeholder="Required Field"></td>
+                    <td><input type="text" name="attendee_lname" title="Enter attendees last name" maxlength="40" placeholder="Required Field" required></td>
                 </tr>
                 <tr>
                     <td><b>Email Address:</b></td>
-                    <td><input type="text" name="attendee_email" title="Enter an email address" maxlength="60" placeholder="Required Field"></td>
+                    <td><input type="text" name="attendee_email" title="Enter an email address" maxlength="60" placeholder="Required Field" required></td>
                 </tr>
                 <tr>
                     <td><b>Phone Number:</b></td>

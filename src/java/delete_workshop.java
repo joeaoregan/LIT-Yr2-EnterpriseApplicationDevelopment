@@ -76,9 +76,10 @@ public class delete_workshop extends HttpServlet {
         
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Statement stat = conn.createStatement();            
-            String command = "DELETE FROM Workshops WHERE ws_id = '" + workshop_delete+ "'";            
-            stat.executeUpdate(command);
+            Statement stat = conn.createStatement();         
+            stat.executeUpdate("DELETE FROM Schedule WHERE workshop_id = '" + workshop_delete + "'");
+            stat.executeUpdate("DELETE FROM Workshops WHERE ws_id = '" + workshop_delete + "'");
+            
         }
         catch (Exception e)
         {
@@ -108,7 +109,7 @@ public class delete_workshop extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
-            stat.execute("CREATE TABLE IF NOT EXISTS Workshops(ws_id INT PRIMARY KEY AUTO_INCREMENT,ws_name char(60),ws_presenter1 char(40),ws_presenter2 char(40),ws_info text);");
+            stat.execute("CREATE TABLE IF NOT EXISTS Workshops(ws_id INT PRIMARY KEY AUTO_INCREMENT, ws_name VARCHAR(60) NOT NULL, ws_presenter1 CHAR(40) NOT NULL, ws_presenter2 CHAR(40), ws_info TEXT NOT NULL)");
         }
         catch (Exception e) 
         {
