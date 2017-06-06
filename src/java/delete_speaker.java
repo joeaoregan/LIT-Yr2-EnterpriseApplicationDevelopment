@@ -5,8 +5,12 @@
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +24,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(urlPatterns = {"/delete_speaker"})
 public class delete_speaker extends HttpServlet {
+    String sp_delete;
+    
     Connection conn;
-    String sp_delete; // Select a speaker to delete, using the speaker id
+    PreparedStatement prepStat;
+    Statement stat;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -101,6 +108,8 @@ public class delete_speaker extends HttpServlet {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
+            stat = (Statement) conn.createStatement();
+            stat.execute("CREATE TABLE IF NOT EXISTS Speakers(speaker_id INT PRIMARY KEY AUTO_INCREMENT, speaker_fname CHAR(40), speaker_lname CHAR(40), speaker_bio TEXT, speaker_website VARCHAR(60), speaker_pic VARCHAR(60));");
         }
         catch (Exception e) 
         {

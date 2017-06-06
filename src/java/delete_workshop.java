@@ -5,8 +5,12 @@
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +24,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(urlPatterns = {"/delete_workshop"})
 public class delete_workshop extends HttpServlet {
+    String workshop_delete;
+    
     Connection conn;
-    String workshop_delete; // Delete workshop, using workshop id
+    PreparedStatement prepStat;
+    Statement stat;
     
     
     /**
@@ -70,8 +77,8 @@ public class delete_workshop extends HttpServlet {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Statement stat = conn.createStatement();         
-            stat.executeUpdate("DELETE FROM Schedule WHERE workshop_id = '" + workshop_delete + "'"); // Must 1st be deleted from schedule table (foreign key constraint)
-            stat.executeUpdate("DELETE FROM Workshops WHERE ws_id = '" + workshop_delete + "'"); // Then delete from workshops table
+            stat.executeUpdate("DELETE FROM Schedule WHERE workshop_id = '" + workshop_delete + "'");
+            stat.executeUpdate("DELETE FROM Workshops WHERE ws_id = '" + workshop_delete + "'");
             
         }
         catch (Exception e)
@@ -101,6 +108,8 @@ public class delete_workshop extends HttpServlet {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
+            stat = (Statement) conn.createStatement();
+            stat.execute("CREATE TABLE IF NOT EXISTS Workshops(ws_id INT PRIMARY KEY AUTO_INCREMENT, ws_name VARCHAR(60) NOT NULL, ws_presenter1 CHAR(40) NOT NULL, ws_presenter2 CHAR(40), ws_info TEXT NOT NULL)");
         }
         catch (Exception e) 
         {

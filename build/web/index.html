@@ -6,88 +6,73 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="CAstyle.css">
-        <title>General Information</title>
+        <title>K00203642</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    <body> 
-        <div class="heading">
-            <!--Top Right Corner Log In */-->
-            <form action="Login" method="Get">
-                <!--<table style="float:right; overflow:hidden;">-->
-                <!--table--> 
-                <div style="width:100%; background-color:white">
-                    <table style="position: fixed; top: 0; right: 0;" class="login">
-                        <tr>
-                            <th style="text-align:center">Administrator</th>
-                            <td>Username:</td>
-                            <td><input type="text" name="username" autofocus="autofocus" title="Please enter username"></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th style="text-align:center">Login</th>
-                            <td>Password:</td>
-                            <td><input type="password" name="password" title="Please enter password"></td>
-                            <td style="text-align:right"><input type="submit" value="Submit" title="Submit Details"/></td>
-                        </tr>
-                    </table>
-                </div>  
-            </form>
-            <div style="position: fixed; top: 0; left: 0;"><a href="index"><img src="http://s21.postimg.org/gyukaf1l3/Logo.png" style="width:100px;height:100px;"></a></div>
-            <br><br><br>
-            <h1 style="text-align:center; overflow:hidden;">General Event Information</h1><br>  
-        </div>
-<!--Navigation-->        
-        <div class="navigation">
-            <form style="display: inline" action="show_speakers" method="get"><button name="buttonSpeakers" title="Event Speakers (Alt + 1)">Event Speakers</button></form>
-            <form style="display: inline" action="show_workshops" method="get"><button name="buttonWorkshops" title="Event Workshops (Alt + 2)">Event Workshops</button></form>
-            <form style="display: inline" action="show_schedule" method="get"><button name="buttonSchedule" title="Event Schedule (Alt + 3)">Event Schedule</button></form>
-            <form style="display: inline" action="show_exhibitors" method="get"><button name="buttonExhibitors" title="Event Exhibitors (Alt + 4)">Event Exhibitors</button></form>
-            <form style="display: inline" action="reg_admin" method="get"><button name="buttonRegAdmin" title="Administrator Registration Page (Alt + 5)">Administrator Registration</button></form>
-            <form style="display: inline" action="reg_attendee.html" method="get"><button name="buttonRegAttendee" title="Attendee Registration Page (Alt + 6)">Attendee Registration</button></form>
-            <form style="display: inline;" action="index.html" method="get"><button style="color: blue; background-color: white;" name="buttonHome" title="Return To Homepage (Alt + 7)" disabled>Home</button></form>
-        </div>
+    <body>
+        <table class="indexTable" align="center">
+            <tr><td><a href="show_speakers" title="View Speakers" accesskey="1" onmouseover="textSpeaker()" onmouseout="clearText()">
+                    <img src="icon_speakersT.png" alt="Go To Speakers Page" style="width:150px; height:150px;"></a></td>
+                <td style="text-align:center;">
+                    <img src="icon_infoT.png" alt="Information" style="width:150px; height:150px;" onmouseover="textInfo()" onmouseout="clearText()"></td>
+                <td id="login" align="center">
+                    <img src="icon_loginT.png" alt="Administrator Login" style="width:150px; height:150px;" onmouseover="textLogin()" onmouseout="clearText()" onclick="showLogin()">
+                </td></tr>
+            <tr><td><a href="show_workshops" title="View Workshops" accesskey="2" onmouseover="textWorkshops()" onmouseout="clearText()">
+                    <img src="icon_workshopsT.png" alt="Go To Workshops Page" style="width:150px; height:150px;"></a></td>
+                <td colspan="2" rowspan="3"><a href="index" title="Go To Home Page" accesskey="6" onmouseover="textHome()" onmouseout="clearText()">
+                    <img src="logoT.png" alt="Go To Home Page" style="border: 10px solid #0080ff;width:450px; height:450px;"></a></td></tr>
+            <tr><td><a href="show_schedule" title="View Schedule" accesskey="3" onmouseover="textSchedule()" onmouseout="clearText()">
+                    <img src="icon_scheduleT.png" alt="Go To Schedule Page" style="width:150px; height:150px;"></a></td></tr>
+            <tr><td><a href="show_exhibitors" title="View Exhibitors" accesskey="4" onmouseover="textExhibitors()" onmouseout="clearText()">
+                    <img src="icon_exhibitorsT.png" alt="Go To Exhibitors Page" style="width:150px; height:150px;"></a></td></tr>
+            <tr><td><a href="reg_attendee.html" title="Register" accesskey="5" onmouseover="textRegister()" onmouseout="clearText()">
+                        <img src="icon_registerT.png" alt="Go To Registration Page" style="width:150px; height:150px;"></a></td>
+                <td colspan="2" style="text-align: center;font-weight: bold;font-size: 250%; width:450px;"><div id="msg">Random ICT Event 2016</div></td></tr>
+        </table>
         
-        <!--Body Log In-->
-        <div class="mainbody"><br>
-            <form action="Login" method="Get">
-                <h2>Administrator Login</h2>
-                <table>
-                    <tr>
-                        <th>Username:</th>
-                        <td><input type="text" name="username" autofocus="autofocus" title="Please enter username"></td>
-                    </tr>
-                    <tr>
-                        <th>Password:</th>
-                        <td><input type="password" name="password" title="Please enter password"></td>
-                    </tr>
-                    <tr><td></td><td style="text-align:right"><input type="submit" value="Submit" title="Submit Details"/></td></tr>
-                </table>
-            </form>
-
-            <h2>CA Stuff</h2>
-                <p>Home page for ICT in Eductation event
-                <p>General information about the event will go here<br>
-            </div>
-        <div class="mainbody">
-            The Internet of Things (IoT) is the network of physical objects—devices, vehicles, buildings and other items embedded with electronics, software, sensors, and network connectivity—that enables these objects to collect and exchange data.[1] The Internet of Things allows objects to be sensed and controlled remotely across existing network infrastructure,[2] creating opportunities for more direct integration of the physical world into computer-based systems, and resulting in improved efficiency, accuracy and economic benefit;[3][4][5][6][7][8] when IoT is augmented with sensors and actuators, the technology becomes an instance of the more general class of cyber-physical systems, which also encompasses technologies such as smart grids, smart homes, intelligent transportation and smart cities. Each thing is uniquely identifiable through its embedded computing system but is able to interoperate within the existing Internet infrastructure. Experts estimate that the IoT will consist of almost 50 billion objects by 2020.[9]
-
-British entrepreneur Kevin Ashton first coined the term in 1999 while working at Auto-ID Labs (originally called Auto-ID centers, referring to a global network of objects connected to radio-frequency identification, or RFID).[10] Typically, IoT is expected to offer advanced connectivity of devices, systems, and services that goes beyond machine-to-machine (M2M) communications and covers a variety of protocols, domains, and applications.[11] The interconnection of these embedded devices (including smart objects), is expected to usher in automation in nearly all fields, while also enabling advanced applications like a smart grid,[12] and expanding to the areas such as smart cities.[13][14]
-
-"Things," in the IoT sense, can refer to a wide variety of devices such as heart monitoring implants, biochip transponders on farm animals, electric clams in coastal waters,[15] automobiles with built-in sensors, DNA analysis devices for environmental/food/pathogen monitoring[16] or field operation devices that assist firefighters in search and rescue operations.[17] Legal scholars suggest to look at "Things" as an "inextricable mixture of hardware, software, data and service".[18] These devices collect useful data with the help of various existing technologies and then autonomously flow the data between other devices.[19][20] Current market examples include smart thermostat systems and washer/dryers that use Wi-Fi for remote monitoring.
-
-As well as the expansion of Internet-connected automation into a plethora of new application areas, IoT is also expected to generate large amounts of data from diverse locations, with the consequent necessity for quick aggregation of the data, and an increase in the need to index, store, and process such data more effectively. IoT is one of the platforms of today's Smart City, and Smart Energy Management Systems.[21][22]
-        </div>
-        
-        <div id="bl" class="bottomlinks">
-            <table align="center">
-                <tr><th>Display:</th><th>Register:</th><th>Other:</th><tr>
-                <tr><td><a href="show_speakers" title="Show Speakers (Alt + 1)" accesskey="1">1. Show Speakers</a></td><td><a href="reg_admin.html" title="Administrator Registration Page (Alt + 5)" accesskey="5">5. Administrator Registration</a></td><td><a href="index.html" title="Return To Homepage (Alt + 7)" accesskey="7">7. Home Page</a></td></tr>
-                <tr><td><a href="show_workshops" title="Show Workshops (Alt + 2)" accesskey="2">2. Show Workshops</a></td><td><a href="reg_attendee.html" title="Attendee Registration Page (Alt + 6)" accesskey="6">6. Attendee Registration</a></td><td></td></tr>
-                <tr><td><a href="show_schedule" title="Show Schedule (Alt + 3)" accesskey="3">3. Show Schedule</a></td><td></td><td></td></tr>
-                <tr><td><a href="show_exhibitors" title="Show Exhibitors (Alt + 4)" accesskey="4">4. Show Exhibitors</a></td><td></td><td></td></tr>
-            </table>
-        </div>
+        <script>
+            function textSpeaker() {
+                document.getElementById("msg").innerHTML = "View Information About Keynote Speakers."; resetLogin();
+            }
+            function textWorkshops() {
+                document.getElementById("msg").innerHTML = "View Information About Workshops"; resetLogin();
+            }
+            function textSchedule() {
+                document.getElementById("msg").innerHTML = "View The Workshop Schedule"; resetLogin();
+            }
+            function textExhibitors() {
+                document.getElementById("msg").innerHTML = "View Information About Exhibitors"; resetLogin();
+            }
+            function textRegister() {
+                document.getElementById("msg").innerHTML = "Register For The Event"; resetLogin();
+            }
+            function textHome() {
+                document.getElementById("msg").innerHTML = "Click To Continue To Main Page"; resetLogin();
+            }
+            function textInfo() {
+                document.getElementById("msg").innerHTML = "Created By Joe O'Regan<br>K00203642"; resetLogin();
+            }
+            function textLogin() {
+                document.getElementById("msg").innerHTML = "Administrator Login";
+            }
+            function resetLogin() {
+                document.getElementById("login").innerHTML = "<img src=\"icon_login.png\" alt=\"Administrator Login\" style=\"width:150px; height:150px;\" onmouseover=\"textLogin()\" onmouseout=\"clearText()\" onclick=\"showLogin()\">";
+            }
+            function showLogin() {
+                document.getElementById("login").innerHTML = "<form action=\"login\" method=\"Get\" onmouseout=\"clearText()\">"+
+                        "<table>" +
+                            "<tr><th style=\"text-align:center; font-size: 150%;\" colspan=\"2\">Administrator Login</th></tr>"+
+                            "<tr><td>Username:</td><td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\" required></td></tr>"+
+                            "<tr><td>Password:</td><td><input type=\"password\" name=\"password\" title=\"Please enter password\" required></td></tr>"+
+                            "<tr><td style=\"text-align:right\" colspan=\"2\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>"+
+                            "</tr>"+
+                        "</table></form>";
+            }
+            function clearText() {
+                document.getElementById("msg").innerHTML = "Random ICT Event 2016";
+            }
+        </script>
     </body>
 </html>

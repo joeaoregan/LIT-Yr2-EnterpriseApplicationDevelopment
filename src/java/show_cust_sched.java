@@ -1,3 +1,4 @@
+import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -15,6 +16,7 @@ public class show_cust_sched extends HttpServlet {
     String title = "Custom Schedule";
     String tableheading = "Selected Event Times";
     Connection conn = null; 
+    PreparedStatement prepStat;
     com.mysql.jdbc.Statement stat;    
     String scheduletime;
     String schedulelocation;
@@ -66,26 +68,21 @@ public class show_cust_sched extends HttpServlet {
                     "</style>" +
                     
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
-                    "<head ><title>" + title + "</title></head>"); 
-// Heading (doesn't print)
-            out.println("<div class=\"heading dontprint\">" +
-                        "<table>" +
-                            "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
-                                "<img src='" + request.getContextPath() + "/images/logoT.png' alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
-                                "<td><h1>" + title + "</h1></td></tr>" +
-                        "</table>" +
-                    "</div>");
+                    "<head ><title>" + title + "</title></head>" +
+                    "<body>" +
+                        "<div class=\"heading dontprint\">" +
+                            "<br><h1 style=\"text-align:center\">" + title + "</h1><br>" +
+                        "</div>");
 // Navigation menu
-            out.println("<div class=\"navigation dontprint\"><span>" +
-                            "<form action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Speakers</button></form>" +
-                            "<form action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Workshops</button></form>" +
-                            "<form action=\"show_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Schedule</button></form>" +
-                            "<button id=\"active\" name=\"buttonCSchedule\" title=\"Custom Schedule\">Custom Schedule</button>" +
-                            "<form action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Exhibitors</button></form>" +
-                            "<form action=\"reg_admin\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
-                            "<form action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
-                            "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
-                        "</span></div>");
+            out.println("<div class=\"navigation dontprint\">" +
+                            "<form style=\"display: inline\" action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
+                            "<form style=\"display: inline\" action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Event Workshops</button></form>" +
+                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
+                            "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
+                            "<form style=\"display: inline\" action=\"reg_admin\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
+                            "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
+                            "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                        "</div>");
             
 // Custom Event Schedule                    
             out.println("<div class=\"mainbody\">" +
@@ -109,19 +106,19 @@ public class show_cust_sched extends HttpServlet {
                     
                     out.println("<tr class=\"thead\"><td>" + scheduletime + "</td><td>" + workshopname + "</td></tr>");
                     
-                    checkFormat = workshopname.contentEquals( "Break" );                                                     // compare content of workshopname to "break"
-                    if(!checkFormat)                                                                                         // don't output presenters for breaks
+                    checkFormat = workshopname.contentEquals( "Break" );                                                                  // compare content of workshopname to "break"
+                    if(!checkFormat)                                                                                                            // don't output presenters for breaks
                     {       
                         out.println("<tr><td><b>Location:</b></td><td>" + schedulelocation + "</td></tr>");
-// presenter output
+                        
                         if (ws_pres2.contentEquals( "" )) 
                         { 
-                            out.println("<tr><td><b>Presenter:</b></td><td>"+ws_pres1+"</td></tr>");                         // output if only 1 presenter   
+                            out.println("<tr><td><b>Presenter:</b></td><td>"+ws_pres1+"</td></tr>");                                   // output if only 1 presenter   
                             out.println("<tr><td><b>About:</b></td><td>"+ws_info+"</td></tr>");                           
                         }
                         else 
                         {
-                            out.println("<tr><td><b>Presenters:</b></td><td>"+ws_pres1+" and "+ws_pres2+"</td></tr>");       // output if 2 presenters 
+                            out.println("<tr><td><b>Presenters:</b></td><td>"+ws_pres1+" and "+ws_pres2+"</td></tr>");        // output if 2 presenters 
                             out.println("<tr><td><b>About:</b></td><td>"+ws_info+"</td></tr>");                           
                         }
                     }
@@ -129,16 +126,19 @@ public class show_cust_sched extends HttpServlet {
                 }
                 out.println("</table></form>" +
                         "</div>");
-            } 
-            catch(Exception e) { System.err.println(e); }
+        } 
+        catch(Exception e)
+        {
+            System.err.println(e);
+        }
             
 // Print Custom Schedule
-            out.println("<div class=\"mainbody dontprint\" align=\"center\">" +
-                            "<table align=\"center\"><tr>"
-                            + "<td><button onclick=\"myFunction()\">Print this page</button>" +
-                                "<script>" +
-                                    "function myFunction() {window.print();}"
-                            + "</script></td>" +
+out.println("<div class=\"mainbody dontprint\" align=\"center\">" +
+                "<table align=\"center\"><tr>"
+                + "<td><button onclick=\"myFunction()\">Print this page</button>" +
+                    "<script>" +
+                        "function myFunction() {window.print();}"
+                + "</script></td>" +
                        
 // Return To Schedule
                 "<td><form>" +

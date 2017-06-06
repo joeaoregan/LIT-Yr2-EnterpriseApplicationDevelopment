@@ -5,8 +5,12 @@
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +24,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(urlPatterns = {"/delete_exhibitor"})
 public class delete_exhibitor extends HttpServlet {
-    Connection conn;
     String ex_delete;
+    
+    Connection conn;
+    PreparedStatement prepStat;
+    Statement stat;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -64,7 +71,7 @@ public class delete_exhibitor extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         
-        ex_delete = request.getParameter("delete_ex"); // exhibitor to delete
+        ex_delete = request.getParameter("delete_ex");
         
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -102,6 +109,8 @@ public class delete_exhibitor extends HttpServlet {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
+            stat = (Statement) conn.createStatement();
+            stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_id INT PRIMARY KEY AUTO_INCREMENT,schedule_time TIME,workshop_name CHAR(60),schedule_location CHAR(40), exhibitor_pic VARCHAR(60))");
         }
         catch (Exception e) 
         {

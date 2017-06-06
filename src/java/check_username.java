@@ -141,6 +141,11 @@ public class check_username extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
+            stat.execute("CREATE TABLE IF NOT EXISTS Administrators(admin_username CHAR(40) PRIMARY KEY, admin_password CHAR(40) NOT NULL, admin_fname CHAR(40), admin_lname CHAR(40), admin_email VARCHAR(60) NOT NULL, admin_phone VARCHAR(18), " +
+                         "admin_addr1 CHAR(40), " +
+                         "admin_addr2 CHAR(40), " +
+                         "admin_town CHAR(40), " +
+                         "admin_county CHAR(40))");
         } catch (Exception e) 
         {
             System.err.println(e);

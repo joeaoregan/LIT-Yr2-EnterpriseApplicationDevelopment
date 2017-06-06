@@ -33,8 +33,7 @@ public class manage_speakers extends HttpServlet {
     String speak_bio;
     String speak_site;
     String speak_pic;
-    int speak_num = 1; // give each speaker a number for output
-    int sp_count; // number of speakers in the db
+    int speak_num = 1;
        
     public void init() throws ServletException
     {
@@ -77,49 +76,28 @@ public class manage_speakers extends HttpServlet {
 // Heading
             out.println("<div class=\"heading\">" +
                         "<table>" +
-                            "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" + 
-                                "<img src='" + request.getContextPath() + "/images/logoT.png' alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
-                                "<td><h1>" + title + "</h1></td></tr>" +
+                            "<tr><td>&nbsp;</td></tr>" +
+                            "<tr><td>&nbsp;</td></tr>" +
+                            "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
+                            "<td><h1 style=\"text-align:center\">" + title + "</h1></td></tr>" +
                         "</table>" +
                     "</div>");
             
 // Navigation menu (Speakers Highlighted)
-            out.println("<div class=\"navigation\"><span>" +
-                            "<form action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
-                            "<form action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" id=\"active\" title=\"Add Speaker Details (Alt + h)\">Manage Speakers</button></form>" +
-                            "<form action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
-                            "<form action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
-                            "<form action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
-                            "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
-                        "</span></div>");
-// Count the speakers
-            try {
-                sp_count=0;
-                java.sql.Statement stmt = conn.createStatement();
-                ResultSet sp = stmt.executeQuery("SELECT COUNT(*) AS sp_counter FROM Speakers;");
-                sp.next();
-                sp_count = sp.getInt("sp_counter");
-            } catch (Exception e) { System.err.println(e); }  
-            
+            out.println("<div class=\"navigation\">" +
+                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" style=\"color: blue; background-color: white;\" title=\"Add Speaker Details (Alt + h)\">Manage Speakers</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
+                            "<form style=\"display: inline\" action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
+                            "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                        "</div>");
+// Speaker input            
             out.println("<div class=\"mainbody\">" +
                           "<form action=\"add_speaker\" method=\"POST\"><br>" +
                             "<table align=\"center\">" +
-                                "<tr><td class=\"tbhead\" colspan=\"2\">Enter Speaker Details</td></tr>");
-// Show number of speakers
-            switch (sp_count) {
-                case 1:
-                    out.println("<tr><td colspan=\"2\">There is currently "+sp_count+" speaker registered</td></tr>");
-                    break;
-                case 0:
-                    out.println("<tr><td colspan=\"2\">There is no Speakers registered yet</td></tr>");
-                    break;
-                default:
-                    out.println("<tr><td colspan=\"2\">There are currently "+sp_count+" speakers registered</td></tr>");
-                    break;
-            }
-            
-// Enter Speaker Details
-            out.println("<tr><td colspan=\"2\">&nbsp;</td></tr>" +
+                                "<tr><td class=\"tbhead\" colspan=\"2\">Enter Speaker Details</td></tr>" +
+                                "<tr><td colspan=\"2\">&nbsp;</td></tr>" +
                                 "<tr>" +
                                     "<th>First Name:</th>" +
                                     "<td><input type=\"text\" name=\"speaker_fname\" autofocus=\"autofocus\" title=\"Enter speakers first name\" maxlength=\"40\" placeholder=\"Required Field\" required></td>" +
@@ -140,18 +118,14 @@ public class manage_speakers extends HttpServlet {
                                     "<th>Picture URL:</th>" +
                                     "<td><input type=\"text\" name=\"speaker_pic\" title=\"Enter speaker picture url\"maxlength=\"60\" ></td>" +
                                 "</tr>" +
-                                "<tr><td></td><td>e.g \"/images/example.png\"</td></tr>" +
                                 "<tr>" +
-                                    "<td></td><td id=\"bt\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
+                                    "<td></td><td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
                                 "</tr>" +
                             "</table>" +
                           "</form>" +
-                        "</div>");
+                        "</div><br>");
             
-// Show speakers (only show edit if there are speakers in the DB)
-            if (sp_count > 0)
-            {
-            out.println("<br><div class=\"mainbody\">" +
+            out.println("<div class=\"mainbody\">" +
                             "<table align=\"center\">" +
                                 "<tr><td class=\"tbhead\" colspan=\"3\">Current Speakers</td></tr>" +
                                 "<tr><td colspan=\"3\">&nbsp;</td></tr>" +                 
@@ -169,12 +143,12 @@ public class manage_speakers extends HttpServlet {
                                     speak_site = speakers.getString("speaker_website");
                                     speak_pic = speakers.getString("speaker_pic");
 
-                                out.println("<tr><td rowspan=\"6\"><img src='"+ request.getContextPath() + speak_pic+"' alt=\""+speak_name+" Picture\" id=\"img200\"></td><td></td><td></td></tr>" +
-                                            "<tr><th colspan=\"2\" id=\"thc\">Keynote Speaker "+speak_num+"</th></tr>" +
+                                out.println("<tr><td rowspan=\"6\"><img src="+speak_pic+" alt=\"Speaker Picture\" style=\"width:200px;height:200px;\"></td><td></td><td></td></tr>" +
+                                            "<tr><th colspan=\"2\" style=\"text-align: center\">Keynote Speaker "+speak_num+"</th></tr>" +
                                             "<tr><th>DB ID:</th><td>" + sp_id + "</td></tr>" +
                                             "<tr><th>Name:</th><td>" + speak_name + "</td></tr>" +
                                             "<tr valign=\"top\"><th>Biography:</th><td>" + speak_bio + "</td></tr>" +
-                                            "<tr><th>Website:</th><td><a href=\"" + speak_site + "\">" + speak_site + "</a></td></tr>" +
+                                            "<tr><th>Website:</th><td><a href=\"" + speak_site + "\">\"" + speak_site + "\"</a></td></tr>" +
                                             "<tr><td colspan=\"3\"><hr></td></tr>");
                                 speak_num++;
                                 }
@@ -195,7 +169,7 @@ public class manage_speakers extends HttpServlet {
                         "<tr><td colspan=\"3\">&nbsp;</td></tr>" +                 
                         "<tr>" +
                             "<th>Speaker To Delete:</th>" +
-                            "<td><select name=\"delete_speaker\" title=\"Select A Name From The List\">");
+                            "<td><select name=\"delete_speaker\" title=\"Select A Name From The List\" style=\"width:100%\">");
             try{
                 java.sql.Statement stmt = conn.createStatement();            
                 ResultSet Speaker = stmt.executeQuery("SELECT speaker_id,speaker_fname,speaker_lname FROM Speakers");
@@ -213,12 +187,11 @@ public class manage_speakers extends HttpServlet {
             } 
             
             out.println("</select></td>" +
-                                "<td id=\"bt\"><input type=\"submit\" value=\"Delete\" title=\"Delete Time\"/></td>" +
+                                "<td style=\"text-align:right\"><input type=\"submit\" value=\"Delete\" title=\"Delete Time\"/></td>" +
                 "           </tr>"
                     + "</table>" +
                         "</form>" +
                 "</div>");
-        } // End if (only show if more than 1 speaker)    
             
 // Bottom Links (Manage)             
             out.println("<div  id=\"bl\" class=\"bottomlinks\">" +
