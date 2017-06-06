@@ -105,11 +105,11 @@ public class eventschedule extends HttpServlet {
                             "<form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Home Page (Alt + 5)\">Return To Home Page</button></form>\n" +
                         "</div>" +
                         
-                        "<div class=\"bottomlinks\">" +
-                            "<br><a href=\"eventschedule\" title=\"Event Schedule (Alt + 1)\" accesskey=\"1\">1. Event Schedule</a><br>" +
+                        "<div id=\"bl\" class=\"bottomlinks\">" +
+                            "<a href=\"eventschedule\" title=\"Event Schedule (Alt + 1)\" accesskey=\"1\">1. Event Schedule</a><br>" +
                             "<a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 2)\" accesskey=\"2\">2. Administrator Registration</a><br>" +
                             "<a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 3)\" accesskey=\"3\">3. Attendee Registration</a><br>" +
-                            "<a href=\"index.html\" title=\"Return To Homepage (Alt + 4)\" accesskey=\"4\">4. Return To Home Page</a><br>" +
+                            "<a href=\"index.html\" title=\"Return To Homepage (Alt + 4)\" accesskey=\"4\">4. Return To Home Page</a>" +
                         "</div>" +
                     "</body></html>");
         }

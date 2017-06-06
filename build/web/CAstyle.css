@@ -8,22 +8,31 @@ and open the template in the editor.
     Author     : Joe
 */
 
-a:hover {background-color: activecaption;}
-button:hover {color: blue; background-color: highlight;}
-
+a:hover {
+    background-color: activecaption;
+}
+button:hover {color: blue; background-color: white;}
+button{
+    background-color: #0080ff;
+    color:white;}
 .login{
+    color:black;
     background-color: white;
 }
 .heading{
     background-color: powderblue;
+    color:#0080ff;
     width:90%;
     margin: auto;
+    padding: 10px;
 }
 .navigation{
         text-align: center;
-        background-color: activecaption;
+        background-color: #0080ff;
         width:90%;
         margin:auto;
+        padding-left: 10px;
+        padding-right: 10px;
         }
 .blah{
         a:hover {background-color: activecaption;}
@@ -37,16 +46,32 @@ button:hover {color: blue; background-color: highlight;}
     width:90%;
     margin: auto;
     background-color: #cce6ff;
+    padding: 10px;
 }
-.bottomlinks{
+
+.bottomlinks{    
+    a:hover{color:white;}
+    color:white;
     width:90%;
     margin: auto;
-    background-color: #0080ff;
-    
+    background-color: #0080ff;  
+    padding: 10px;
 }
 
+#bl a:link{color:white;}
+#bl a:visited{color:darkgrey;}
+#bl a:hover{color:white;}
+
+/*
+a.class1 {color:red;}
+a.class1:link  {text-decoration: none; color: red;}
+a.class1:visited {text-decoration: none; color: red;}
+a.class1:hover {text-decoration: underline; color: red;}
+a.class1:active {text-decoration: none; color: red;}
+a.bottomlinks:hover{color:white;}*/
 
 table#table1 {
+    
     text-align:center; 
     margin-left:auto; 
     margin-right:auto; 
