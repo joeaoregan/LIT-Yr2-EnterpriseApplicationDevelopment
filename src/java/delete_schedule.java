@@ -5,12 +5,9 @@
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,11 +21,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(urlPatterns = {"/delete_schedule"})
 public class delete_schedule extends HttpServlet {
-    String schedule_time;
-    
     Connection conn;
-    PreparedStatement prepStat;
-    Statement stat;   
+    String schedule_time; // Select a workshop to delete by the time it is scheduled
+    
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -77,7 +72,6 @@ public class delete_schedule extends HttpServlet {
             Statement stat = conn.createStatement();
             
             String command = "DELETE FROM Schedule WHERE schedule_time = '" + schedule_time+ "'";
-            
             stat.executeUpdate(command);
         }
         catch (Exception e)
@@ -95,7 +89,7 @@ public class delete_schedule extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Delete a workshop from the Schedule DB";
     }// </editor-fold>
 
     public void init() throws ServletException
@@ -108,8 +102,6 @@ public class delete_schedule extends HttpServlet {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
-            stat = (Statement) conn.createStatement();
-            stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_time TIME PRIMARY KEY,workshop_id INT,schedule_location CHAR(40),CONSTRAINT fk_shedule_workshop FOREIGN KEY (workshop_id) REFERENCES workshops (ws_id));");
         }
         catch (Exception e) 
         {

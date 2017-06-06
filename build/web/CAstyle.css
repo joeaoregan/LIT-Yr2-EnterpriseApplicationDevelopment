@@ -7,21 +7,111 @@ and open the template in the editor.
     Created on : 10-Mar-2016, 00:00:27
     Author     : Joe
 */
+a{
+    color:white;
+}
 
-td,th {text-align:left; 
-       padding-left: 10px;
-       padding-right: 10px;
-}
 a:hover {
-    background-color: activecaption;
+    /*background-color: activecaption; /*grey*/
+    background-color: #003e80; /*dark blue*/
 }
+
 h1 {
+    text-align: center;
     font-size: 400%;
 }
 button:hover {color: blue; background-color: white;}
 button{
-    background-color: #0080ff;
-    color:white;}
+    /*background-color: #0080ff; /*blue*/
+    background-color: #003e80; /*dark blue*/
+    color:white;
+}
+
+button#active{
+    background-color: white;
+    color:#0080ff;
+}
+input[type=submit] {
+    background:#003e80; 
+    color: white;
+}
+/* Index.html */
+/*.table
+.table.one {
+  margin-left: auto ;
+  margin-right: auto ;
+}*/
+
+/* Tables */
+table#sp0 {
+    border-collapse: separate;
+    border-spacing: 0px 0px;
+}
+table#t1 {
+    background-color: #0080ff; 
+    color: white; 
+    border-radius: 20px;
+}
+table#t01 {
+    width: 100%;    
+    background-color: #f1f1c1;
+}
+td,th {
+    text-align:left; 
+    padding-left: 10px;
+    padding-right: 10px;
+}
+td#bt{
+    text-align:right; 
+}
+th#thc{
+    text-align:center; 
+}
+td#tdc{
+    text-align:center; 
+}
+table#t100{
+    width: 100%;
+}
+/* tablebutton - index.java */
+.tablebutton{
+    text-align:right; 
+}
+.tpad0{
+    padding-left: 1px;
+    padding-right: 1px;
+}
+/* Image */
+img#img200{
+    width:200px; 
+    height:200px;
+}
+img#img150{
+    width:150px; 
+    height:150px;
+}
+img#img100{
+    width:100px; 
+    height:100px;
+}
+img#img50{
+    width:50px; 
+    height:50px;
+}
+select{
+    width:100%; 
+}
+/* Select */
+
+/*
+table#table1 {    
+    text-align:center; 
+    margin-left:auto; 
+    margin-right:auto; 
+    width:300px;
+  }
+*/
+
 /* Login menu bar at top of page */
 .login{
     color: #0080ff;
@@ -30,66 +120,128 @@ button{
     position: fixed; 
     top: 0; 
     right: 4%;
+    overflow: hidden;
+    white-space: nowrap;    
 }
+#container {
+/*width: 500px;*/
+/*height: 55px;*/
+min-width:100px;
+overflow: hidden;
+/*border: 1px double #000;*/
+border: 1px double black;
+white-space: nowrap;
+}
+
 /* Heading Top (Light blue) */
 .heading{
-    background-color: #80bdff;
+    /*background-color: #80bdff;*/
+    /*background-color: #003e80;*/
+    background-color: #0080ff;  
     /*color:#0080ff;*/
     color: white;
     width:90%;
     margin: auto;
     padding: 10px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
+.logo > a:hover {
+    background-color: #003e80; /*dark blue*/
+}
+.mainhead{
+    font-size: 300%;
+    text-align:center; 
+    background-color: #003e80; 
+    color: white;
+    font-weight: bold;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+.mainbase{
+    font-size: 200%;
+    text-align:center; 
+    background-color: white; 
+    color: #003e80;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+.mainbase > a{
+    color: #003e80;
+}
+.mainbase > a:hover {
+    background-color: #003e80; /*dark blue*/
+    color: white;
+}
+.logo{
+    box-shadow: 5px 5px 5px #0059b3;
+}
+
 /* Navigation Button Menu */
 .navigation{
         text-align: center;
-        background-color: #0080ff;
+        /*background-color: #0080ff;*/
+        background-color: #003e80; /*dark blue*/
+        color: #ffffff;
         width:90%;
         margin:auto;
         padding-left: 10px;
         padding-right: 10px;
         }
+span > form {display:inline;}
 
-.table {
-  margin-left: auto ;
-  margin-right: auto ;
-}
-.tablebutton{
-    text-align:right; 
-}
 .mainbody{
     text-align: center;
     width:90%;
     margin: auto;
-    /*background-color: #cce6ff;*/
-    background-color: white;
-    padding: 10px;
-  font-size: 15px;
-}
-.halfbody{ /*edit*/
-    vertical-align: top;
-    display: inline-block;
-    text-align: left;
-    min-width: 30%;
-    max-width: 70%;
-    margin: auto;
     background-color: #cce6ff;
-    /*padding: 10px;*/
+    /*background-color: white;*/
+    padding: 10px;
+    font-size: 15px;
+}
+.mainbody a{ /* links inside mainbody */
+    color: #003e80;
+}
+.mainbody a:hover{ /* hover over links in mainbody */
+    color:white;
+    background-color: #003e80;
 }
 
+/* bottom menu */
 .bottomlinks{    
     color: #ffffff;
     width:90%;
     margin: auto;
     background-color: #0080ff;  
     padding: 10px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 .thead{
     text-align:center; 
-    background-color: #0080ff; 
+    background-color: #0080ff; /*blue*/
     color: white;
     font-size:20px;
     font-weight: bold;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+.tbody{
+    /*background-color: #0080ff; /*blue*/
+    /*color: #ffffff; /*white*/
+    background-color: white; /*blue*/
+    color: #0080ff; /*white*/
+    vertical-align:top; 
+    font-size: 120%;
+    border-bottom: 1px solid white;
+}
+.tbase{
+    text-align:right; 
+    background-color: #0080ff; 
+    color: white;
+    font-weight: bold;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 .tbhead{
     font-size: 300%;
@@ -99,19 +251,43 @@ button{
     font-size: 300%;
     font-weight: bold;
 }
-.tshead{
-    Height: 18px;
+.tshead{                                                /* Dark Blue Heading */ 
     text-align:center; 
-    /*background-color: #004d99;*/
-    background-color: #80bdff;
+    /*background-color: #80bdff; /*light blue*/
+    background-color: #003e80; /*dark blue*/
     color: white;
-    font-size:16px;
+    font-size:120%;
     font-weight: bold;
+    border-radius: 10px;
 }
-.menuform{
+
+/* index scroll sections */
+.scrollsp{
+    background-color: white;
+    height: 120px; 
+    overflow: scroll; 
+    overflow-x: hidden;
+}
+.scrollws{
+    background-color: white;
+    height: 200px; 
+    overflow: scroll; 
+    overflow-x: hidden;
+}
+/* Index.html */
+.indexcl{
+    background-color: #0080ff;
+    color: white;
+    border-radius: 20px;
+}
+/*.indexcl.a{
+ background-color: initial;   
+}*/
+
+#navm{
     display:inline;
 }
-#navm{
+.hor{
     display:inline;
 }
 #bl a:link{color:white;}
@@ -120,12 +296,10 @@ button{
 #bl th, td {padding-left:20px;padding-right:20px;}
 
 
-table#table1 {    
-    text-align:center; 
-    margin-left:auto; 
-    margin-right:auto; 
-    width:300px;
-  }
+#msg {
+    
+    text-align: center;color: #0080ff;font-weight: bold;font-size: 250%;
+}
  
 
 /*
@@ -150,3 +324,81 @@ a.bottomlinks:hover{color:white;}
     //padding: 10px;
 }
 */
+
+
+/* CALENDAR */
+* {box-sizing:border-box;}
+ul {list-style-type: none;}
+.month {
+    padding: 20px 10px;
+    width: 100%;
+    background: #0080ff;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+.month ul {
+    margin: 0;
+    padding: 0;
+}
+.month ul li {
+    color: white;
+    font-size: 30px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+.month .prev {
+    float: left;
+    padding-top: 10px;
+}
+.month .next {
+    float: right;
+    padding-top: 10px;
+}
+.weekdays {
+    margin: 0;
+    padding: 2px 0;
+    background-color: #003e80;
+}
+.weekdays li {
+    display: inline-block;
+    width: 13.6%;
+    color: white;
+    text-align: center;
+}
+
+.days {
+    padding: 5px 0;
+    color: #003e80;
+    background: #ffffe6;
+    margin: 0;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.days li {
+    list-style-type: none;
+    display: inline-block;
+    width: 13.6%;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size:14px;
+    color: #777;
+}
+.days li .active {
+    padding: 5px;
+    background: #0080ff;
+    color: white !important
+}
+
+@media screen and (max-width:720px) {
+    .weekdays li, .days li {width: 13.1%;}
+}
+
+@media screen and (max-width: 420px) {
+    .weekdays li, .days li {width: 12.5%;}
+    .days li .active {padding: 2px;}
+}
+
+@media screen and (max-width: 290px) {
+    .weekdays li, .days li {width: 12.2%;}
+}

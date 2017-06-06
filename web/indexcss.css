@@ -1,0 +1,22 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 08-Apr-2016, 03:59:10
+    Author     : Joe
+*/
+.indexcl{
+    background-color: #0080ff;
+    color: white;
+    border-radius: 15px;
+    margin-top: 3%;
+}
+img:hover{
+    border-style: solid;
+    border-color: white;
+}
+img{
+    border:1px solid transparent;
+}

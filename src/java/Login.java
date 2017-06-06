@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe O'Regan
  * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/Login"})
-public class Login extends HttpServlet {
+@WebServlet(urlPatterns = {"/login"})
+public class login extends HttpServlet {
         String URL = "JDBC:MYSQL://LOCALHOST:3306/";
         String DB = "JoeCA";
         String USERNAME = "root";
@@ -29,6 +29,7 @@ public class Login extends HttpServlet {
         Connection conn = null;        
         String DB_username; 
         String DB_password;
+        String admin_name;
         String username;
         String password;
         String title = "Event Administration";
@@ -51,13 +52,14 @@ public class Login extends HttpServlet {
             ResultSet result = stmt.executeQuery("SELECT * FROM administrators WHERE admin_username = '"+username+"'");  // works OK
             result.next();
             DB_username = result.getString("admin_username");
+            admin_name = result.getString("admin_fname") + " " + result.getString("admin_lname");
             DB_password = result.getString("admin_password"); 
         }
         catch(Exception e)
         {
             System.err.println(e);
         }           
-        passwordValidate = password.contentEquals( DB_password ); // see does password match database password
+        //passwordValidate = password.contentEquals( DB_password ); // see does password match database password
         
         out.println(docType + 
                 "<html>" +                
@@ -65,28 +67,31 @@ public class Login extends HttpServlet {
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" + 
                     "<title>" + title + "</title>" +
                   "</head>" +    
-                  "<body>");
+                  "<body>");        
+// Validate password
+        //if (passwordValidate == true)
+        //if (password.contentEquals( DB_password ))
         
-
-        if (passwordValidate == true)
+// If password true, different title, menu, greeting and links
+        if(password.equals(DB_password))
         {        
 // Heading
             out.println("<div class=\"heading\">" +
                             "<table>" +
-                                "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
-                                "<td><h1 style=\"text-align:center\">" + title + "</h1></td></tr>" +
+                                "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img150\"></a><div></td>" +
+                                "<td><h1>" + title + "</h1></td></tr>" +
                             "</table>" +
                         "</div>");            
 // Navigation menu (Event Administration Highlighted)
-            out.println("<div class=\"navigation\">" +
-                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + h)\">Manage Speakers</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
-                            "<button style=\"display: inline; color: blue; background-color: white;\" name=\"buttonEventAdmin\" title=\"Return To Event Administration (Alt + 8)\">Event Administration</button>" +
-                            "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
-                        "</div>");
+            out.println("<div class=\"navigation\"><span>" +
+                            "<form action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
+                            "<form action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + h)\">Manage Speakers</button></form>" +
+                            "<form action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
+                            "<form action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
+                            "<form action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
+                            "<button id=\"active\" name=\"buttonEventAdmin\" title=\"Return To Event Administration (Alt + 8)\">Event Administration</button>" +
+                            "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                        "</span></div>");
 // Successful Login Greeting
             out.println("<div class=\"mainbody\"><br>" +
                             "<ul><h2>Hello " + request.getParameter("username") + ", welcome back!!!</h2></ul>" +  // or FIRST NAME LAST NAME
@@ -96,12 +101,12 @@ public class Login extends HttpServlet {
                             "<h2>Manage Speakers, Workshops, Schedule, Exhibitors</h2>" +
                             "<p>ICT in Eductation event" +
                             "<p>This is the event administration page" +
-                            "<p>The following options are available:" +
-                            "<form style=\"display: inline\" action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" autofocus=\"autofocus\" title=\"Alt + h - Manage Speaker Details\">Manage Speaker Details</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Alt + j - Manage Workshop Details\">Manage Workshop Details</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Alt + k - Manage Schedule Details\">Manage Schedule Details</button></form>" +
-                            "<form style=\"display: inline\" action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Alt + l4 - Manage Exhibitor Details\">Manage Exhibitor Details</button></form>" +
-                        "</div><br>");            
+                            "<p>The following options are available:</p><span>" +
+                                "<form action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" autofocus=\"autofocus\" title=\"Alt + h - Manage Speaker Details\">Manage Speaker Details</button></form>" +
+                                "<form action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Alt + j - Manage Workshop Details\">Manage Workshop Details</button></form>" +
+                                "<form action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Alt + k - Manage Schedule Details\">Manage Schedule Details</button></form>" +
+                                "<form action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Alt + l4 - Manage Exhibitor Details\">Manage Exhibitor Details</button></form>" +
+                        "</span></div><br>");            
 // Bottom Links (Manage)             
             out.println("<div  id=\"bl\" class=\"bottomlinks\">" +
                             "<table align=\"center\">" +
@@ -128,22 +133,24 @@ public class Login extends HttpServlet {
         }
         else
         {
+            title = "Login Failed";
 // Admin Login
             out.println("<div class=\"login\">" +
-                            "<form action=\"Login\" method=\"Get\">" +
+                            "<form action=\"login\" method=\"Get\">" +
                                 "<table>" +
                                     "<tr>" +
-                                        "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:50px;height:50px;\"></a></td>" +
-                                        "<th style=\"text-align:center\">Administrator</th>" +
+                                        "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
+                                            "<img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img50\"></a></td>" +
+                                        "<th id=\"thc\">Administrator</th>" +
                                         "<td>Username:</td>" +
                                         "<td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\" maxlength\"40\" required></td>" +
                                         "<td></td>" +
                                     "</tr>" +
                                     "<tr>" +
-                                        "<th style=\"text-align:center\">Login</th>" +
+                                        "<th id=\"thc\">Login</th>" +
                                         "<td>Password:</td>" +
                                         "<td><input type=\"password\" name=\"password\" title=\"Please enter password\" maxlength\"40\" required></td>" +
-                                        "<td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
+                                        "<td id=\"bt\" ><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
                                     "</tr>" +
                                 "</table>" +
                             "</form>" +
@@ -153,24 +160,25 @@ public class Login extends HttpServlet {
                             "<table>" +
                                 "<tr><td>&nbsp;</td></tr>" +
                                 "<tr><td>&nbsp;</td></tr>" +
-                                "<tr><td><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" style=\"width:150px;height:150px;\"></a></td>" +
-                                "<td><h1 style=\"text-align:center\">Login Failed</h1></td></tr>" +
+                                "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
+                                         "<img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
+                                "<td><h1>"+title+"</h1></td></tr>" +
                             "</table>" +
                         "</div>");
 // Navigation menu
-            out.println("<div class=\"navigation dontprint\">" +
-                            "<form style=\"display: inline\" action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
-                            "<form style=\"display: inline\" action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Event Workshops</button></form>" +
-                            "<form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
-                            "<form style=\"display: inline\" action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
-                            "<form style=\"display: inline\" action=\"reg_admin\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
-                            "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
-                            "<form style=\"display: inline\" action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
-                        "</div>");
+            out.println("<div class=\"navigation dontprint\"><span>" +
+                            "<form action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Event Speakers</button></form>" +
+                            "<form action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Event Workshops</button></form>" +
+                            "<form action=\"show_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
+                            "<form action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Event Exhibitors</button></form>" +
+                            "<form action=\"reg_admin\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
+                            "<form action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
+                            "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
+                        "</span></div>");
             
 // Unsuccessful Login Greeting
             out.println("<div class=\"mainbody\">" +        
-                            "<ul><h2>Hello " + request.getParameter("username") + ", The Password Entered Is Incorrect!!!</h2></ul>" +   
+                            "<ul><h2>Hello " + request.getParameter("username") + ", The Username Or Password Entered Is Incorrect!!!</h2></ul>" +   
                             "<form><a href=\"index\" title=\"Return To Homepage (Alt + 7)\"><button name=\"button\" value=\"OK\" type=\"button\">Go Back</button></a></form><br>" +
                         "</div>");
             

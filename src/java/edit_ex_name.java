@@ -5,12 +5,8 @@
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,13 +18,12 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe O'Regan
  * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/cust_schedule_add"})
-public class custom_schedule_add extends HttpServlet {
-    String workshop_id; // Workshop to add to custom schedule
-    
+@WebServlet(urlPatterns = {"/edit_ex_name"})
+public class edit_ex_name extends HttpServlet {
     Connection conn;
-    PreparedStatement prepStat;
-    Statement stat;   
+    String ex_id; // exhibitor id to alter
+    String new_ex_fname; // First name entered
+    
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,7 +35,7 @@ public class custom_schedule_add extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException {        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -69,15 +64,18 @@ public class custom_schedule_add extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);        
-        workshop_id = request.getParameter("custom_schedule");
+        processRequest(request, response);
+        
+        ex_id = request.getParameter("edit_name");
+        new_ex_fname = request.getParameter("new_ex_fname");
         
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Statement stat = conn.createStatement();
-                       
-            java.sql.Statement stmt = conn.createStatement();
-            String command = "INSERT INTO CustSched VALUES(" + workshop_id + ");";
+            
+            //String command = "DELETE FROM Exhibitors WHERE exhibitor_id = '" + ex_id+ "'";
+            String command = "UPDATE Exhibitors SET exhibitor_fname = '"+new_ex_fname+"' WHERE exhibitor_id = '"+ex_id+"'";
+            
             stat.executeUpdate(command);
         }
         catch (Exception e)
@@ -85,7 +83,7 @@ public class custom_schedule_add extends HttpServlet {
             System.err.println(e);
         }
         
-        response.sendRedirect("show_schedule#cs_add");  // redirects back to schedule.html after form submitted
+        response.sendRedirect("manage_exhibitors");  // redirects back to schedule.html after form submitted
     }
 
     /**
@@ -108,9 +106,6 @@ public class custom_schedule_add extends HttpServlet {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
-            stat = (Statement) conn.createStatement();
-            
-            stat.execute("CREATE TABLE IF NOT EXISTS CustSched(workshop_id INT PRIMARY KEY, CONSTRAINT fk_custsched_workshop FOREIGN KEY (workshop_id) REFERENCES schedule (workshop_id));");
         }
         catch (Exception e) 
         {
