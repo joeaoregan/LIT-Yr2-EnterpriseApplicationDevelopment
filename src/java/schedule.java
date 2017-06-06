@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.sql.DriverManager;              // added
-import com.mysql.jdbc.Connection;           // added
-import com.mysql.jdbc.PreparedStatement;    // added
-import com.mysql.jdbc.Statement;            // added
+import java.sql.DriverManager;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.Statement;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -17,17 +17,15 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author student
+ * @author Joe O'Regan
+ * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/AdminRegister"})
-public class AdminRegister extends HttpServlet {
-    String customer_name;
-    String customer_email;
-    String customer_phone;
-    String customer_addr1;
-    String customer_addr2;
-    String customer_addr3;
-    String customer_addr4;
+@WebServlet(urlPatterns = {"/schedule"})
+public class schedule extends HttpServlet {
+    String schedule_time;
+    String schedule_presenter1;
+    String schedule_presenter2;
+    String schedule_location;
     
     Connection conn;
     PreparedStatement prepStat;
@@ -46,24 +44,18 @@ public class AdminRegister extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        customer_name = request.getParameter("customer_name");
-        customer_email = request.getParameter("customer_email");
-        customer_phone = request.getParameter("customer_phone");
-        customer_addr1 = request.getParameter("customer_addr1");
-        customer_addr2 = request.getParameter("customer_addr2");
-        customer_addr3 = request.getParameter("customer_addr3");
-        customer_addr4 = request.getParameter("customer_addr4");
+        schedule_time = request.getParameter("schedule_time");
+        schedule_presenter1 = request.getParameter("schedule_presenter1");
+        schedule_presenter2 = request.getParameter("schedule_presenter2");
+        schedule_location = request.getParameter("schedule_location");
         
         try {
-            String query = "INSERT INTO customers VALUES (?,?,?,?,?,?,?)";
+            String query = "INSERT INTO Schedule VALUES (?,?,?,?)";
             prepStat = (PreparedStatement) conn.prepareStatement(query);
-            prepStat.setString(1, customer_name);
-            prepStat.setString(2, customer_email);
-            prepStat.setString(3, customer_phone);
-            prepStat.setString(4, customer_addr1);
-            prepStat.setString(5, customer_addr2);
-            prepStat.setString(6, customer_addr3);
-            prepStat.setString(7, customer_addr4);
+            prepStat.setString(1, schedule_time);
+            prepStat.setString(2, schedule_presenter1);
+            prepStat.setString(3, schedule_presenter2);
+            prepStat.setString(4, schedule_location);
             prepStat.executeUpdate();
             }
         catch (Exception e)
@@ -99,6 +91,9 @@ public class AdminRegister extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+        response.sendRedirect("schedule.html");  // redirects back to schedule.html after form submitted
+        
     }
 
     /**
@@ -114,18 +109,17 @@ public class AdminRegister extends HttpServlet {
     public void init() throws ServletException
     {
         String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "JoeDB";
+        String dbName = "K00203642";
         String userName = "root";
-        String password = "password";
+        String password = "K00203642";
         
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conn = (Connection) DriverManager.getConnection
-                    (url+dbName,userName,password);
+            conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
-            stat.execute("DROP TABLE customers");
-            stat.execute("CREATE TABLE IF NOT EXISTS customers " + 
-                    "(customer_name CHAR(40), customer_email CHAR(40), customer_phone CHAR(40), customer_addr1 CHAR(40), customer_addr2 CHAR(40), customer_addr3 CHAR(40), customer_addr4 CHAR(40))");
+            //stat.execute("DROP TABLE Schedule");
+            stat.execute("CREATE TABLE IF NOT EXISTS Schedule " + 
+                    "(schedule_time TIME, schedule_presenter1 CHAR(40), schedule_presenter2 CHAR(40), schedule_location CHAR(40))");
         } catch (Exception e) 
         {
             System.err.println(e);

@@ -1,0 +1,21 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 10-Mar-2016, 00:00:27
+    Author     : Joe
+*/
+.heading{
+    background-color: powderblue;
+}
+.navigation{
+        text-align: center;
+        background-color: activecaption;
+        }
+.blah{
+        a:hover {background-color: activecaption;}
+        button:hover {color: blue; background-color: highlight;}
+        }
+.btmenu{}
