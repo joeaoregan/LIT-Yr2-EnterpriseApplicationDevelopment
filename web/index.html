@@ -59,13 +59,13 @@ and open the template in the editor.
                 document.getElementById("msg").innerHTML = "Administrator Login";
             }
             function resetLogin() {
-                document.getElementById("login").innerHTML = "<img src=\"icon_login.png\" alt=\"Administrator Login\" style=\"width:150px; height:150px;\" onmouseover=\"textLogin()\" onmouseout=\"clearText()\" onclick=\"showLogin()\">";
+                document.getElementById("login").innerHTML = "<img src=\"icon_loginT.png\" alt=\"Administrator Login\" style=\"width:150px; height:150px;\" onmouseover=\"textLogin()\" onmouseout=\"clearText()\" onclick=\"showLogin()\">";
             }
             function showLogin() {
                 document.getElementById("login").innerHTML = "<form action=\"login\" method=\"Get\" onmouseout=\"clearText()\">"+
                         "<table>" +
                             "<tr><th style=\"text-align:center; font-size: 150%;\" colspan=\"2\">Administrator Login</th></tr>"+
-                            "<tr><td>Username:</td><td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\" required></td></tr>"+
+                            "<tr><td>Username:</td><td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\" required autocomplete=\"off\"></td></tr>"+
                             "<tr><td>Password:</td><td><input type=\"password\" name=\"password\" title=\"Please enter password\" required></td></tr>"+
                             "<tr><td style=\"text-align:right\" colspan=\"2\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>"+
                             "</tr>"+

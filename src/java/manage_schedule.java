@@ -119,16 +119,19 @@ public class manage_schedule extends HttpServlet {
                     }   
             }
             catch(Exception e) { System.err.println(e); }  
+            out.println("<div>WS count: "+time_slots+"</div>");
             
             if(time_slots==0) // nothing in schedule
             {
                 out.println("<div class=\"mainbody\">" +
-                                "<h2 class=\"tbhead\">Initialise Schedule Table</h2>" +
-                                "<p>Sets up the schedule table by 1st creating the table, and then adding the break times" +
+                                "<h2 class=\"tbhead\">Initialise Workshop And Schedule Table</h2>" +
+                                "<p>Sets up the workshops, schedule, and custom schedule tables, by 1st creating the tables, and then adding the break times" +
                                 "<form action=\"init_sched\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Initialise the schedule table\">Initialise Schedule Table</button></form>" +
-                            "</div>");
+                            "</div><br>");
             }
 // Add to schedule
+            if(time_slots>0)
+            {
             try{
                 java.sql.Statement stmt = conn.createStatement(); 
                 ResultSet schedule = stmt.executeQuery("SELECT schedule_time,schedule_location FROM Schedule");  
@@ -282,7 +285,7 @@ public class manage_schedule extends HttpServlet {
                             "</form>" +
                             "<p>* Only <b>booked</b> time slots can be deleted</p>" +
                         "</div>");
-            
+            } // Display workshops if workshops in table    
 // Bottom Links (Manage)             
             out.println("<div  id=\"bl\" class=\"bottomlinks\">" +
                             "<table align=\"center\">" +

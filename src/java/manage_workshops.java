@@ -35,6 +35,7 @@ public class manage_workshops extends HttpServlet {
     String ws_pres2;;
     String ws_info;
     int ws_num = 1;
+    int workshop_count;
        
     public void init() throws ServletException
     {
@@ -93,7 +94,32 @@ public class manage_workshops extends HttpServlet {
                             "<form action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
                             "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
                         "</span></div>");
+            
+// Initialise workshops
+            try{
+                java.sql.Statement stmt = conn.createStatement(); 
+                ResultSet workshop = stmt.executeQuery("SELECT * FROM Workshops");   
+                workshop_count = 0; // initialise count to 0
+                    while(workshop.next())
+                    {
+                        workshop_count++;
+                    }   
+            }
+            catch(Exception e) { System.err.println(e); }  
+            //out.println("<div>WS count: "+workshop_count+"</div>");
+            if(workshop_count==0) // nothing in schedule
+            {
+                out.println("<div class=\"mainbody\">" +
+                                "<h2 class=\"tbhead\">Initialise Workshop And Schedule Table</h2>" +
+                                "<p>Sets up the workshops, schedule, and custom schedule tables, by 1st creating the tables, and then adding the break times" +
+                                "<form action=\"init_sched\" method=\"get\"><button name=\"buttonInitWS\" title=\"Initialise the workshops table\">Initialise Workshops Table</button></form>" +
+                            "</div><br>");
+            }
+            
+            
 // Workshop Form Input
+            if(workshop_count > 0) // Only display if workshop count is initialised
+            {
             out.println("<div class=\"mainbody\">" +
                             "<form action=\"add_workshop\" method=\"POST\"><br>" +
                                 "<table align=\"center\">" +
@@ -189,6 +215,8 @@ public class manage_workshops extends HttpServlet {
                         "</form>" +
                     "<p>Choose the workshop ID & name to select</p>" +
                 "</div><br>");
+            
+        } // display if workshop initialised
             
 // Bottom Links (Manage)             
             out.println("<div  id=\"bl\" class=\"bottomlinks\">" +

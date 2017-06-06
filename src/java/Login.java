@@ -29,6 +29,7 @@ public class login extends HttpServlet {
         Connection conn = null;        
         String DB_username; 
         String DB_password;
+        String admin_name;
         String username;
         String password;
         String title = "Event Administration";
@@ -51,13 +52,14 @@ public class login extends HttpServlet {
             ResultSet result = stmt.executeQuery("SELECT * FROM administrators WHERE admin_username = '"+username+"'");  // works OK
             result.next();
             DB_username = result.getString("admin_username");
+            admin_name = result.getString("admin_fname") + " " + result.getString("admin_lname");
             DB_password = result.getString("admin_password"); 
         }
         catch(Exception e)
         {
             System.err.println(e);
         }           
-        passwordValidate = password.contentEquals( DB_password ); // see does password match database password
+        //passwordValidate = password.contentEquals( DB_password ); // see does password match database password
         
         out.println(docType + 
                 "<html>" +                
@@ -68,7 +70,9 @@ public class login extends HttpServlet {
                   "<body>");
         
 
-        if (passwordValidate == true)
+        //if (passwordValidate == true)
+        //if (password.contentEquals( DB_password ))
+        if(password.equals(DB_password))
         {        
 // Heading
             out.println("<div class=\"heading\">" +
@@ -172,7 +176,7 @@ public class login extends HttpServlet {
             
 // Unsuccessful Login Greeting
             out.println("<div class=\"mainbody\">" +        
-                            "<ul><h2>Hello " + request.getParameter("username") + ", The Password Entered Is Incorrect!!!</h2></ul>" +   
+                            "<ul><h2>Hello " + request.getParameter("username") + ", The Username Or Password Entered Is Incorrect!!!</h2></ul>" +   
                             "<form><a href=\"index\" title=\"Return To Homepage (Alt + 7)\"><button name=\"button\" value=\"OK\" type=\"button\">Go Back</button></a></form><br>" +
                         "</div>");
             

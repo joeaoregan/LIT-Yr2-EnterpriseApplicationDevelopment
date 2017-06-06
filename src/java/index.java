@@ -55,7 +55,7 @@ public class index extends HttpServlet {
     double random_speaker_id;
     int anArray[];
     int test;
-    
+        
     public void init() throws ServletException
     {
         String url = "jdbc:mysql://localhost:3306/";
