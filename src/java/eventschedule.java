@@ -51,18 +51,28 @@ public class eventschedule extends HttpServlet {
             String docType = "<!doctype html >";
             
             out.println(docType + "<html>\n" +
+                    "<style>" +
+                        "a:hover {background-color: activecaption;}" +
+                        "button:hover {color: blue; background-color: highlight;}" +
+                    "</style>" +
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
-                    "<head class=\"heading\"><title>" + title + "</title></head>\n" +
-                    "<body><h1 style=\"text-align:center\">" + title + "</h1>" +
-                    "<div class=\"navigation\">\n" +
-                        "<form style=\"display: inline\" action=\"eventschedule\" method=\"get\"><button name\"buttonEventAdmin\" title=\"Schedule (Alt + 1)\">Event Schedule</button></form>\n" +
-                        "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 2)\">Administrator Registration</button></form>\n" +
-                        "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 3)\">Attendee Registration</button></form>\n" +
-                        "<form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Home Page (Alt + 5)\">Return To Home Page</button></form>\n" +
-                    "</div>"
-                    + "<h2 style=\"text-align:center\">Times of Events</h2>" +
-                        "<form action=\"out_cust_schedule.html\" method=\"GET\">"
-                    + "<br><table id=\"table1\">");
+                    "<head ><title>" + title + "</title></head>\n" +
+                    "<body>" +
+                        "<div class=\"heading\">" +
+                            "<br><h1 style=\"text-align:center\">" + title + "</h1><br>" +
+                        "</div>" +
+                    
+                        "<div class=\"navigation\">\n" +
+                            "<form style=\"display: inline\" action=\"eventschedule\" method=\"get\"><button name\"buttonEventAdmin\" title=\"Schedule (Alt + 1)\">Event Schedule</button></form>\n" +
+                            "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 2)\">Administrator Registration</button></form>\n" +
+                            "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 3)\">Attendee Registration</button></form>\n" +
+                            "<form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Home Page (Alt + 5)\">Return To Home Page</button></form>\n" +
+                        "</div>" +
+                    
+                        "<div class=\"mainbody\"><br>" +
+                            "<h2 style=\"text-align:center\">Times of Events</h2>" +
+                            "<form action=\"out_cust_schedule.html\" method=\"GET\"><br>"
+                    +       "<table id=\"table1\">");
             
             try{
             Statement stmt = conn.createStatement(); 
@@ -85,12 +95,23 @@ public class eventschedule extends HttpServlet {
                 out.println("<tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>");
             }
                 out.println("<tr><td colspan=\"4\" style=\"text-align:right\"><input type=\"submit\" value=\"Submit Custom Time Table\" title=\"Submit Custom Table\"/></td></tr>");
-                out.println("</table></form>"
-                        + "<br><br><a href=\"eventschedule\" title=\"Event Schedule (Alt + 1)\" accesskey=\"1\">1. Event Schedule</a><br>" +
+                out.println("</table></form><br>" +
+                        "</div>" +
+                    
+                        "<div class=\"navigation\">\n" +
+                            "<form style=\"display: inline\" action=\"eventschedule\" method=\"get\"><button name\"buttonEventAdmin\" title=\"Schedule (Alt + 1)\">Event Schedule</button></form>\n" +
+                            "<form style=\"display: inline\" action=\"reg_admin.html\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 2)\">Administrator Registration</button></form>\n" +
+                            "<form style=\"display: inline\" action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 3)\">Attendee Registration</button></form>\n" +
+                            "<form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Home Page (Alt + 5)\">Return To Home Page</button></form>\n" +
+                        "</div>" +
+                        
+                        "<div class=\"bottomlinks\">" +
+                            "<br><a href=\"eventschedule\" title=\"Event Schedule (Alt + 1)\" accesskey=\"1\">1. Event Schedule</a><br>" +
                             "<a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 2)\" accesskey=\"2\">2. Administrator Registration</a><br>" +
                             "<a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 3)\" accesskey=\"3\">3. Attendee Registration</a><br>" +
-                            "<a href=\"index.html\" title=\"Return To Homepage (Alt + 4)\" accesskey=\"4\">4. Return To Home Page</a><br>"
-                        + "</body></html>");
+                            "<a href=\"index.html\" title=\"Return To Homepage (Alt + 4)\" accesskey=\"4\">4. Return To Home Page</a><br>" +
+                        "</div>" +
+                    "</body></html>");
         }
         catch(Exception e)
         {

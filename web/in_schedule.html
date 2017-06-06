@@ -6,96 +6,108 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="CAstyle.css">
+        <link rel="stylesheet" type="text/css" href="CAstyle.css">        
         <title>Schedule Details</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1 style="text-align:center">Schedule Details</h1>
-        <div class="navigation">
-        <form style="display: inline" action="eventschedule" method="get"><button name="buttonEventSchedule" title="Event Schedule (Alt + 0)">Event Schedule</button></form>
-        <form style="display: inline" action="in_speakers.html" method="get"><button name="buttonSpeaker" title="Add Speaker Details (Alt + 1)">Add Speaker Details</button></form>
-        <form style="display: inline" action="in_workshops.html" method="get"><button name="buttonWorkshop" title="Add Workshop Details (Alt + 2)">Add Workshop Details</button></form>
-        <form style="display: inline" action="in_schedule.html" method="get"><button name="buttonSchedule" title="Add Schedule Details (Alt + 3)">Add Schedule Details</button></form>
-        <form style="display: inline" action="in_exhibitors.html" method="get"><button name="buttonExhibitor" title="Add Exhibitor Details (Alt + 4)">Add Exhibitor Details</button></form> 
-        <form style="display: inline" action="eventAdministration.html" method="get"><button name="buttonEventAdmin" title="Return To Event Administration (Alt + 5)">Event Administration</button></form>
+        <div class="heading">
+            <br><h1 style="text-align:center">Schedule Details</h1><br>
         </div>
-        <form action="schedule" method="POST"><br>
-            <table>
-                <tr>
-                    <td>Time:</td>
-                    <td>
-                        <input list="schedule_time" autofocus="autofocus" name="schedule_time" title="Select A Time From The List">
-                          <datalist id="schedule_time">
-                            <option value="08:00:00">
-                            <option value="08:30:00">
-                            <option value="09:00:00">
-                            <option value="09:30:00">
-                            <option value="10:00:00">
-                            <option value="10:30:00">
-                            <option value="11:00:00">
-                            <option value="11:30:00">
-                            <option value="12:00:00">
-                            <option value="12:30:00">
-                            <option value="13:00:00">
-                            <option value="13:30:00">
-                            <option value="14:00:00">
-                            <option value="14:30:00">
-                            <option value="15:00:00">
-                            <option value="15:30:00">
-                            <option value="16:00:00">
-                            <option value="16:30:00">
-                            <option value="17:00:00">
-                            <option value="17:30:00">
-                          </datalist></td>        
-                </tr>
-                <tr>
-                    <td>Title:</td>
-                    <td><input type="text" name="schedule_title" title="Enter title"></td><td></td>
-                </tr>
-                <tr>
-                    <td>Speaker:</td>
-                    <td><input type="number" name="schedule_speaker_id" title="Enter speaker id"></td><td></td>            
-                </tr>
-                <tr>
-                    <td>Exhibitor:</td>
-                    <td><input type="number" name="schedule_exhibitor_id" title="Enter exhibitor id"></td><td></td>
-                </tr>
-                <tr>
-                    <td>Location:</td>
-                    <!--td><input type="text" name="schedule_location" title="Enter location"></td-->
-                    <td><input list="schedule_location" name="schedule_location" title="Select A Location From The List">
-                          <datalist id="schedule_location">
-                            <option value="Room A101">
-                            <option value="Room A102">
-                            <option value="Room A103">
-                            <option value="Room B101">
-                            <option value="Room B102">
-                            <option value="Room B103">
-                            <option value="Room C101">
-                            <option value="Room C102">
-                            <option value="Room C103">
-                          </datalist></td><td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                <td style="text-align:right"><input type="submit" value="Submit" title="Submit Details"/></td><td></td>
-                </tr>
-            </table>
-        </form><br>
-        <form style="display: inline" action="reg_admin.html" method="get"><button name="buttonRegAdmin" title="Administrator Registration Page (Alt + 6)">Administrator Registration</button></form>
-        <form style="display: inline" action="reg_attendee.html" method="get"><button name="buttonRegAttendee" title="Attendee Registration Page (Alt + 7)">Attendee Registration</button></form>
-        <form style="display: inline" action="index.html" method="get"><button name="buttonHome" title="Return To Home Page (Alt + 8)">Return To Home Page</button></form>
-        <br><br>
-        <a href="eventschedule" title="Event Schedule (Alt + 0)" accesskey="0">0. Event Schedule</a><br>       
-        <a href="in_speakers.html" title="Add Speaker Details (Alt + 1)" accesskey="1">1. Add Speaker Details</a><br>       
-        <a href="in_workshops.html" title="Add Workshop Details (Alt + 2)" accesskey="2">2. Add Workshop Details</a><br>      
-        <a href="in_schedule.html" title="Add Schedule Details (Alt + 3)" accesskey="3">3. Add Schedule Details</a><br>
-        <a href="in_exhibitors.html" title="Add Exhibitor Details (Alt + 4)" accesskey="4">4. Add Exhibitor Details</a><br>
-        <a href="eventAdministration.html" title="Event Administration Page (Alt + 5)" accesskey="5">5. Event Administration</a><br>
-        <a href="reg_admin.html" title="Administrator Registration Page (Alt + 6)" accesskey="1">6. Administrator Registration</a><br>
-        <a href="reg_attendee.html" title="Attendee Registration Page (Alt + 7)" accesskey="2">7. Attendee Registration</a><br>
-        <a href="index.html" title="Return To Homepage (Alt + 8)" accesskey="6">8. Return To Home Page</a><br>
+        
+        <div class="navigation">
+            <form style="display: inline" action="eventschedule" method="get"><button name="buttonEventSchedule" title="Event Schedule (Alt + 0)">Event Schedule</button></form>
+            <form style="display: inline" action="in_speakers.html" method="get"><button name="buttonSpeaker" title="Add Speaker Details (Alt + 1)">Add Speaker Details</button></form>
+            <form style="display: inline" action="in_workshops.html" method="get"><button name="buttonWorkshop" title="Add Workshop Details (Alt + 2)">Add Workshop Details</button></form>
+            <form style="display: inline" action="in_schedule.html" method="get"><button name="buttonSchedule" title="Add Schedule Details (Alt + 3)">Add Schedule Details</button></form>
+            <form style="display: inline" action="in_exhibitors.html" method="get"><button name="buttonExhibitor" title="Add Exhibitor Details (Alt + 4)">Add Exhibitor Details</button></form> 
+            <form style="display: inline" action="eventAdministration.html" method="get"><button name="buttonEventAdmin" title="Return To Event Administration (Alt + 5)">Event Administration</button></form>
+        </div>
+        
+        <div class="mainbody">
+            <form action="schedule" method="POST"><br>
+                <table>
+                    <tr>
+                        <th>Time:</th>
+                        <td>
+                            <input list="schedule_time" autofocus="autofocus" name="schedule_time" title="Select A Time From The List">
+                              <datalist id="schedule_time">
+                                <option value="08:00:00">
+                                <option value="08:30:00">
+                                <option value="09:00:00">
+                                <option value="09:30:00">
+                                <option value="10:00:00">
+                                <option value="10:30:00">
+                                <option value="11:00:00">
+                                <option value="11:30:00">
+                                <option value="12:00:00">
+                                <option value="12:30:00">
+                                <option value="13:00:00">
+                                <option value="13:30:00">
+                                <option value="14:00:00">
+                                <option value="14:30:00">
+                                <option value="15:00:00">
+                                <option value="15:30:00">
+                                <option value="16:00:00">
+                                <option value="16:30:00">
+                                <option value="17:00:00">
+                                <option value="17:30:00">
+                              </datalist></td>        
+                    </tr>
+                    <tr>
+                        <th>Title:</th>
+                        <td><input type="text" name="schedule_title" title="Enter title"></td><td></td>
+                    </tr>
+                    <tr>
+                        <th>Speaker:</th>
+                        <td><input type="number" name="schedule_speaker_id" title="Enter speaker id"></td><td></td>            
+                    </tr>
+                    <tr>
+                        <th>Exhibitor:</th>
+                        <td><input type="number" name="schedule_exhibitor_id" title="Enter exhibitor id"></td><td></td>
+                    </tr>
+                    <tr>
+                        <th>Location:</th>
+                        <!--td><input type="text" name="schedule_location" title="Enter location"></td-->
+                        <td><input list="schedule_location" name="schedule_location" title="Select A Location From The List">
+                              <datalist id="schedule_location">
+                                <option value="Room A101">
+                                <option value="Room A102">
+                                <option value="Room A103">
+                                <option value="Room B101">
+                                <option value="Room B102">
+                                <option value="Room B103">
+                                <option value="Room C101">
+                                <option value="Room C102">
+                                <option value="Room C103">
+                              </datalist></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    <td style="text-align:right"><input type="submit" value="Submit" title="Submit Details"/></td><td></td>
+                    </tr>
+                </table>
+            </form><br>
+        </div>
+        
+        <div class="navigation">
+            <form style="display: inline" action="reg_admin.html" method="get"><button name="buttonRegAdmin" title="Administrator Registration Page (Alt + 6)">Administrator Registration</button></form>
+            <form style="display: inline" action="reg_attendee.html" method="get"><button name="buttonRegAttendee" title="Attendee Registration Page (Alt + 7)">Attendee Registration</button></form>
+            <form style="display: inline" action="index.html" method="get"><button name="buttonHome" title="Return To Home Page (Alt + 8)">Return To Home Page</button></form>
+        </div>
+        
+        <div class="bottomlinks">
+            <br>
+            <a href="eventschedule" title="Event Schedule (Alt + 0)" accesskey="0">0. Event Schedule</a><br>       
+            <a href="in_speakers.html" title="Add Speaker Details (Alt + 1)" accesskey="1">1. Add Speaker Details</a><br>       
+            <a href="in_workshops.html" title="Add Workshop Details (Alt + 2)" accesskey="2">2. Add Workshop Details</a><br>      
+            <a href="in_schedule.html" title="Add Schedule Details (Alt + 3)" accesskey="3">3. Add Schedule Details</a><br>
+            <a href="in_exhibitors.html" title="Add Exhibitor Details (Alt + 4)" accesskey="4">4. Add Exhibitor Details</a><br>
+            <a href="eventAdministration.html" title="Event Administration Page (Alt + 5)" accesskey="5">5. Event Administration</a><br>
+            <a href="reg_admin.html" title="Administrator Registration Page (Alt + 6)" accesskey="1">6. Administrator Registration</a><br>
+            <a href="reg_attendee.html" title="Attendee Registration Page (Alt + 7)" accesskey="2">7. Attendee Registration</a><br>
+            <a href="index.html" title="Return To Homepage (Alt + 8)" accesskey="6">8. Return To Home Page</a><br>
+        </div>
     </body>
 </html>

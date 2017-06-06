@@ -12,45 +12,51 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1 style="text-align:center">Attendee Registration</h1>
+        <div class="heading">
+            <br><h1 style="text-align:center">Attendee Registration</h1><br>
+        </div>
+        
         <div class="navigation">
             <form style="display: inline" action="eventschedule" method="get"><button name="buttonEventSchedule" title="Event Schedule (Alt + 0)">Event Schedule</button></form>
             <form style="display: inline" action="reg_admin.html" method="get"><button name="buttonRegAdmin" title="Administrator Registration Page (Alt + 1)">Administrator Registration</button></form>
             <form style="display: inline" action="reg_attendee.html" method="get"><button name="buttonRegAttendee" title="Attendee Registration Page (Alt + 2)">Attendee Registration</button></form>
             <form style="display: inline" action="index.html" method="get"><button name="buttonHome" title="AReturn To Home Page (Alt + 3)">Return To Home Page</button></form>
         </div>
+        
+        <div class ="mainbody">
+        <div align="center">
         <form action="RegisterAttendee" method="POST"><br>
             <table>
                 <tr>
-                    <td>First Name:</td>
+                    <td><b>First Name:</b></td>
                     <td><input type="text" name="attendee_fname" autofocus="autofocus" title="Enter attendees first name"></td>
                 </tr>
                 <tr>
-                    <td>Last Name:</td>
+                    <td><b>Last Name:</b></td>
                     <td><input type="text" name="attendee_lname" title="Enter attendees last name"></td>
                 </tr>
                 <tr>
-                    <td>Email Address:</td>
+                    <td><b>Email Address:</b></td>
                     <td><input type="text" name="attendee_email" title="Enter an email address"></td>
                 </tr>
                 <tr>
-                    <td>Phone Number:</td>
+                    <td><b>Phone Number:</b></td>
                     <td><input type="text" name="attendee_phone" title="Enter a phone number"></td>
                 </tr>
                 <tr>
-                    <td>Address Line 1:</td>
+                    <td><b>Address Line 1:</b></td>
                     <td><input type="text" name="attendee_addr1" title="Enter address line 1"></td>
                 </tr>
                 <tr>
-                    <td>Address Line 2:</td>
+                    <td><b>Address Line 2:</b></td>
                     <td><input type="text" name="attendee_addr2" title="Enter address line 2"></td>
                 </tr>
                 <tr>
-                    <td>Town:</td>
+                    <td><b>Town:</b></td>
                     <td><input type="text" name="attendee_town" title="Enter a town"></td>
                 </tr>
                 <tr>
-                    <td>County:</td>
+                    <td><b>County:</b></td>
                     <td><input list="attendee_county" name="attendee_county" title="Select a county">
                           <datalist id="attendee_county">
                             <option value="Antrim">
@@ -94,17 +100,23 @@ and open the template in the editor.
                 </tr>
           </table>
         </form><br>
+        </div>
+        </div>
+        
         <div class="navigation">
             <form style="display: inline" action="eventschedule" method="get"><button name="buttonEventSchedule" title="Event Schedule (Alt + 0)">Event Schedule</button></form>
             <form style="display: inline" action="reg_admin.html" method="get"><button name="buttonRegAdmin" title="Administrator Registration Page (Alt + 1)">Administrator Registration</button></form>
             <form style="display: inline" action="reg_attendee.html" method="get"><button name="buttonRegAttendee" title="Attendee Registration Page (Alt + 2)">Attendee Registration</button></form>
             <form style="display: inline" action="index.html" method="get"><button name="buttonHome" title="AReturn To Home Page (Alt + 3)">Return To Home Page</button></form>
         </div>
-            <br><br>
-        <a href="eventschedule" title="Event Schedule (Alt + 0)" accesskey="0">0. Event Schedule</a><br>       
-        <a href="reg_admin.html" title="Administrator Registration Page (Alt + 1)" accesskey="1">1. Administrator Registration</a><br>
-        <a href="reg_attendee.html" title="Attendee Registration Page (Alt + 2)" accesskey="2">2. Attendee Registration</a><br>
-        <a href="index.html" title="Return To Homepage (Alt + 3)" accesskey="3">3. Return To Home Page</a><br>
-        <br>
+        
+        <div class="bottomlinks">
+            <br>
+            <a href="eventschedule" title="Event Schedule (Alt + 0)" accesskey="0">0. Event Schedule</a><br>       
+            <a href="reg_admin.html" title="Administrator Registration Page (Alt + 1)" accesskey="1">1. Administrator Registration</a><br>
+            <a href="reg_attendee.html" title="Attendee Registration Page (Alt + 2)" accesskey="2">2. Attendee Registration</a><br>
+            <a href="index.html" title="Return To Homepage (Alt + 3)" accesskey="3">3. Return To Home Page</a><br>
+            <br>
+        </div>
     </body>
 </html>
