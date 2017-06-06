@@ -18,4 +18,17 @@ and open the template in the editor.
         a:hover {background-color: activecaption;}
         button:hover {color: blue; background-color: highlight;}
         }
+.table {
+  
+  margin-left: auto ;
+  margin-right: auto ;
+}
+ table#table1 {
+    text-align:center; 
+    margin-left:auto; 
+    margin-right:auto; 
+    width:100px;
+  }
+  tr,td {text-align:left;}
+  
 .btmenu{}

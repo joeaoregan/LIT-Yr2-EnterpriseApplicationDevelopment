@@ -1,3 +1,4 @@
+import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -12,17 +13,34 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(urlPatterns = {"/eventschedule"})
 public class eventschedule extends HttpServlet {
-    String URL = "jdbc:mysql://localhost:3306/";                            // JDBC URL (sometimes 3307)
-    String DB = "JoeCA";                                                    // DB must be created first
-    String USERNAME = "root";                                               // Passwords different each machine
-    String PASSWORD = "password";
-    Connection conn = null;
+    Connection conn = null; 
+    PreparedStatement prepStat;
+    com.mysql.jdbc.Statement stat;    
     String scheduletime;
     String scheduletitle;
     String schedulelocation;
     String speakername;
     String speakersite;
     String checkboxname;
+    
+    public void init() throws ServletException
+    {
+        String url = "jdbc:mysql://localhost:3306/";
+        String dbName = "JoeCA";
+        String userName = "root";
+        String password = "password";
+        
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = (Connection) DriverManager.getConnection
+                    (url+dbName,userName,password);
+            stat = (com.mysql.jdbc.Statement) conn.createStatement();
+        } catch (Exception e) 
+        {
+            System.err.println(e);
+        }
+    } // end of init() method
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -43,21 +61,15 @@ public class eventschedule extends HttpServlet {
                         "<form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Home Page (Alt + 5)\">Return To Home Page</button></form>\n" +
                     "</div>"
                     + "<h2 style=\"text-align:center\">Times of Events</h2>" +
-                        "<form action=\"out_cust_schedule.html\" method=\"GET\"><br><table>");
+                        "<form action=\"out_cust_schedule.html\" method=\"GET\">"
+                    + "<br><table id=\"table1\">");
             
             try{
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager .getConnection(URL + DB,USERNAME,PASSWORD);    // Establish/request a connection to a database
             Statement stmt = conn.createStatement(); 
-            //ResultSet result = stmt.executeQuery("SELECT * FROM Schedule ORDER BY schedule_time");  
-            //ResultSet result = stmt.executeQuery("SELECT * FROM Schedule JOIN Speakers ON Schedule.schedule_id = Speakers.speaker_event_id GROUP BY schedule.schedule_time");  
-            //ResultSet result = stmt.executeQuery("SELECT distinct schedule_time, schedule_location, schedule_title, speaker_fname,speaker_lname FROM Schedule JOIN Speakers");  
-            ResultSet result = stmt.executeQuery("SELECT * FROM Speakers join schedule \n" +
-                                                 "where speakers.speaker_id = schedule.schedule_speaker_id\n" +
-                                                 "group by schedule_time, schedule_title;");  
+            ResultSet result = stmt.executeQuery("SELECT * FROM Speakers JOIN schedule WHERE speakers.speaker_id = schedule.schedule_speaker_id GROUP BY schedule_time, schedule_title;");  
             
-                out.println("<tr style=\"font-size:20px\"><td><b>Event Time</b></td><td><b>Event Title</b></td><td><b>Location</b></td><td><b>Attend</b></td></tr><tr><td></td></tr>");
-                out.println("<tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>");
+            out.println("<tr style=\"font-size:20px\"><td><b>Event Time</b></td><td><b>Event Title</b></td><td><b>Location</b></td><td><b>Attend</b></td></tr><tr><td></td></tr>");
+            out.println("<tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>");
             while(result.next())
             {
                 scheduletime = result.getString("schedule_time");
