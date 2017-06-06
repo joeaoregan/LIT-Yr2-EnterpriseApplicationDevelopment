@@ -22,16 +22,13 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe O'Regan
  * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/update_schedule"})
-public class update_schedule extends HttpServlet {
-    String schedule_time;
-    //String workshop_name;
-    //String schedule_location;
+@WebServlet(urlPatterns = {"/delete_speaker"})
+public class delete_speaker extends HttpServlet {
+    String sp_delete;
     
     Connection conn;
     PreparedStatement prepStat;
     Statement stat;
-    
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,24 +40,7 @@ public class update_schedule extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        /*
-        schedule_time = request.getParameter("schedule_time");
-        //workshop_name = request.getParameter("workshop_name");
-        //schedule_location = request.getParameter("schedule_location");
-        
-        try {
-            Statement stat = conn.createStatement();
-            String command = "DELETE FROM Schedule WHERE schedule_time ="+schedule_time;
-            int count = stat.executeUpdate(command);
-        }
-        catch (Exception e)
-        {
-            System.err.println(e);
-        }
-        
-        response.sendRedirect("in_schedule");  // redirects back to schedule.html after form submitted
-        */
+            throws ServletException, IOException {        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -89,15 +69,14 @@ public class update_schedule extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-        
-        schedule_time = request.getParameter("deletetime");
+        processRequest(request, response);        
+        sp_delete = request.getParameter("delete_speaker");
         
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Statement stat = conn.createStatement();
             
-            String command = "DELETE FROM Schedule WHERE schedule_time = '" + schedule_time+ "'";
+            String command = "DELETE FROM Speakers WHERE speaker_id = '" + sp_delete + "'";
             
             stat.executeUpdate(command);
         }
@@ -106,7 +85,7 @@ public class update_schedule extends HttpServlet {
             System.err.println(e);
         }
         
-        response.sendRedirect("in_schedule");  // redirects back to schedule.html after form submitted
+        response.sendRedirect("in_speakers");  // redirects back to schedule.html after form submitted
     }
 
     /**
@@ -130,7 +109,7 @@ public class update_schedule extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
-            stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_id INT PRIMARY KEY AUTO_INCREMENT,schedule_time TIME,workshop_name CHAR(60),schedule_location CHAR(40))");
+            stat.execute("CREATE TABLE IF NOT EXISTS Speakers(speaker_id INT PRIMARY KEY AUTO_INCREMENT, speaker_fname CHAR(40), speaker_lname CHAR(40), speaker_bio TEXT, speaker_website VARCHAR(60), speaker_pic VARCHAR(60));");
         }
         catch (Exception e) 
         {

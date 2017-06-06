@@ -101,19 +101,19 @@ public class in_schedule extends HttpServlet {
                         "<html>" +
                         "<head>" +
 "                           <link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">");
-            out.println("<title>Add Schedule Details</title>");            
+            out.println("<title>Manage Schedules</title>");            
             out.println("</head>");
             out.println("<body>"
                         + "<div class=\"heading\">\n" +
-"                           <br><h1 style=\"text-align:center\">Schedule Details</h1><br>\n" +
+"                           <br><h1 style=\"text-align:center\">Manage Schedule Details</h1><br>\n" +
                         "</div>"
                     
                     + "<div class=\"navigation\">\n" +
-                "            <form style=\"display: inline\" action=\"eventschedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 0)\">Event Schedule</button></form>\n" +
+                "            <form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 0)\">Event Schedule</button></form>\n" +
                 "            <form style=\"display: inline\" action=\"in_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + 1)\">Add Speaker Details</button></form>\n" +
-                "            <form style=\"display: inline\" action=\"in_workshops.html\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + 2)\">Add Workshop Details</button></form>\n" +
+                "            <form style=\"display: inline\" action=\"in_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + 2)\">Add Workshop Details</button></form>\n" +
                 "            <form style=\"display: inline\" action=\"in_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + 3)\">Add Schedule Details</button></form>\n" +
-                "            <form style=\"display: inline\" action=\"in_exhibitors.html\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + 4)\">Add Exhibitor Details</button></form> \n" +
+                "            <form style=\"display: inline\" action=\"in_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + 4)\">Add Exhibitor Details</button></form> \n" +
                 "            <form style=\"display: inline\" action=\"eventAdministration.html\" method=\"get\"><button name=\"buttonEventAdmin\" title=\"Return To Event Administration (Alt + 5)\">Event Administration</button></form>\n" +
                 "        </div>"
                     
@@ -154,8 +154,8 @@ public class in_schedule extends HttpServlet {
                     }   
                     //out.println("<br>END OF TEST");
                         
-                out.println("<form action=\"schedule\" method=\"POST\"><br>\n" +
-                "                <table align=\"center\">\n");
+                out.println("<form action=\"add_schedule\" method=\"POST\"><br>" +
+                "                <table align=\"center\">");
                 
 // Schedule Time (shedule_time)
                 out.println("<tr>" +
@@ -320,7 +320,8 @@ public class in_schedule extends HttpServlet {
                     
             out.println("<div class=\"mainbody\">"
                     +"<h2>Edit Schedule Details</h2>"
-                    + "<form action=\"update_schedule\" method=\"POST\">"
+                    + "<p>Select time slot to delete</p>"
+                    + "<form action=\"delete_schedule\" method=\"POST\">"
                     + "<table align=\"center\">"
                         + "<tr>" +
                 "               <th>Time To Delete:</th>\n" +
@@ -348,8 +349,8 @@ public class in_schedule extends HttpServlet {
                                 "<td style=\"text-align:right\"><input type=\"submit\" value=\"Delete\" title=\"Delete Time\"/></td>" +
                 "           </tr>"
                     + "</table>" +
-                        "</form>");
-                out.println("<p>* Only <b>booked</b> time slots can be deleted</p>" +
+                        "</form>" +
+                   "<p>* Only <b>booked</b> time slots can be deleted</p>" +
                 "</div>");
 
 // Navigation menu
@@ -360,11 +361,11 @@ public class in_schedule extends HttpServlet {
                 "        </div>\n" +
                     
                 "        <div  id=\"bl\" class=\"bottomlinks\">" +
-                "            <a class=\"class1\" href=\"eventschedule\" title=\"Event Schedule (Alt + 0)\" accesskey=\"0\">0. Event Schedule</a><br>" +
+                "            <a class=\"class1\" href=\"show_schedule\" title=\"Event Schedule (Alt + 0)\" accesskey=\"0\">0. Event Schedule</a><br>" +
                 "            <a href=\"in_speakers\" title=\"Add Speaker Details (Alt + 1)\" accesskey=\"1\">1. Add Speaker Details</a><br>" +
-                "            <a href=\"in_workshops.html\" title=\"Add Workshop Details (Alt + 2)\" accesskey=\"2\">2. Add Workshop Details</a><br>" +
+                "            <a href=\"in_workshops\" title=\"Add Workshop Details (Alt + 2)\" accesskey=\"2\">2. Add Workshop Details</a><br>" +
                 "            <a href=\"in_schedule\" title=\"Add Schedule Details (Alt + 3)\" accesskey=\"3\">3. Add Schedule Details</a><br>" +
-                "            <a href=\"in_exhibitors.html\" title=\"Add Exhibitor Details (Alt + 4)\" accesskey=\"4\">4. Add Exhibitor Details</a><br>" +
+                "            <a href=\"in_exhibitors\" title=\"Add Exhibitor Details (Alt + 4)\" accesskey=\"4\">4. Add Exhibitor Details</a><br>" +
                 "            <a href=\"eventAdministration.html\" title=\"Event Administration Page (Alt + 5)\" accesskey=\"5\">5. Event Administration</a><br>" +
                 "            <a href=\"reg_admin.html\" title=\"Administrator Registration Page (Alt + 6)\" accesskey=\"1\">6. Administrator Registration</a><br>" +
                 "            <a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 7)\" accesskey=\"2\">7. Attendee Registration</a><br>" +

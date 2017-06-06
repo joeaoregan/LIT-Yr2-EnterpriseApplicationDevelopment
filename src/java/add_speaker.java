@@ -20,17 +20,17 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe O'Regan
  * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/exhibitors"})
-public class exhibitors extends HttpServlet {
-    String exhibitor_fname;
-    String exhibitor_lname;
-    String exhibitor_bio;
-    String exhibitor_website;
+@WebServlet(urlPatterns = {"/add_speaker"})
+public class add_speaker extends HttpServlet {
+    String speaker_fname;
+    String speaker_lname;
+    String speaker_bio;
+    String speaker_website;
+    String speaker_pic;
     
     Connection conn;
     PreparedStatement prepStat;
-    Statement stat;
-    
+    Statement stat;    
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,18 +44,20 @@ public class exhibitors extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        exhibitor_fname = request.getParameter("exhibitor_fname");
-        exhibitor_lname = request.getParameter("exhibitor_lname");
-        exhibitor_bio = request.getParameter("exhibitor_bio");
-        exhibitor_website = request.getParameter("exhibitor_website");
+        speaker_fname = request.getParameter("speaker_fname");
+        speaker_lname = request.getParameter("speaker_lname");
+        speaker_bio = request.getParameter("speaker_bio");
+        speaker_website = request.getParameter("speaker_website");
+        speaker_pic = request.getParameter("speaker_pic");
         
         try {
-            String query = "INSERT INTO Exhibitors (exhibitor_fname, exhibitor_lname, exhibitor_bio, exhibitor_website) VALUES (?,?,?,?)";
+            String query = "INSERT INTO Speakers (speaker_fname, speaker_lname, speaker_bio, speaker_website,speaker_pic) VALUES (?,?,?,?,?)";
             prepStat = (PreparedStatement) conn.prepareStatement(query);
-            prepStat.setString(1, exhibitor_fname);
-            prepStat.setString(2, exhibitor_lname);
-            prepStat.setString(3, exhibitor_bio);
-            prepStat.setString(4, exhibitor_website);
+            prepStat.setString(1, speaker_fname);
+            prepStat.setString(2, speaker_lname);
+            prepStat.setString(3, speaker_bio);
+            prepStat.setString(4, speaker_website);
+            prepStat.setString(5, speaker_pic);
             prepStat.executeUpdate();
             }
         catch (Exception e)
@@ -91,9 +93,7 @@ public class exhibitors extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        
-        response.sendRedirect("in_exhibitors.html");  // redirects back to exhibitors.html after form submitted
-        
+        response.sendRedirect("in_speakers");                                   // redirects back to speakers.html after form submitted
     }
 
     /**
@@ -115,19 +115,14 @@ public class exhibitors extends HttpServlet {
         
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conn = (Connection) DriverManager.getConnection
-                    (url+dbName,userName,password);
+            conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
-            //stat.execute("DROP TABLE Exhibitors");
-            stat.execute("CREATE TABLE IF NOT EXISTS Exhibitors " + 
-                    "(exhibitor_id INT PRIMARY KEY AUTO_INCREMENT, exhibitor_fname CHAR(40), exhibitor_lname CHAR(40), exhibitor_bio TEXT, exhibitor_website VARCHAR(60)");
+            stat.execute("CREATE TABLE IF NOT EXISTS Speakers(speaker_id INT PRIMARY KEY AUTO_INCREMENT, speaker_fname CHAR(40),speaker_lname CHAR(40),speaker_bio TEXT,speaker_website VARCHAR(60),speaker_pic VARCHAR(60));");
         } catch (Exception e) 
         {
             System.err.println(e);
         }
     } // end of init() method
-    
-    
 }
 
 

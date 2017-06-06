@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
@@ -21,18 +22,18 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe O'Regan
  * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/in_speakers"})
-public class in_speakers extends HttpServlet {
+@WebServlet(urlPatterns = {"/in_workshops"})
+public class in_workshops extends HttpServlet {
     Connection conn;
     PreparedStatement prepStat;
     Statement stat;
     
-    String sp_id;
-    String speak_name;
-    String speak_bio;
-    String speak_site;
-    String speak_pic;
-    int speak_num = 1;
+    String ws_id;
+    String ws_name;
+    String ws_pres1;
+    String ws_pres2;;
+    String ws_info;
+    int ws_num = 1;
        
     public void init() throws ServletException
     {
@@ -69,12 +70,12 @@ public class in_speakers extends HttpServlet {
                         "<html>" +
                         "<head>" +
 "                           <link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
-                        "<title>Manage Speakers</title>" +
-                        "</head>");
+                        "<title>Manage Workshops</title>" +
+                    "</head>");
             
             out.println("<body>"
                         + "<div class=\"heading\">" +
-"                           <br><h1 style=\"text-align:center\">Manage Speaker Details</h1><br>" +
+"                           <br><h1 style=\"text-align:center\">Manage Workshop Details</h1><br>\n" +
                         "</div>"
 // Navigation menu
                     + "<div class=\"navigation\">" +
@@ -85,65 +86,58 @@ public class in_speakers extends HttpServlet {
                 "            <form style=\"display: inline\" action=\"in_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + 4)\">Add Exhibitor Details</button></form> \n" +
                 "            <form style=\"display: inline\" action=\"eventAdministration.html\" method=\"get\"><button name=\"buttonEventAdmin\" title=\"Return To Event Administration (Alt + 5)\">Event Administration</button></form>\n" +
                 "        </div>");
-// Speaker input            
+// Workshop input            
             out.println("<div class=\"mainbody\">" +
-                    "<h2>Enter Speaker Details</h2>" +
-                      "<form action=\"add_speaker\" method=\"POST\"><br>" +
-        "                <table align=\"center\">" +
-        "                    <tr>" +
-        "                        <th>First Name:</th>" +
-        "                        <td><input type=\"text\" name=\"speaker_fname\" autofocus=\"autofocus\" title=\"Enter speakers first name\"></td>" +
-        "                    </tr>" +
-        "                    <tr>" +
-        "                        <th>Last Name:</th>" +
-        "                        <td><input type=\"text\" name=\"speaker_lname\" title=\"Enter speakers last name\"></td>" +
-        "                    </tr>" +
-        "                    <tr>" +
-        "                        <th>Biography:</th>" +
-        "                        <td><textarea rows=\"15\" cols=\"50\" name=\"speaker_bio\" title=\"Enter speakers background info\"></textarea></td>" +
-        "                    </tr>" +
-        "                    <tr>" +
-        "                        <th>Website:</th>" +
-        "                        <td><input type=\"text\" name=\"speaker_website\" title=\"Enter speakers website\"></td>" +
-        "                    </tr>" +
-        "                    <tr>" +
-        "                        <th>Picture URL:</th>" +
-        "                        <td><input type=\"text\" name=\"speaker_pic\" title=\"Enter speaker picture url\"></td>" +
-        "                    </tr>" +
-        "                    <tr>" +
-        "                        <td></td><td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
-        "                    </tr>" +
-        "              </table>" +
-                     "</form>" +
-                    "</div><br>");
-            
+                    "<h2>Enter Workshop Details</h2>" +
+"            <form action=\"add_workshop\" method=\"POST\"><br>" +
+"                <table align=\"center\">" +
+"                    <tr>" +
+"                        <th>Name:</th>" +
+"                        <td><input type=\"text\" name=\"ws_name\" autofocus=\"autofocus\" title=\"Enter a name for the workshop\"></td>" +
+"                    </tr>\n" +
+"                    <tr>\n" +
+"                        <th>Presenter 1:</th>\n" +
+"                        <td><input type=\"text\" name=\"ws_presenter1\" title=\"Enter first presenters name\"></td>" +
+"                    </tr>\n" +
+"                    <tr>\n" +
+"                        <th>Presenter 2:</th>\n" +
+"                        <td><input type=\"text\" name=\"ws_presenter2\" title=\"Enter second presenters name\"></td>" +
+"                    </tr>\n" +
+"                    <tr>\n" +
+"                        <th>Information:</th>\n" +
+"                        <td><textarea rows=\"15\" cols=\"50\" name=\"ws_info\" title=\"Enter information about the workshop\"></textarea></td>" +
+"                    </tr>\n" +
+"                    <tr>\n" +
+"                        <td></td>\n" +
+"                    <td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>\n" +
+"                    </tr>\n" +
+"                </table>\n" +
+"            </form><br>\n" +
+"        </div><br>");
+
+// Current Workshops            
             out.println("<div class=\"mainbody\">" +
-                    "<h2>Current Speakers</h2>" +
-                    "<p>A list of the keynote speakers currently scheduled:</p>" +
+                    "<h2>Current Workshops</h2>" +
+                    "<p>A list of the workshops currently scheduled:</p>" +
                         "<table align=\"center\">");                    
             try {
                 java.sql.Statement stmt = conn.createStatement();
-                ResultSet speakers = stmt.executeQuery("SELECT * FROM Speakers");
+                ResultSet speakers = stmt.executeQuery("SELECT * FROM Workshops WHERE ws_name NOT LIKE 'Break'");
                 
-                speak_num=1;
+                ws_num=1;                                                                                                               // workshop number
                 while (speakers.next()) {
-                    sp_id = speakers.getString("speaker_id");
-                    speak_name = speakers.getString("speaker_fname") + " " + speakers.getString("speaker_lname");
-                    speak_bio = speakers.getString("speaker_bio");
-                    speak_site = speakers.getString("speaker_website");
-                    speak_pic = speakers.getString("speaker_pic");
+                    ws_id = speakers.getString("ws_id");
+                    ws_name = speakers.getString("ws_name");
+                    ws_pres1 = speakers.getString("ws_presenter1");
+                    ws_pres2 = speakers.getString("ws_presenter2");
+                    ws_info = speakers.getString("ws_info");
                     
-                // out.println("<tr><td>" + sched_time + "</td><td>" + ws_name + "</td><td>" + sched_location + "</td></tr>");
-                
-                out.println("<tr><td rowspan=\"6\"><img src="+speak_pic+" alt=\"Speaker Picture\" style=\"width:200px;height:200px;\"></td><td></td><td></td></tr>" +
-                            "<tr><th colspan=\"2\" style=\"text-align: center\">Keynote Speaker "+speak_num+"</th></tr>" +
-                            "<tr><th>DB ID:</th><td>" + sp_id + "</td></tr>" +
-                            "<tr><th>Name:</th><td>" + speak_name + "</td></tr>" +
-                            //"<tr><th valign=\"top\">Biography:</th><td valign=\"top\">" + speak_bio + "</td></tr>" +
-                            "<tr valign=\"top\"><th>Biography:</th><td>" + speak_bio + "</td></tr>" +
-                            "<tr><th>Website:</th><td><a href=\"" + speak_site + "\">\"" + speak_site + "\"</a></td></tr>" +
-                            "<tr><td colspan=\"3\"><hr></td></tr>");
-                speak_num++;
+                out.println("<tr><th colspan=\"4\" style=\"text-align: center\">Workshop "+ws_num+"</th></tr>" +                 // heading
+                            "<tr><th>Workshop Name:</th><td>"+ws_name+"</td><th>Workshop DB ID:</th><td>"+ws_id+"</td></tr>" +          // name & id                
+                            "<tr><th>Presenter 1:</th><td>"+ws_pres1+"</td><th>Presenter 2:</th><td>"+ws_pres2+"</td></tr>" +           // presenter names
+                            "<tr><th>About:</th><td colspan=\"3\">"+ws_info+"</td>" +
+                            "<tr><td colspan=\"2\"><hr></td></tr>");                                                                    // line
+                ws_num++;
                 }
             }
             catch (Exception e)
@@ -152,24 +146,24 @@ public class in_speakers extends HttpServlet {
             }            
             out.println("</table></div>");
             
-// Edit Speakers           
+// Edit Workshops ***********            
             out.println("<div class=\"mainbody\">"
-                    +"<h2>Edit Speakers Details</h2>"
-                    + "<p>Select exhibitor to delete</p>"
-                    + "<form action=\"delete_speaker\" method=\"POST\">"
+                    +"<h2>Edit Workshop Details</h2>"
+                    + "<p>Select workshop to delete</p>"
+                    + "<form action=\"delete_workshop\" method=\"POST\">"
                     + "<table align=\"center\">"
                         + "<tr>" +
-                "               <th>Speaker To Delete:</th>\n" +
-                "                   <td><select name=\"delete_speaker\" title=\"Select A Name From The List\" style=\"width:100%\">");
+                "               <th>Workshop To Delete:</th>\n" +
+                "                   <td><select name=\"delete_workshop\" title=\"Select A Name From The List\" style=\"width:100%\">");
             try{
                 java.sql.Statement stmt = conn.createStatement();            
-                ResultSet Speaker = stmt.executeQuery("SELECT speaker_id,speaker_fname,speaker_lname FROM Speakers");
+                ResultSet Workshop = stmt.executeQuery("SELECT ws_id,ws_name FROM Workshops WHERE ws_name NOT LIKE 'Break'");
                 
-                while(Speaker.next())
+                while(Workshop.next())
                 {
-                    speak_name = Speaker.getString("speaker_fname") + " " + Speaker.getString("speaker_lname");
-                    sp_id = Speaker.getString("speaker_id"); 
-                    out.println("<option value=\""+sp_id+"\">" + sp_id + ". " + speak_name + "</option>");
+                    ws_id = Workshop.getString("ws_id"); 
+                    ws_name = Workshop.getString("ws_name");
+                    out.println("<option value=\""+ws_id+"\">" + ws_id + ". " + ws_name + "</option>");
                 }
             }
             catch(Exception e)
@@ -178,10 +172,11 @@ public class in_speakers extends HttpServlet {
             } 
             
             out.println("</select></td>" +
-                                "<td style=\"text-align:right\"><input type=\"submit\" value=\"Delete\" title=\"Delete Time\"/></td>" +
-                "           </tr>"
+                                "<td style=\"text-align:right\"><input type=\"submit\" value=\"Delete\" title=\"Delete Workshop\"/></td>" +
+                            "</tr>"
                     + "</table>" +
                         "</form>" +
+                    "<p>Choose the workshop ID & name to select</p>" +
                 "</div>");
  
 // Navigation menu

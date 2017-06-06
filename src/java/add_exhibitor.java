@@ -20,13 +20,13 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe O'Regan
  * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/schedule"})
-public class schedule extends HttpServlet {
-    String schedule_time;
-    String workshop_id;
-    //String schedule_speaker_id;
-    //String schedule_exhibitor_id;
-    String schedule_location;
+@WebServlet(urlPatterns = {"/add_exhibitor"})
+public class add_exhibitor extends HttpServlet {
+    String exhibitor_fname;
+    String exhibitor_lname;
+    String exhibitor_bio;
+    String exhibitor_website;
+    String exhibitor_pic;
     
     Connection conn;
     PreparedStatement prepStat;
@@ -45,28 +45,26 @@ public class schedule extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        schedule_time = request.getParameter("schedule_time");
-        workshop_id = request.getParameter("workshop_name");
-        //schedule_speaker_id = request.getParameter("schedule_speaker_id");
-        //schedule_exhibitor_id = request.getParameter("schedule_exhibitor_id");
-        schedule_location = request.getParameter("schedule_location");
+        exhibitor_fname = request.getParameter("exhibitor_fname");
+        exhibitor_lname = request.getParameter("exhibitor_lname");
+        exhibitor_bio = request.getParameter("exhibitor_bio");
+        exhibitor_website = request.getParameter("exhibitor_website");
+        exhibitor_pic = request.getParameter("exhibitor_pic");
         
         try {
-            String query = "INSERT INTO Schedule(schedule_time,workshop_id,schedule_location) VALUES (?,?,?)";
+            String query = "INSERT INTO Exhibitors (exhibitor_fname, exhibitor_lname, exhibitor_bio, exhibitor_website, exhibitor_pic) VALUES (?,?,?,?,?)";
             prepStat = (PreparedStatement) conn.prepareStatement(query);
-            prepStat.setString(1, schedule_time);
-            prepStat.setString(2, workshop_id);
-            //prepStat.setString(3, schedule_speaker_id);
-            //prepStat.setString(4, schedule_exhibitor_id);
-            prepStat.setString(3, schedule_location);
+            prepStat.setString(1, exhibitor_fname);
+            prepStat.setString(2, exhibitor_lname);
+            prepStat.setString(3, exhibitor_bio);
+            prepStat.setString(4, exhibitor_website);
+            prepStat.setString(5, exhibitor_pic);
             prepStat.executeUpdate();
             }
         catch (Exception e)
         {
             System.err.println(e);
         }
-        
-        response.sendRedirect("in_schedule");  // redirects back to schedule.html after form submitted
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -97,7 +95,7 @@ public class schedule extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         
-        //response.sendRedirect("in_schedule.html");  // redirects back to schedule.html after form submitted
+        response.sendRedirect("in_exhibitors");  // redirects back to exhibitors.html after form submitted
         
     }
 
@@ -120,14 +118,18 @@ public class schedule extends HttpServlet {
         
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
+            conn = (Connection) DriverManager.getConnection
+                    (url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
-            //stat.execute("DROP TABLE Schedule");
-            //stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_time TIME, schedule_title CHAR(40), schedule_speaker_id INT, schedule_exhibitor_id INT, schedule_location CHAR(40))");
-            stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_id INT PRIMARY KEY AUTO_INCREMENT,schedule_time TIME,workshop_name CHAR(60),schedule_location CHAR(40))");
+            //stat.execute("DROP TABLE Exhibitors");
+            stat.execute("CREATE TABLE IF NOT EXISTS Exhibitors(exhibitor_id INT PRIMARY KEY AUTO_INCREMENT,exhibitor_fname CHAR(40),exhibitor_lname CHAR(40),exhibitor_bio TEXT,exhibitor_website VARCHAR(60),exhibitor_pic VARCHAR(60));");
         } catch (Exception e) 
         {
             System.err.println(e);
         }
     } // end of init() method
+    
+    
 }
+
+

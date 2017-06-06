@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.sql.Connection;
 import java.sql.DriverManager;
-import com.mysql.jdbc.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.Statement;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,18 +22,13 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe O'Regan
  * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/speakers"})
-public class speakers extends HttpServlet {
-    String speaker_fname;
-    String speaker_lname;
-    String speaker_bio;
-    String speaker_website;
-    String speaker_pic;
+@WebServlet(urlPatterns = {"/delete_exhibitor"})
+public class delete_exhibitor extends HttpServlet {
+    String ex_delete;
     
     Connection conn;
     PreparedStatement prepStat;
     Statement stat;
-    
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,28 +40,7 @@ public class speakers extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        speaker_fname = request.getParameter("speaker_fname");
-        speaker_lname = request.getParameter("speaker_lname");
-        speaker_bio = request.getParameter("speaker_bio");
-        speaker_website = request.getParameter("speaker_website");
-        speaker_pic = request.getParameter("speaker_pic");
-        
-        try {
-            String query = "INSERT INTO Speakers (speaker_fname, speaker_lname, speaker_bio, speaker_website,speaker_pic) VALUES (?,?,?,?,?)";
-            prepStat = (PreparedStatement) conn.prepareStatement(query);
-            prepStat.setString(1, speaker_fname);
-            prepStat.setString(2, speaker_lname);
-            prepStat.setString(3, speaker_bio);
-            prepStat.setString(4, speaker_website);
-            prepStat.setString(5, speaker_pic);
-            prepStat.executeUpdate();
-            }
-        catch (Exception e)
-        {
-            System.err.println(e);
-        }
+            throws ServletException, IOException {        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -94,7 +70,23 @@ public class speakers extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        response.sendRedirect("in_speakers");  // redirects back to speakers.html after form submitted
+        
+        ex_delete = request.getParameter("delete_ex");
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Statement stat = conn.createStatement();
+            
+            String command = "DELETE FROM Exhibitors WHERE exhibitor_id = '" + ex_delete+ "'";
+            
+            stat.executeUpdate(command);
+        }
+        catch (Exception e)
+        {
+            System.err.println(e);
+        }
+        
+        response.sendRedirect("in_exhibitors");  // redirects back to schedule.html after form submitted
     }
 
     /**
@@ -116,21 +108,13 @@ public class speakers extends HttpServlet {
         
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conn = (Connection) DriverManager.getConnection
-                    (url+dbName,userName,password);
+            conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
-            //stat.execute("DROP TABLE Speakers");
-            stat.execute("CREATE TABLE IF NOT EXISTS Speakers(speaker_id INT PRIMARY KEY AUTO_INCREMENT,speaker_fname CHAR(40),speaker_lname CHAR(40),speaker_bio TEXT,speaker_website VARCHAR(60),speaker_pic VARCHAR(60))");
-                    //"(speaker_id INT PRIMARY KEY AUTO_INCREMENT, speaker_fname CHAR(40), speaker_lname CHAR(40), speaker_bio TEXT, speaker_website VARCHAR(60))");
-            
-            
-        } catch (Exception e) 
+            stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_id INT PRIMARY KEY AUTO_INCREMENT,schedule_time TIME,workshop_name CHAR(60),schedule_location CHAR(40), exhibitor_pic VARCHAR(60))");
+        }
+        catch (Exception e) 
         {
             System.err.println(e);
         }
     } // end of init() method
-    
-    
 }
-
-

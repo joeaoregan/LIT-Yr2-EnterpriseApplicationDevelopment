@@ -45,7 +45,7 @@ public class out_schedule extends HttpServlet {
     Connection conn;
     PreparedStatement prepStat;
     Statement stat;
-
+    
     public void init() throws ServletException {
         String url = "jdbc:mysql://localhost:3306/";
         String dbName = "JoeCA";
@@ -89,16 +89,18 @@ public class out_schedule extends HttpServlet {
             out.println("<body>"
                     + "<div class=\"heading\">\n"
                     + "                           <br><h1 style=\"text-align:center\">Schedule Details</h1><br>\n"
-                    + "</div>"
-                    + "<div class=\"navigation\">\n"
-                    + "            <form style=\"display: inline\" action=\"eventschedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 0)\">Event Schedule</button></form>\n"
+                    + "</div>");
+                    
+            out.println("<div class=\"navigation\">\n"
+                    + "            <form style=\"display: inline\" action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 0)\">Event Schedule</button></form>\n"
                     + "            <form style=\"display: inline\" action=\"in_speakers.html\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + 1)\">Add Speaker Details</button></form>\n"
                     + "            <form style=\"display: inline\" action=\"in_workshops.html\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + 2)\">Add Workshop Details</button></form>\n"
                     + "            <form style=\"display: inline\" action=\"in_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + 3)\">Add Schedule Details</button></form>\n"
                     + "            <form style=\"display: inline\" action=\"in_exhibitors.html\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + 4)\">Add Exhibitor Details</button></form> \n"
                     + "            <form style=\"display: inline\" action=\"eventAdministration.html\" method=\"get\"><button name=\"buttonEventAdmin\" title=\"Return To Event Administration (Alt + 5)\">Event Administration</button></form>\n"
-                    + "        </div>"
-                    + "<div class=\"mainbody\">");
+                    + "</div>");
+                    
+            out.println("<div class=\"mainbody\">");
 
             try {
                 java.sql.Statement stmt = conn.createStatement();
@@ -232,7 +234,7 @@ public class out_schedule extends HttpServlet {
                     + "            <form style=\"display: inline\" action=\"index.html\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Home Page (Alt + 8)\">Return To Home Page</button></form>\n"
                     + "        </div>\n"
                     + "        <div  id=\"bl\" class=\"bottomlinks\">"
-                    + "            <a class=\"class1\" href=\"eventschedule\" title=\"Event Schedule (Alt + 0)\" accesskey=\"0\">0. Event Schedule</a><br>"
+                    + "            <a class=\"class1\" href=\"show_schedule\" title=\"Event Schedule (Alt + 0)\" accesskey=\"0\">0. Event Schedule</a><br>"
                     + "            <a href=\"in_speakers.html\" title=\"Add Speaker Details (Alt + 1)\" accesskey=\"1\">1. Add Speaker Details</a><br>"
                     + "            <a href=\"in_workshops.html\" title=\"Add Workshop Details (Alt + 2)\" accesskey=\"2\">2. Add Workshop Details</a><br>"
                     + "            <a href=\"in_schedule\" title=\"Add Schedule Details (Alt + 3)\" accesskey=\"3\">3. Add Schedule Details</a><br>"

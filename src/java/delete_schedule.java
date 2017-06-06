@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.sql.Connection;
 import java.sql.DriverManager;
-import com.mysql.jdbc.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.Statement;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,17 +22,13 @@ import javax.servlet.http.HttpServletResponse;
  * @author Joe O'Regan
  * Student Number: K00203642
  */
-@WebServlet(urlPatterns = {"/workshops"})
-public class workshops extends HttpServlet {
-    String workshop_name;
-    String workshop_presenter1;
-    String workshop_presenter2;
-    String workshop_info;
+@WebServlet(urlPatterns = {"/delete_schedule"})
+public class delete_schedule extends HttpServlet {
+    String schedule_time;
     
     Connection conn;
     PreparedStatement prepStat;
-    Statement stat;
-    
+    Statement stat;   
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,25 +41,6 @@ public class workshops extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        workshop_name = request.getParameter("ws_name");
-        workshop_presenter1 = request.getParameter("ws_presenter1");
-        workshop_presenter2 = request.getParameter("ws_presenter2");
-        workshop_info = request.getParameter("ws_info");
-        
-        try {
-            String query = "INSERT INTO Workshops(ws_name,ws_presenter1,ws_presenter2,ws_info) VALUES (?,?,?,?)";
-            prepStat = (PreparedStatement) conn.prepareStatement(query);
-            prepStat.setString(1, workshop_name);
-            prepStat.setString(2, workshop_presenter1);
-            prepStat.setString(3, workshop_presenter2);
-            prepStat.setString(4, workshop_info);
-            prepStat.executeUpdate();
-            }
-        catch (Exception e)
-        {
-            System.err.println(e);
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -90,8 +69,23 @@ public class workshops extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-        response.sendRedirect("in_workshops.html");  // redirects back to workshops.html after form submitted
+        processRequest(request, response);        
+        schedule_time = request.getParameter("deletetime");
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Statement stat = conn.createStatement();
+            
+            String command = "DELETE FROM Schedule WHERE schedule_time = '" + schedule_time+ "'";
+            
+            stat.executeUpdate(command);
+        }
+        catch (Exception e)
+        {
+            System.err.println(e);
+        }
+        
+        response.sendRedirect("in_schedule");  // redirects back to schedule.html after form submitted
     }
 
     /**
@@ -115,9 +109,9 @@ public class workshops extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(url+dbName,userName,password);
             stat = (Statement) conn.createStatement();
-            //stat.execute("DROP TABLE Workshops");
-            stat.execute("CREATE TABLE IF NOT EXISTS Workshops(ws_id INT PRIMARY KEY AUTO_INCREMENT,ws_name char(40),ws_presenter1 char(40),ws_presenter2 char(40),ws_info text)");
-        } catch (Exception e) 
+            stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_time TIME PRIMARY KEY,workshop_id INT,schedule_location CHAR(40),CONSTRAINT fk_shedule_workshop FOREIGN KEY (workshop_id) REFERENCES workshops (ws_id));");
+        }
+        catch (Exception e) 
         {
             System.err.println(e);
         }
