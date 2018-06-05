@@ -3,9 +3,39 @@
 
 Project using MySQL, Java, HTML, and CSS
 
-**IDE:** [NetBeans IDE, Java EE](https://netbeans.org/downloads/start.html?platform=windows&lang=en&option=javaee)
+---
 
-**Library:** [MySQL Connector java 5.1.42](https://dev.mysql.com/downloads/file/?id=470333)
+![Index Page](https://raw.githubusercontent.com/joeaoregan/Yr2-EAD-CA-Project/master/Screenshots/01Index.png "Index Page")
+Index Page
+
+![Home Page](https://raw.githubusercontent.com/joeaoregan/Yr2-EAD-CA-Project/master/Screenshots/02HomePage.png "Home Page")
+Home Page
+
+![Login 1](https://raw.githubusercontent.com/joeaoregan/Yr2-EAD-CA-Project/master/Screenshots/03Login1Home.png "Login 1")
+Login
+
+![Login 2](https://raw.githubusercontent.com/joeaoregan/Yr2-EAD-CA-Project/master/Screenshots/04Login2FieldRequired.png "Login 2")
+Login required field message
+
+![Login 3](https://raw.githubusercontent.com/joeaoregan/Yr2-EAD-CA-Project/master/Screenshots/05Login3Successful.png "Login 3")
+Admin login
+
+![Manage Exhibitors](https://raw.githubusercontent.com/joeaoregan/Yr2-EAD-CA-Project/master/Screenshots/ManageExhibitors4.png "Manage Exhibitors")
+Manage event exhibitors
+
+![Manage Schedule](https://raw.githubusercontent.com/joeaoregan/Yr2-EAD-CA-Project/master/Screenshots/ManageSchedule2.png "Manage Schedule")
+Manage event schedule
+
+![Manage Speakers](https://raw.githubusercontent.com/joeaoregan/Yr2-EAD-CA-Project/master/Screenshots/ManageSpeakers2.png "Manage Speakers")
+Manage event speakers
+
+![Manage Workshops](https://raw.githubusercontent.com/joeaoregan/Yr2-EAD-CA-Project/master/Screenshots/ManageWorkshops2.png "Manage Workshops")
+Manage workshops
+
+![Manage Workshops 2](https://raw.githubusercontent.com/joeaoregan/Yr2-EAD-CA-Project/master/Screenshots/ManageWorkshops4WorkshopsPage.png "Manage Workshops 2")
+Manage workshops page
+
+---
 
 ## Spec:
 You are required to design, develop and test an enterprise application for an ICT in Education event. 
@@ -39,3 +69,9 @@ The test document should capture the following components:
 
 1.	All System Test Cases
 2.	Output and results of all testing activities.
+
+---
+
+**IDE:** [NetBeans IDE, Java EE](https://netbeans.org/downloads/start.html?platform=windows&lang=en&option=javaee)
+
+**Library:** [MySQL Connector java 5.1.42](https://dev.mysql.com/downloads/file/?id=470333)

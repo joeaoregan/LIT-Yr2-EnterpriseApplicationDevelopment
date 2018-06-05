@@ -22,6 +22,10 @@
 hs_err_pid*
 
 # stuff
+build.xml
 build/*
+build/empty/*
+build/generated-sources/*
 nbproject/*
 web/WEB-INF/*
+src/conf/*
