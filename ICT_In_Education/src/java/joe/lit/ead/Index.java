@@ -80,7 +80,9 @@ public class Index extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        try (PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {            
+            Menu menu = new Menu();
+
             out.println("<!DOCTYPE html>" +
                         "<html>" +
                         "<head>" +
@@ -88,6 +90,8 @@ public class Index extends HttpServlet {
                             "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
                             "<title>"+ title +"</title>" +
                         "</head>");
+
+
 // Admin Login
             out.println("<body>" +
                             "<div class=\"login\">" +
@@ -132,9 +136,11 @@ public class Index extends HttpServlet {
                                 "<img src='" + request.getContextPath() + "/images/logoT.png' alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
                             "<td><h1>" + title + "</h1></td></tr>" +
                         "</table>" +
-                    "</div>");
+                    "</div>");      
             
 // Navigation menu (Home Highlighted)
+            menu.navigationMenu(out, menu.INDEX);
+/*
             out.println("<div class=\"navigation\"><span>" +
                             "<form action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Speakers</button></form>" +
                             "<form action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Workshops</button></form>" +
@@ -144,6 +150,8 @@ public class Index extends HttpServlet {
                             "<form action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
                             "<form action=\"index\" method=\"get\"><button title=\"Return To Homepage (Alt + 7)\" id=\"active\">Home</button></form>" +
                         "</span></div>");
+  */          
+            
 // Count the number of Speakers, Workshops, Scheduled Workshops, and Exhibitors in each database
 sp_count=0; // Number of speakers
 ws_count=0; // Number of workshops
@@ -177,22 +185,22 @@ ex_count=0; // Number of exhibitors
             } catch (Exception e) { System.err.println(e); }   
             
 // Show A Random Speaker  
-if(sp_count>0)
-{
-            arrRandomSpeaker = new int[sp_count]; // array sized as the amount of speakers         
-            try {
-                java.sql.Statement stmt = conn.createStatement();    
-                ResultSet speakers = stmt.executeQuery("SELECT * FROM Speakers;");
-                int i=0; // 1st element of array
-                while (speakers.next()) {   
-                    arrRandomSpeaker[i] = speakers.getInt("speaker_id");
-                    i++;
-                }    
-            } catch (Exception e) { System.err.println(e); }
-            random_speaker_id = Math.random();
-            random_speaker = (int) (random_speaker_id * 10 ) % sp_count;
-}
-else random_speaker=1; // Just incase there's no info in d.b.
+    if(sp_count>0)
+    {
+                arrRandomSpeaker = new int[sp_count]; // array sized as the amount of speakers         
+                try {
+                    java.sql.Statement stmt = conn.createStatement();    
+                    ResultSet speakers = stmt.executeQuery("SELECT * FROM Speakers;");
+                    int i=0; // 1st element of array
+                    while (speakers.next()) {   
+                        arrRandomSpeaker[i] = speakers.getInt("speaker_id");
+                        i++;
+                    }    
+                } catch (Exception e) { System.err.println(e); }
+                random_speaker_id = Math.random();
+                random_speaker = (int) (random_speaker_id * 10 ) % sp_count;
+    }
+    else random_speaker=1; // Just incase there's no info in d.b.
             
 // Event Information            
             out.println("<div class=\"mainbody\">" +
@@ -421,7 +429,7 @@ else random_speaker=1; // Just incase there's no info in d.b.
             out.println("</table></div>"); // End main body div + Main table
         
             // Bottom Links 
-            Menu menu = new Menu();
+            //Menu menu = new Menu();
             menu.bottomMenu(request,out);
             /*
             out.println("<div id=\"bl\" class=\"bottomlinks\">" +

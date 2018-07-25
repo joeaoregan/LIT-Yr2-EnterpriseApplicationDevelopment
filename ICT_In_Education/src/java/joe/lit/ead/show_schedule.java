@@ -57,6 +57,9 @@ public class show_schedule extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+            Menu menu = new Menu();
+            
             response.setContentType("text/html;charset=UTF-8");
         
             PrintWriter out = response.getWriter();
@@ -78,16 +81,9 @@ public class show_schedule extends HttpServlet {
                                 "<td><h1>" + title + "</h1></td></tr>" +
                         "</table>" +
                     "</div>");
-// Navigation menu
-            out.println("<div class=\"navigation dontprint\"><span>" +
-                            "<form action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Speakers</button></form>" +
-                            "<form action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Workshops</button></form>" +
-                            "<form action=\"show_schedule\" method=\"get\"><button id=\"active\" name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Schedule</button></form>" +
-                            "<form action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Exhibitors</button></form>" +
-                            "<form action=\"reg_admin\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
-                            "<form action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
-                            "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
-                        "</span></div>");
+            
+            menu.navigationMenu(out, menu.SHOW_SCHEDULE); // Navigation menu
+
 // Number of workshops in schedule
             try {
                 sc_count = 0;
@@ -270,9 +266,7 @@ if(cust_sc_count>0) // Only show delete CS option if something in table
                         + "</td></tr></table></div>"); // end dont print div
             }   // End else (schedule details)         
 
-            // Bottom Links 
-            Menu menu = new Menu();
-            menu.bottomMenu(request,out);
+            menu.bottomMenu(request,out); // Bottom Links 
             
             out.println("</body></html>");
     }
