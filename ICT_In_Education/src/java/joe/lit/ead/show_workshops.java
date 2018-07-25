@@ -65,7 +65,9 @@ public class show_workshops extends HttpServlet {
                             "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
                     "<title>" + title + "</title>" +
                     "</head><body>");
-// Heading
+
+            menu.heading(request, out, title); // Page Heading
+/*
             out.println("<div class=\"heading\">" +
                         "<table>" +
                             "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
@@ -73,7 +75,7 @@ public class show_workshops extends HttpServlet {
                                 "<td><h1>" + title + "</h1></td></tr>" +
                         "</table>" +
                     "</div>");
-            
+*/
             menu.navigationMenu(out, menu.SHOW_WORKSHOPS); // Navigation menu
             
 // Count the number of workshops scheduled (from Workshops table)

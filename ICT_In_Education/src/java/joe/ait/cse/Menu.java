@@ -23,6 +23,20 @@ public class Menu {
     public static final int REG_ATTENDEE = 6;
     public static final int INDEX = 7;
     
+    // Heading
+    public void heading(HttpServletRequest request, PrintWriter out, String title) {
+        out.println("<div class=\"heading\">" +
+            "<table>" +
+                
+                "<tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr>" + // SORT THIS 
+                
+                "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
+                    "<img src='" + request.getContextPath() + "/images/logoT.png' alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
+                    "<td><h1>" + title + "</h1></td></tr>" +
+            "</table>" +
+        "</div>");
+    }
+    
     // Navigation menu
     public void navigationMenu(PrintWriter out, int highlight) {       
         out.println("<div class=\"navigation\"><span>" +

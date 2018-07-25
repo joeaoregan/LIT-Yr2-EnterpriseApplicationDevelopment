@@ -39,8 +39,7 @@ public class reg_admin extends HttpServlet {
     String check_username;
     int admin_count;
     
-    public void init() throws ServletException
-    {
+    public void init() throws ServletException {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
@@ -94,7 +93,9 @@ public class reg_admin extends HttpServlet {
                                     "</table>" +
                                 "</form>" +
                             "</div>");
-// Heading
+
+            menu.heading(request, out, title); // Page Heading
+/*
             out.println("<div class=\"heading\">" +
                             "<table>" +
                                 "<tr><td>&nbsp;</td></tr>" +
@@ -104,8 +105,9 @@ public class reg_admin extends HttpServlet {
                                     "<td><h1>" + title + "</h1></td></tr>" +
                             "</table>" +
                         "</div>");
+*/
             menu.navigationMenu(out, menu.REG_ADMIN); // Navigation menu
-            
+           
 // Count admins
             try {
                 admin_count = 0;

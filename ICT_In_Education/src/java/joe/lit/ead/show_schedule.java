@@ -72,7 +72,10 @@ public class show_schedule extends HttpServlet {
                     "</style>" +
                     
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
-                    "<head ><title>" + title + "</title></head>");
+                    "<head ><title>" + title + "</title></head><body>");
+            
+            menu.heading(request, out, title); // Page Heading
+/*
 // Heading (doesn't print)
             out.println("<div class=\"heading dontprint\">" +
                         "<table>" +
@@ -81,7 +84,7 @@ public class show_schedule extends HttpServlet {
                                 "<td><h1>" + title + "</h1></td></tr>" +
                         "</table>" +
                     "</div>");
-            
+*/
             menu.navigationMenu(out, menu.SHOW_SCHEDULE); // Navigation menu
 
 // Number of workshops in schedule

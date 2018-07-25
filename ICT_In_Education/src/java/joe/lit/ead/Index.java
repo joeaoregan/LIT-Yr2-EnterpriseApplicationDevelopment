@@ -63,8 +63,7 @@ public class Index extends HttpServlet {
             conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
         } catch(Exception e){
             System.err.println(e);
-        }
-                
+        }                
     } // end init
     
     /**
@@ -91,14 +90,13 @@ public class Index extends HttpServlet {
                             "<title>"+ title +"</title>" +
                         "</head>");
 
-
 // Admin Login
             out.println("<body>" +
                             "<div class=\"login\">" +
                                 "<form action=\"login\" method=\"Get\">" +
                                     "<table align=\"center\"><tr><td>"+ // icons table (left)
                                         "<table><tr id=\"container\">"+
-                                            "<td width=100% rowspan=\"2\"><div><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img50\"></a>" +
+                                            "<td width=100% rowspan=\"2\"><div><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src='" + request.getContextPath() + "/images/logo50.png' alt=\"Event Logo\" id=\"img50\"></a>" +
                                                 "&nbsp<a align=\"left\" href=\"show_speakers\" title=\"Event Speakers (Alt + 1)\" accesskey=\"1\"><img src='" + request.getContextPath() + "/images/icon_b50_sp.png' alt=\"Speaker Image\" id=\"img50\"></a>" +
                                                 "&nbsp<a align=\"left\" href=\"show_workshops\" title=\"Event Speakers (Alt + 2)\" accesskey=\"2\"><img src='" + request.getContextPath() + "/images/icon_b50_ws.png' alt=\"Workshop Image\" id=\"img50\"></a>" +
                                                 "&nbsp<a align=\"left\" href=\"show_schedule\" title=\"Event Speakers (Alt + 3)\" accesskey=\"3\"><img src='" + request.getContextPath() + "/images/icon_b50_sc.png' alt=\"Schedule Image\" id=\"img50\"></a>" +
@@ -127,7 +125,9 @@ public class Index extends HttpServlet {
            // out.println("<script>function textHome() { document.getElementById(\"log\")[0].setAttribute(\"class\", \"tpad1\"); }</script>");
             //out.println("<script>function hide() { document.getElementById(\"log\").style.visibility = \"hidden\";}</script>");
             out.println("<script>function hide() { document.getElementById(\"log\").style.display = \"block\";}</script>");
-// Heading
+
+            menu.heading(request, out, title); // Page Heading
+/*
             out.println("<div class=\"heading\">" +
                         "<table>" +
                             "<tr><td>&nbsp;</td></tr>" +
@@ -137,9 +137,8 @@ public class Index extends HttpServlet {
                             "<td><h1>" + title + "</h1></td></tr>" +
                         "</table>" +
                     "</div>");      
-            
-// Navigation menu (Home Highlighted)
-            menu.navigationMenu(out, menu.INDEX);
+*/
+            menu.navigationMenu(out, menu.INDEX); // Navigation menu (Home Highlighted)
 /*
             out.println("<div class=\"navigation\"><span>" +
                             "<form action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Speakers</button></form>" +
@@ -150,7 +149,7 @@ public class Index extends HttpServlet {
                             "<form action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
                             "<form action=\"index\" method=\"get\"><button title=\"Return To Homepage (Alt + 7)\" id=\"active\">Home</button></form>" +
                         "</span></div>");
-  */          
+*/          
             
 // Count the number of Speakers, Workshops, Scheduled Workshops, and Exhibitors in each database
 sp_count=0; // Number of speakers
