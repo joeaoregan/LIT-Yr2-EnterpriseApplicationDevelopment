@@ -1,10 +1,9 @@
-package joe.ead.manage;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
  */
+package joe.ead.manage;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
@@ -20,11 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import joe.ead.abstracted.Connect; // 24/07/2018
 import joe.ead.abstracted.Menu; // 26/07/2018
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/manage_schedule"})
 public class manage_schedule extends HttpServlet {
     String title = "Manage Schedule";
@@ -34,15 +28,13 @@ public class manage_schedule extends HttpServlet {
     String[] status = new String[21]; // time slot to add
     String[] status2 = new String[20]; // time slot to delete
     // Add to schedule list items
-    //String[] Array_WS_names = {"","","","","","","","","","","","","","","","","","","",""};
-    //String[] Array_WS_values = {"","","","","","","","","","","","","","","","","","","",""};
     String[] rooms = {"Room A101","Room A102","Room A103","Room B101","Room B102","Room B103","Room C101","Room C102","Room C103"}; // schedule_location
     String breaktime = "disabled"; // make breaks times unselectable - added to Schedule table when initialised
     // Output table
     String sched_time;
     String ws_name;
     String sched_location;
-// Workshop details    
+    // Workshop details    
     String workshop_id;
     String workshop_name;
     String wsn;
@@ -103,28 +95,8 @@ public class manage_schedule extends HttpServlet {
             menu.heading(request,out,title); // Heading
             menu.navigationMenuManage(out, menu.SHOW_SCHEDULE); // Navigation menu (Schedule Highlighted)
             
-// Number of workshops in schedule
-            try {
-                sc_count = 0;
-                time_slots = 0;
-                
-                java.sql.Statement stmt = conn.createStatement();
-                ResultSet sc = stmt.executeQuery("SELECT count(*) AS sched_count FROM Schedule WHERE workshop_id != 1");
-                
-                while (sc.next()) {
-                    sc_count = sc.getInt("sched_count");
-                }
-                
-                ResultSet schedule = stmt.executeQuery("SELECT count(*) AS count FROM Schedule");   
-                
-                while(schedule.next()){
-                    time_slots = schedule.getInt("count");
-                }   
-            }  catch(Exception e) { 
-                System.err.println(e); 
-            }  
-            //out.println("<div>WS count: "+time_slots+"</div>");
-            
+            countWorkshops();
+                        
             if(time_slots==0) { // nothing in schedule
                 out.println("<div class=\"mainbody\">" +
                                 "<h2 class=\"tbhead\">Initialise Workshop And Schedule Table</h2>" +
@@ -167,12 +139,12 @@ public class manage_schedule extends HttpServlet {
                                 "<td><select autofocus=\"autofocus\" name=\"schedule_time\" title=\"Select A Time From The List\" id=\"schedule_time\">");
                                     // List that makes only unscheduled time slots available to select, but lets you see all time slots including breaktimes
                                     // Break times are added to schedule when it is initialised (Click button on manage_schedule page)
-                for(int i=0;i<21;i++){
-                    if(i !=4 & i!=10 & i!=11 & i!=16 & i!=20) 
+                for (int i=0; i<21; i++){
+                    if (i !=4 & i!=10 & i!=11 & i!=16 & i!=20) 
                         out.println("<option value=\""+times[i]+"\" " + status[i] + ">"+times[i]+"</option>");
-                    if(i==4 || i==10 || i==16) 
+                    if (i==4 || i==10 || i==16) 
                         out.println("<option value=\""+times[i]+"\" disabled>"+times[i]+" Break</option>"); // make breaktimes visibile but not selectable in list
-                    if(i==20) out.println("<option value=\""+times[i]+"\" disabled>"+times[i]+" Event Finished</option>");
+                    if (i==20) out.println("<option value=\""+times[i]+"\" disabled>"+times[i]+" Event Finished</option>");
                 }
 
                 out.println("</select></td></tr>");
@@ -237,17 +209,17 @@ public class manage_schedule extends HttpServlet {
                 out.println("</table></div><br>");
 
     // Select record to delete
-                try{ // Initialise the list
+                try { // Initialise the list
                     java.sql.Statement stmt = conn.createStatement();            
                     ResultSet schedule = stmt.executeQuery("SELECT schedule_time from Schedule");
 
-                    for (int i=0;i<20;i++){ 
+                    for (int i=0;i<20;i++) { 
                         status2[i]="disabled"; // set each array element to disabled (unable to select)
                     }
                     
                     while(schedule.next())  {
                         sched_time = schedule.getString("schedule_time");  // get each record
-                        for(int i = 0; i <20; i++) {
+                        for (int i = 0; i <20; i++) {
                             if (sched_time.contentEquals(times[i])) status2[i] = "";
                         }
                     }
@@ -336,4 +308,27 @@ public class manage_schedule extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private void countWorkshops() {
+// Number of workshops in schedule
+        try {
+            sc_count = 0;
+            time_slots = 0;
+
+            java.sql.Statement stmt = conn.createStatement();
+            ResultSet sc = stmt.executeQuery("SELECT count(*) AS sched_count FROM Schedule WHERE workshop_id != 1");
+
+            while (sc.next()) {
+                sc_count = sc.getInt("sched_count");
+            }
+
+            ResultSet schedule = stmt.executeQuery("SELECT count(*) AS count FROM Schedule");   
+
+            while(schedule.next()){
+                time_slots = schedule.getInt("count");
+            }   
+        }  catch(Exception e) { 
+            System.err.println(e); 
+        }  
+        //out.println("<div>WS count: "+time_slots+"</div>");
+    }
 }

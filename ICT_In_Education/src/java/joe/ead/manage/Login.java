@@ -1,10 +1,10 @@
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
+ */
 package joe.ead.manage;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,20 +19,12 @@ import javax.servlet.http.HttpServletResponse;
 import joe.ead.abstracted.Connect; // 26/07/2018
 import joe.ead.abstracted.Menu; // 26/07/2018
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/login"})
 public class Login extends HttpServlet {
-        Connection conn = null;        
-        //String DB_username; 
+        Connection conn = null;   
         String DB_password;
-        //String admin_name;
         String title = "Event Administration";
         String docType = "<!doctype html >";
-        //boolean passwordValidate;
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -49,13 +41,10 @@ public class Login extends HttpServlet {
             Statement stmt = conn.createStatement(); 
             ResultSet result = stmt.executeQuery("SELECT * FROM administrators WHERE admin_username = '"+username+"'");  // works OK
             result.next();
-            //DB_username = result.getString("admin_username");
-            //admin_name = result.getString("admin_fname") + " " + result.getString("admin_lname");
             DB_password = result.getString("admin_password"); 
         } catch(Exception e) {
             System.err.println(e);
         }           
-        //passwordValidate = password.contentEquals( DB_password ); // see does password match database password
         
         out.println(docType + 
                 "<html>" +                
@@ -64,65 +53,11 @@ public class Login extends HttpServlet {
                     "<title>" + title + "</title>" +
                   "</head>" +    
                   "<body>");        
-// Validate password
-        //if (passwordValidate == true)
-        //if (password.contentEquals( DB_password ))        
-        // If password true, different title, menu, greeting and links
+
         if (password.equals(DB_password)) {     
-            menu.heading(request, out, title); // Heading
-            menu.navigationMenuManage(out, menu.HIGHLIGHT_LOGIN); // Navigation menu (Event Administration Highlighted)
-
-// Successful Login Greeting
-            out.println("<div class=\"mainbody\"><br>" +
-                            "<ul><h2>Hello " + request.getParameter("username") + ", welcome back!!!</h2></ul>" +  // or FIRST NAME LAST NAME
-                        "</div>");            
-// Event Administration
-            out.println("<div class=\"mainbody\">" +
-                            "<h2>Manage Speakers, Workshops, Schedule, Exhibitors</h2>" +
-                            "<p>ICT in Eductation event" +
-                            "<p>This is the event administration page" +
-                            "<p>The following options are available:</p><span>" +                    
-                                "<form action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" autofocus=\"autofocus\" title=\"Alt + h - Manage Speaker Details\">Manage Speaker Details</button></form>" +
-                                "<form action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Alt + j - Manage Workshop Details\">Manage Workshop Details</button></form>" +
-                                "<form action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Alt + k - Manage Schedule Details\">Manage Schedule Details</button></form>" +
-                                "<form action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Alt + l4 - Manage Exhibitor Details\">Manage Exhibitor Details</button></form>" +
-                        "</span></div><br>");            
-
-            menu.bottomMenuManage(out); // Bottom Links (Manage)  
+            showSuccessfulLogin(out, request);
         } else {
-            title = "Login Failed";
-// Admin Login
-            out.println("<div class=\"login\">" +
-                    "<form action=\"login\" method=\"Get\">" +
-                        "<table>" +
-                            "<tr>" +
-                                "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
-                                    "<img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img50\"></a></td>" +
-                                "<th id=\"thc\">Administrator</th>" +
-                                "<td>Username:</td>" +
-                                "<td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\" maxlength\"40\" required></td>" +
-                                "<td></td>" +
-                            "</tr>" +
-                            "<tr>" +
-                                "<th id=\"thc\">Login</th>" +
-                                "<td>Password:</td>" +
-                                "<td><input type=\"password\" name=\"password\" title=\"Please enter password\" maxlength\"40\" required></td>" +
-                                "<td id=\"bt\" ><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
-                            "</tr>" +
-                        "</table>" +
-                    "</form>" +
-                "</div>");
-
-            menu.heading(request, out, title); // Heading            
-            menu.navigationMenu(out, 0, "navigation"); // Navigation menu
-
-// Unsuccessful Login Greeting
-            out.println("<div class=\"mainbody\">" +        
-                            "<ul><h2>Hello " + request.getParameter("username") + ", The Username Or Password Entered Is Incorrect!!!</h2></ul>" +   
-                            "<form><a href=\"index\" title=\"Return To Homepage (Alt + 7)\"><button name=\"button\" value=\"OK\" type=\"button\">Go Back</button></a></form><br>" +
-                        "</div>");            
-
-            menu.bottomMenuManage(out); // Bottom Links (Manage)  
+            showUnsuccessfulLogin(out,request,"Login Failed");
         }
     }
 
@@ -166,4 +101,66 @@ public class Login extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private void showSuccessfulLogin(PrintWriter out, HttpServletRequest request) {
+        Menu menu = new Menu();
+        
+        menu.heading(request, out, title); // Heading
+        menu.navigationMenuManage(out, menu.HIGHLIGHT_LOGIN); // Navigation menu (Event Administration Highlighted)
+
+// Successful Login Greeting
+        out.println("<div class=\"mainbody\"><br>" +
+                        "<ul><h2>Hello " + request.getParameter("username") + ", welcome back!!!</h2></ul>" +  // or FIRST NAME LAST NAME
+                    "</div>");            
+// Event Administration
+        out.println("<div class=\"mainbody\">" +
+                        "<h2>Manage Speakers, Workshops, Schedule, Exhibitors</h2>" +
+                        "<p>ICT in Eductation event" +
+                        "<p>This is the event administration page" +
+                        "<p>The following options are available:</p><span>" +                    
+                            "<form action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" autofocus=\"autofocus\" title=\"Alt + h - Manage Speaker Details\">Manage Speaker Details</button></form>" +
+                            "<form action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Alt + j - Manage Workshop Details\">Manage Workshop Details</button></form>" +
+                            "<form action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Alt + k - Manage Schedule Details\">Manage Schedule Details</button></form>" +
+                            "<form action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" title=\"Alt + l4 - Manage Exhibitor Details\">Manage Exhibitor Details</button></form>" +
+                    "</span></div><br>");            
+
+        menu.bottomMenuManage(out); // Bottom Links (Manage)          
+    }
+    
+    
+    private void showUnsuccessfulLogin(PrintWriter out, HttpServletRequest request, String title) {
+        Menu menu = new Menu();
+        
+// Admin Login
+        out.println("<div class=\"login\">" +
+                "<form action=\"login\" method=\"Get\">" +
+                    "<table>" +
+                        "<tr>" +
+                            "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
+                                "<img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Event Logo\" id=\"img50\"></a></td>" +
+                            "<th id=\"thc\">Administrator</th>" +
+                            "<td>Username:</td>" +
+                            "<td><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\" maxlength\"40\" required></td>" +
+                            "<td></td>" +
+                        "</tr>" +
+                        "<tr>" +
+                            "<th id=\"thc\">Login</th>" +
+                            "<td>Password:</td>" +
+                            "<td><input type=\"password\" name=\"password\" title=\"Please enter password\" maxlength\"40\" required></td>" +
+                            "<td id=\"bt\" ><input type=\"submit\" value=\"Submit\" title=\"Submit Details\"/></td>" +
+                        "</tr>" +
+                    "</table>" +
+                "</form>" +
+            "</div>");
+
+        menu.heading(request, out, title); // Heading            
+        menu.navigationMenu(out, 0, "navigation"); // Navigation menu
+
+// Unsuccessful Login Greeting
+        out.println("<div class=\"mainbody\">" +        
+                        "<ul><h2>Hello " + request.getParameter("username") + ", The Username Or Password Entered Is Incorrect!!!</h2></ul>" +   
+                        "<form><a href=\"index\" title=\"Return To Homepage (Alt + 7)\"><button name=\"button\" value=\"OK\" type=\"button\">Go Back</button></a></form><br>" +
+                    "</div>");            
+
+        menu.bottomMenuManage(out); // Bottom Links (Manage)  
+    }
 }

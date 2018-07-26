@@ -1,3 +1,8 @@
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
+ */
 package joe.ead.front;
 
 import java.io.IOException;
@@ -114,15 +119,15 @@ public class show_cust_sched extends HttpServlet {
                             "<script>" +
                                 "function myFunction() {window.print();}"
                         + "</script></td>" +
-
 // Return To Schedule
-            "<td><form>" +
-                "<a href=\"show_schedule#cs_add\" title=\"Return To Edit Schedule\"><button name=\"button\" value=\"OK\" type=\"button\">Return To Schedule</button></a>" +
-            "</form>" +
-            "</tr></table></td>" +
-        "</div>");
+                "<td><form>" +
+                    "<a href=\"show_schedule#cs_add\" title=\"Return To Edit Schedule\"><button name=\"button\" value=\"OK\" type=\"button\">Return To Schedule</button></a>" +
+                "</form>" +
+                "</tr></table></td>" +
+            "</div>");
 
         menu.bottomMenu(request,out); // Bottom Links 
+        
         out.println("</body></html>");
     }
 

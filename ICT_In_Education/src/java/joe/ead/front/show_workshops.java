@@ -1,10 +1,9 @@
-package joe.ead.front;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
  */
+package joe.ead.front;
 
 import com.mysql.jdbc.Connection;
 import java.io.IOException;

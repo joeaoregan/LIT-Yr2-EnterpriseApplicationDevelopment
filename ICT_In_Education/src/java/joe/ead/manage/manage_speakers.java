@@ -1,10 +1,10 @@
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
+ */
 package joe.ead.manage;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
@@ -20,11 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import joe.ead.abstracted.Connect; // 24/07/2018
 import joe.ead.abstracted.Menu;  // 26/07/2018
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/manage_speakers"})
 public class manage_speakers extends HttpServlet {
     Connection conn;
@@ -40,18 +35,18 @@ public class manage_speakers extends HttpServlet {
     int speak_num = 1; // give each speaker a number for output
     int sp_count; // number of speakers in the db
        
-    public void init() throws ServletException
-    {
-        try{
+    public void init() throws ServletException {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
             stat = (Statement) conn.createStatement();
 
             java.sql.Statement stmt = conn.createStatement();  
-        }
-        catch(Exception e){System.err.println(e);}
-                
+        } catch(Exception e) {
+            System.err.println(e);
+        }                
     } // end init
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -184,7 +179,7 @@ public class manage_speakers extends HttpServlet {
                             "<tr>" +
                                 "<th>Speaker To Delete:</th>" +
                                 "<td><select name=\"delete_speaker\" title=\"Select A Name From The List\">");
-                try{
+                try {
                     java.sql.Statement stmt = conn.createStatement();            
                     ResultSet Speaker = stmt.executeQuery("SELECT speaker_id,speaker_fname,speaker_lname FROM Speakers");
 

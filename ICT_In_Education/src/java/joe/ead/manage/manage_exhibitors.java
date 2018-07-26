@@ -1,10 +1,9 @@
-package joe.ead.manage;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
  */
+package joe.ead.manage;
 
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
@@ -18,11 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import joe.ead.abstracted.Connect; // 24/07/2018
 import joe.ead.abstracted.Menu;  // 26/07/2018
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
+
 @WebServlet(urlPatterns = {"/manage_exhibitors"})
 public class manage_exhibitors extends HttpServlet {
     String title ="Manage Exhibitors";
@@ -75,22 +70,7 @@ public class manage_exhibitors extends HttpServlet {
             
             menu.heading(request,out,title); // Heading
             menu.navigationMenuManage(out, menu.SHOW_EXHIBITORS); // Navigation menu (Exhibitors Highlighted)
-            /*
-            out.println("<div class=\"heading\"><table>" +
-                            "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
-                                "<img src='" + request.getContextPath() + "/images/logoT.png' alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
-                                "<td><h1>" + title + "</h1></td></tr>" +
-                        "</table></div>");
             
-            out.println("<div class=\"navigation\"><span>" +
-                            "<form action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
-                            "<form action=\"manage_speakers\" method=\"get\"><button name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + h)\">Manage Speakers</button></form>" +
-                            "<form action=\"manage_workshops\" method=\"get\"><button name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
-                            "<form action=\"manage_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
-                            "<form action=\"manage_exhibitors\" method=\"get\"><button name=\"buttonExhibitor\" id=\"active\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
-                            "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
-                        "</span></div>");
-            */
 // Count exhibitors
             try {
                 java.sql.Statement stmt = conn.createStatement();
@@ -104,7 +84,6 @@ public class manage_exhibitors extends HttpServlet {
             
 // Add to Exhibitors
             out.println("<div class=\"mainbody\"><h2 class=\"tbhead\">Add An Exhibitor</h2>");
-            //out.println("Test: "+ex_num+"");
             
             switch (ex_num) {
                 case 1:
@@ -156,7 +135,8 @@ public class manage_exhibitors extends HttpServlet {
             try {
                 java.sql.Statement stmt = conn.createStatement();
                 ResultSet exhibitors = stmt.executeQuery("SELECT * FROM exhibitors ORDER BY exhibitor_lname;");
-                ex_count = 1;                
+                ex_count = 1;           
+                
                 while (exhibitors.next()) {
                     ex_id = exhibitors.getString("exhibitor_id"); 
                     ex_bio = exhibitors.getString("exhibitor_bio");
@@ -214,7 +194,7 @@ public class manage_exhibitors extends HttpServlet {
                             + "<tr><th>Exhibitor To Edit:</th>" +
                                 "<td><select name=\"edit_name\" title=\"Select A Name From The List\">");
             
-            try{
+            try {
                 java.sql.Statement stmt = conn.createStatement();            
                 ResultSet exhibitor = stmt.executeQuery("SELECT exhibitor_id,exhibitor_fname,exhibitor_lname from Exhibitors");
 
@@ -233,30 +213,6 @@ public class manage_exhibitors extends HttpServlet {
             out.println("</table></form></div>");
             
             menu.bottomMenuManage(out); // Bottom Links (Manage)  
-/*
-            out.println("<div  id=\"bl\" class=\"bottomlinks\">" +
-                            "<table align=\"center\">" +
-                                "<tr><th>Manage:</th><th>Display:</th><th>Register:</th><th>Other:</th><tr>" +
-                                "<tr><td><a href=\"manage_speakers\" title=\"Manage Speakers (Alt + h)\" accesskey=\"h\">h. Manage Speakers</a></td>"
-                                    + "<td><a href=\"show_speakers\" title=\"Show Speakers (Alt + 1)\" accesskey=\"1\">1. Show Speakers</a></td>"
-                                    + "<td><a href=\"reg_admin\" title=\"Administrator Registration Page (Alt + 5)\" accesskey=\"5\">5. Administrator Registration</a></td>"
-                                    + "<td><a href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">7. Home Page</a></td></tr>" +
-                                "<tr><td><a href=\"manage_workshops\" title=\"Manage Workshops (Alt + j)\" accesskey=\"j\">j. Manage Workshops</a></td>"
-                                    + "<td><a href=\"show_workshops\" title=\"Show Workshops (Alt + 2)\" accesskey=\"2\">2. Show Workshops</a></td>"
-                                    + "<td><a href=\"reg_attendee.html\" title=\"Attendee Registration Page (Alt + 6)\" accesskey=\"6\">6. Attendee Registration</a></td>"
-                                    + "<td></td></tr>" +
-                                "<tr><td><a href=\"manage_schedule\" title=\"Manage Schedule (Alt + k)\" accesskey=\"k\">k. Manage Schedule</a></td>"
-                                    + "<td><a href=\"show_schedule\" title=\"Show Schedule (Alt + 3)\" accesskey=\"3\">3. Show Schedule</a></td>"
-                                    + "<td></td>"
-                                    + "<td></td></tr>" +
-                                "<tr><td><a href=\"manage_exhibitors\" title=\"Manage Exhibitors (Alt + l)\" accesskey=\"l\">l. Manage Exhibitors</a></td>"
-                                    + "<td><a href=\"show_exhibitors\" title=\"Show Exhibitors (Alt + 4)\" accesskey=\"4\">4. Show Exhibitors</a></td>"
-                                    + "<td></td>"
-                                    + "<td></td></tr>" +
-                            "</table>" +
-                        "</div>" +                    
-                    "</body></html>");
-*/
         }
     }
 

@@ -1,3 +1,8 @@
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
+ */
 package joe.ead.front;
 
 import java.io.IOException;

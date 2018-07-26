@@ -1,10 +1,10 @@
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
+ */
 package joe.ead.manage;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import java.io.IOException;
@@ -19,11 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import joe.ead.abstracted.Connect; // 24/07/2018
 import joe.ead.abstracted.Menu;  // 26/07/2018
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/manage_workshops"})
 public class manage_workshops extends HttpServlet {
     Connection conn;
@@ -42,7 +37,7 @@ public class manage_workshops extends HttpServlet {
     int ws_count; // Only count workshops and not breaks
        
     public void init() throws ServletException {
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
             stat = (Statement) conn.createStatement();
@@ -55,10 +50,12 @@ public class manage_workshops extends HttpServlet {
             stat.execute("INSERT INTO schedule VALUES('100000', 1, 'Break')");
             stat.execute("INSERT INTO schedule VALUES('130000', 1, 'Break')");
             stat.execute("INSERT INTO schedule VALUES('160000', 1, 'Break')");
-             }
-        catch(Exception e){System.err.println(e);}
+        } catch(Exception e) {
+            System.err.println(e);
+        }
                 
     } // end init
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -100,7 +97,7 @@ public class manage_workshops extends HttpServlet {
             }  
             
 // Count workshops (not including breaktimes)
-            try{
+            try {
                 ws_count = 0; // initialise count to 0
                 java.sql.Statement stmt = conn.createStatement(); 
                 ResultSet workshop = stmt.executeQuery("SELECT COUNT(*) AS ws_count FROM Workshops WHERE ws_id != 1");   
@@ -113,7 +110,7 @@ public class manage_workshops extends HttpServlet {
             //out.println("<div>WS count init: "+ws_count_init+"</div>");
             //out.println("<div>WS count: "+ws_count+"</div>");
 // Nothing in Schedule            
-            if(ws_count_init==0) {
+            if (ws_count_init==0) {
                 out.println("<div class=\"mainbody\">" +
                                 "<h2 class=\"tbhead\">Initialise Workshop And Schedule Table</h2>" +
                                 "<p>Sets up the workshops, schedule, and custom schedule tables, by 1st creating the tables, and then adding the break times" +
@@ -121,7 +118,7 @@ public class manage_workshops extends HttpServlet {
                             "</div><br>");
             }    
 // Workshop Form Input
-            if(ws_count_init > 0) {// Only display if workshop count is initialised
+            if (ws_count_init > 0) {// Only display if workshop count is initialised
                 out.println("<div class=\"mainbody\">" +
                             "<form action=\"add_workshop\" method=\"POST\"><br>" +
                                 "<table align=\"center\">" +
@@ -165,7 +162,7 @@ public class manage_workshops extends HttpServlet {
                             "</div><br>");
 
     // Current Workshops
-                if(ws_count > 0) { // Only display if there are workshops in db (excluding breaks)
+                if (ws_count > 0) { // Only display if there are workshops in db (excluding breaks)
                     out.println("<div class=\"mainbody\">" +
                                 "<table align=\"center\">" +
                                     "<tr><td class=\"tbhead\" colspan=\"4\">Current Workshops</td></tr>" + // Table heading

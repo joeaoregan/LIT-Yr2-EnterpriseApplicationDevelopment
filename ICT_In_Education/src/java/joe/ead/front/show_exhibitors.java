@@ -1,10 +1,9 @@
-package joe.ead.front;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
  */
+package joe.ead.front;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
@@ -20,10 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import joe.ead.abstracted.Connect; // 24/07/2018
 import joe.ead.abstracted.Menu; // 24/07/2018
 
-/**
- *
- * @author Joe O'Regan Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/show_exhibitors"})
 public class show_exhibitors extends HttpServlet {
 
@@ -51,7 +46,6 @@ public class show_exhibitors extends HttpServlet {
         } catch (Exception e) {
             System.err.println(e);
         }
-
     } // end init
 
     /**
@@ -79,15 +73,6 @@ public class show_exhibitors extends HttpServlet {
                 + "</head><body>");
 
             menu.heading(request, out, title); // Page Heading
-/*
-            out.println("<div class=\"heading\">" +
-                "<table>" +
-                    "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
-                        "<img src='" + request.getContextPath() + "/images/logoT.png' alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
-                        "<td><h1>" + title + "</h1></td></tr>" +
-                "</table>" +
-            "</div>");
-*/           
             menu.navigationMenu(out, menu.SHOW_EXHIBITORS, "navigation"); // Navigation menu
            
 // Count the number of exhibitors
