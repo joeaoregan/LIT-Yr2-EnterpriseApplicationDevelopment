@@ -88,7 +88,7 @@ public class show_exhibitors extends HttpServlet {
                 "</table>" +
             "</div>");
 */           
-            menu.navigationMenu(out, menu.SHOW_EXHIBITORS); // Navigation menu
+            menu.navigationMenu(out, menu.SHOW_EXHIBITORS, "navigation"); // Navigation menu
            
 // Count the number of exhibitors
             try {

@@ -22,6 +22,8 @@ public class Menu {
     public static final int REG_ADMIN = 5;
     public static final int REG_ATTENDEE = 6;
     public static final int INDEX = 7;
+    public static final int HIGHLIGHT_LOGIN = 8;
+    public static final int HIGHLIGHT_CUST_SCHDULE = 9;
     
     // Heading
     public void heading(HttpServletRequest request, PrintWriter out, String title) {
@@ -37,12 +39,25 @@ public class Menu {
         "</div>");
     }
     
+    public void headingDontPrint(HttpServletRequest request, PrintWriter out, String title) {        
+        out.println("<div class=\"heading dontprint\">" +
+                    "<table>" +
+                        "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
+                            "<img src='" + request.getContextPath() + "/images/logoT.png' alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
+                            "<td><h1>" + title + "</h1></td></tr>" +
+                    "</table>" +
+                "</div>");
+    }
+    
     // Navigation menu
-    public void navigationMenu(PrintWriter out, int highlight) {       
-        out.println("<div class=\"navigation\"><span>" +
+    public void navigationMenu(PrintWriter out, int highlight, String divClass) {
+        String customScheduleStr = "<button id=\"active\" name=\"buttonCSchedule\" title=\"Custom Schedule\">Custom Schedule</button>";
+        
+        out.println("<div class=\"" + divClass + "\"><span>" +
             "<form action=\"show_speakers\" method=\"get\"><button " + ((highlight == SHOW_SPEAKERS) ? "id=\"active\"" : "") + " name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Speakers</button></form>" +
             "<form action=\"show_workshops\" method=\"get\"><button " + ((highlight == SHOW_WORKSHOPS) ? "id=\"active\"" : "") + " name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Workshops</button></form>" +
             "<form action=\"show_schedule\" method=\"get\"><button " + ((highlight == SHOW_SCHEDULE) ? "id=\"active\"" : "") + " name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Schedule</button></form>" +
+            ((highlight == HIGHLIGHT_CUST_SCHDULE) ? customScheduleStr : "" ) +
             "<form action=\"show_exhibitors\" method=\"get\"><button " + ((highlight == SHOW_EXHIBITORS) ? "id=\"active\"" : "") + " name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Exhibitors</button></form>" +
             "<form action=\"reg_admin\" method=\"get\"><button " + ((highlight == REG_ADMIN) ? "id=\"active\"" : "") + " name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
             "<form action=\"reg_attendee.html\" method=\"get\"><button " + ((highlight == REG_ATTENDEE) ? "id=\"active\"" : "") + " name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
@@ -51,12 +66,14 @@ public class Menu {
     }
     
     public void navigationMenuManage(PrintWriter out, int highlight) { 
+        String loginStr = "<button id=\"active\" name=\"buttonEventAdmin\" title=\"Return To Event Administration (Alt + 8)\">Event Administration</button>";
         out.println("<div class=\"navigation\"><span>" +
                 "<form action=\"show_schedule\" method=\"get\"><button name=\"buttonEventSchedule\" title=\"Event Schedule (Alt + 3)\">Event Schedule</button></form>" +
                 "<form action=\"manage_speakers\" method=\"get\"><button " + ((highlight == SHOW_SPEAKERS) ? "id=\"active\"" : "") + " name=\"buttonSpeaker\" title=\"Add Speaker Details (Alt + h)\">Manage Speakers</button></form>" +
                 "<form action=\"manage_workshops\" method=\"get\"><button " + ((highlight == SHOW_WORKSHOPS) ? "id=\"active\"" : "") + " name=\"buttonWorkshop\" title=\"Add Workshop Details (Alt + j)\">Manage Workshops</button></form>" +
                 "<form action=\"manage_schedule\" method=\"get\"><button " + ((highlight == SHOW_SCHEDULE) ? "id=\"active\"" : "") + " name=\"buttonSchedule\" title=\"Add Schedule Details (Alt + k)\">Manage Schedule</button></form>" +
                 "<form action=\"manage_exhibitors\" method=\"get\"><button " + ((highlight == SHOW_EXHIBITORS) ? "id=\"active\"" : "") + " name=\"buttonExhibitor\" title=\"Add Exhibitor Details (Alt + l)\">Manage Exhibitors</button></form>" +
+                ((highlight == HIGHLIGHT_LOGIN) ? loginStr : "") + // only show this menu option when logged                   
                 "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
             "</span></div>");
     }

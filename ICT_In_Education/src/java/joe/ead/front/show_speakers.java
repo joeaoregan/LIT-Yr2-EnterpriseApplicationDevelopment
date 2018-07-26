@@ -44,8 +44,7 @@ public class show_speakers extends HttpServlet {
             conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
         } catch(Exception e){
             System.err.println(e);
-        }
-                
+        }                
     } // end init
     
     /**
@@ -74,16 +73,7 @@ public class show_speakers extends HttpServlet {
                         "</head><body>");
 
             menu.heading(request, out, title); // Page Heading
-/*
-            out.println("<div class=\"heading\">" +
-                            "<table>" +
-                                "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
-                                "<img src='" + request.getContextPath() + "/images/logoT.png' alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
-                                "<td><h1>" + title + "</h1></td></tr>" +
-                            "</table>" +
-                        "</div>");
-*/
-            menu.navigationMenu(out, menu.SHOW_SPEAKERS); // Navigation menu
+            menu.navigationMenu(out, menu.SHOW_SPEAKERS, "navigation"); // Navigation menu
             
 // Number of Speakers
             try {
@@ -93,16 +83,16 @@ public class show_speakers extends HttpServlet {
                 while (speakers.next()) {
                 sp_count = speakers.getInt("speaker_count");
                 }
-            }
-            catch (Exception e) { System.err.println(e); } 
+            } catch (Exception e) {
+                System.err.println(e);
+            } 
             
 // Show speakers              
             if(sp_count==0){
                 out.println("<div class=\"mainbody\"><br><h2>There are currently "+sp_count+" speakers scheduled</h2>");
                 out.println("<h3>Register for updates<h3>"
                         + "<form action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Register</button></form></div>");
-            } 
-            else{          
+            } else{          
                 out.println("<div class=\"mainbody\">" +
                                 "<table align=\"center\" id=\"sp0\">" +
                                     "<tr><td class=\"mainhead\" colspan=\"3\">"+tableheading+"</td></tr>");
@@ -123,17 +113,18 @@ public class show_speakers extends HttpServlet {
                         speak_site = speakers.getString("speaker_website");
                         speak_pic = speakers.getString("speaker_pic");
 
-                    out.println("<tr class=\"tbody\"><th colspan=\"3\" class=\"thead\">Keynote Speaker "+speak_num+": "+speak_name+"</th></tr>" +
-                                "<tr class=\"tbody\"><td rowspan=\"3\"><img src='"+ request.getContextPath() + speak_pic+"' alt=\"Speaker Picture For "+speak_name+"\" id=\"img200\"></td><td></td><td></td></tr>" +
-                                //"<tr><th>DB ID:</th><td>" + sp_id + "</td></tr>" +
-                                "<tr class=\"tbody\" valign=\"top\"><th>About:</th><td>" + speak_bio + "</td></tr>" +
-                                "<tr class=\"tbody\"><th>Website:</th><td><a href=\"" + speak_site + "\">" + speak_site + "</a></td></tr>");
-                    out.println("<tr><td class=\"tbase\" colspan=\"3\">&nbsp;</td></tr>" + // bottom
-                                "<tr><td colspan=\"3\">&nbsp;</td></tr>"); // space
-                    speak_num++;
+                        out.println("<tr class=\"tbody\"><th colspan=\"3\" class=\"thead\">Keynote Speaker "+speak_num+": "+speak_name+"</th></tr>" +
+                                    "<tr class=\"tbody\"><td rowspan=\"3\"><img src='"+ request.getContextPath() + speak_pic+"' alt=\"Speaker Picture For "+speak_name+"\" id=\"img200\"></td><td></td><td></td></tr>" +
+                                    //"<tr><th>DB ID:</th><td>" + sp_id + "</td></tr>" +
+                                    "<tr class=\"tbody\" valign=\"top\"><th>About:</th><td>" + speak_bio + "</td></tr>" +
+                                    "<tr class=\"tbody\"><th>Website:</th><td><a href=\"" + speak_site + "\">" + speak_site + "</a></td></tr>");
+                        out.println("<tr><td class=\"tbase\" colspan=\"3\">&nbsp;</td></tr>" + // bottom
+                                    "<tr><td colspan=\"3\">&nbsp;</td></tr>"); // space
+                        speak_num++;
                     }
-                }
-                catch (Exception e) { System.err.println(e); }            
+                } catch (Exception e) {
+                    System.err.println(e);
+                }            
                 out.println("</table></div>");
             } // else  
             

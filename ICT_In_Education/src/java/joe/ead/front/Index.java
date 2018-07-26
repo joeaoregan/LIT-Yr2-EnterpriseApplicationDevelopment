@@ -138,7 +138,7 @@ public class Index extends HttpServlet {
                         "</table>" +
                     "</div>");      
 */
-            menu.navigationMenu(out, menu.INDEX); // Navigation menu (Home Highlighted)
+            menu.navigationMenu(out, menu.INDEX, "navigation"); // Navigation menu (Home Highlighted)
 /*
             out.println("<div class=\"navigation\"><span>" +
                             "<form action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Speakers</button></form>" +

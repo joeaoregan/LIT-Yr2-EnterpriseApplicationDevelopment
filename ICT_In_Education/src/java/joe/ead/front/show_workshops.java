@@ -39,8 +39,7 @@ public class show_workshops extends HttpServlet {
             conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
         } catch(Exception e){
             System.err.println(e);
-        }
-                
+        }                
     } // end init
     
     /**
@@ -67,16 +66,7 @@ public class show_workshops extends HttpServlet {
                     "</head><body>");
 
             menu.heading(request, out, title); // Page Heading
-/*
-            out.println("<div class=\"heading\">" +
-                        "<table>" +
-                            "<tr><td><div class=\"logo\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\">" +
-                                "<img src='" + request.getContextPath() + "/images/logoT.png' alt=\"Event Logo\" id=\"img150\"></a></div></td>" +
-                                "<td><h1>" + title + "</h1></td></tr>" +
-                        "</table>" +
-                    "</div>");
-*/
-            menu.navigationMenu(out, menu.SHOW_WORKSHOPS); // Navigation menu
+            menu.navigationMenu(out, menu.SHOW_WORKSHOPS, "navigation"); // Navigation menu
             
 // Count the number of workshops scheduled (from Workshops table)
             try {
@@ -85,52 +75,52 @@ public class show_workshops extends HttpServlet {
                 ResultSet schedule = stmt.executeQuery("SELECT COUNT(*) AS counter FROM Workshops WHERE ws_id != 1;");
                 schedule.next();        
                 workshop_count = schedule.getInt("counter");
-            } catch (Exception e) {System.err.println(e);}
+            } catch (Exception e) {
+                System.err.println(e);
+            }
             
 // Current Workshops
             if(workshop_count==0){
                 out.println("<div class=\"mainbody\"><br><h2>There are no workshops currently scheduled</h2>");
                 out.println("<h3>Register for updates<h3>"
                         + "<form action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Register</button></form></div>");
-            }
-            else
-            {            
-            out.println("<div class=\"mainbody\">" +
-                            "<table align=\"center\">" +
-                                "<tr><td class=\"mainhead\" colspan=\"4\">"+tableheading+"</td></tr>");
-                                if (workshop_count < 1)         out.println("<tr><td class=\"mainbase\" colspan=\"4\">There are no workshops currently scheduled:</td></tr>");
-                                else if (workshop_count == 1)   out.println("<tr><td class=\"mainbase\" colspan=\"4\">There is "+workshop_count+" workshops currently scheduled:</td></tr>");
-                                else                            out.println("<tr><td class=\"mainbase\" colspan=\"4\">There are "+workshop_count+" workshops currently scheduled:</td></tr>");
-                                        
-            out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>");     
-            
-            try {
-                java.sql.Statement stmt = conn.createStatement();
-                ResultSet speakers = stmt.executeQuery("SELECT * FROM Workshops WHERE ws_name NOT LIKE 'Break'");
-                
-                ws_num=1;                                                                                                                                  // workshop number
-                while (speakers.next()) {
-                    ws_id = speakers.getString("ws_id");
-                    ws_name = speakers.getString("ws_name");
-                    ws_pres1 = speakers.getString("ws_presenter1");
-                    ws_pres2 = speakers.getString("ws_presenter2");
-                    ws_info = speakers.getString("ws_info");
-                 
-                out.println("<tr><th colspan=\"4\" class=\"thead\">Workshop "+ws_num+": "+ws_name+"</th></tr>");                                           // heading
-                // Format Output
-                        if (ws_pres2.contentEquals( "" )) out.println("<tr class=\"tbody\"><th>Presenter:</th><td colspan=\"3\">"+ws_pres1+"</td></tr>");  // 2 presenters
-                        else out.println("<tr class=\"tbody\"><th>Presenter 1:</th><td>"+ws_pres1+"</td><th>Presenter 2:</th><td>"+ws_pres2+"</td></tr>"); // 1 presenter                               
-                        
-                out.println("<tr class=\"tbody\"><th>About:</th><td colspan=\"3\">"+ws_info+"</td></tr>" +                                                 // line
-                            "<tr><td  class=\"tbase\"colspan=\"4\">&nbsp;</td></tr>" +
-                            "<tr><td colspan=\"4\">&nbsp;</td></tr>");
-                ws_num++;
-                }
-            } catch (Exception e) {
-                System.err.println(e);
-            }            
-            out.println("</table></div>");
-        } // End else (show workshops)
+            } else {            
+                out.println("<div class=\"mainbody\">" +
+                                "<table align=\"center\">" +
+                                    "<tr><td class=\"mainhead\" colspan=\"4\">"+tableheading+"</td></tr>");
+                if (workshop_count < 1)         out.println("<tr><td class=\"mainbase\" colspan=\"4\">There are no workshops currently scheduled:</td></tr>");
+                else if (workshop_count == 1)   out.println("<tr><td class=\"mainbase\" colspan=\"4\">There is "+workshop_count+" workshops currently scheduled:</td></tr>");
+                else                            out.println("<tr><td class=\"mainbase\" colspan=\"4\">There are "+workshop_count+" workshops currently scheduled:</td></tr>");
+
+                out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>");     
+
+                try {
+                    java.sql.Statement stmt = conn.createStatement();
+                    ResultSet speakers = stmt.executeQuery("SELECT * FROM Workshops WHERE ws_name NOT LIKE 'Break'");
+                    ws_num=1;                                                                                                                                   // workshop number
+
+                    while (speakers.next()) {
+                        ws_id = speakers.getString("ws_id");
+                        ws_name = speakers.getString("ws_name");
+                        ws_pres1 = speakers.getString("ws_presenter1");
+                        ws_pres2 = speakers.getString("ws_presenter2");
+                        ws_info = speakers.getString("ws_info");
+
+                        out.println("<tr><th colspan=\"4\" class=\"thead\">Workshop "+ws_num+": "+ws_name+"</th></tr>");                                            // heading
+                        // Format Output
+                        if (ws_pres2.contentEquals( "" )) out.println("<tr class=\"tbody\"><th>Presenter:</th><td colspan=\"3\">"+ws_pres1+"</td></tr>");           // 2 presenters
+                        else out.println("<tr class=\"tbody\"><th>Presenter 1:</th><td>"+ws_pres1+"</td><th>Presenter 2:</th><td>"+ws_pres2+"</td></tr>");          // 1 presenter                               
+
+                        out.println("<tr class=\"tbody\"><th>About:</th><td colspan=\"3\">"+ws_info+"</td></tr>" +                                                  // line
+                                    "<tr><td  class=\"tbase\"colspan=\"4\">&nbsp;</td></tr>" +
+                                    "<tr><td colspan=\"4\">&nbsp;</td></tr>");
+                        ws_num++;
+                    }
+                } catch (Exception e) {
+                    System.err.println(e);
+                }            
+                out.println("</table></div>");
+            } // End else (show workshops)
             
             menu.bottomMenu(request,out); // Bottom Links 
                         

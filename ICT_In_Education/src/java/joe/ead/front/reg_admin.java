@@ -106,7 +106,7 @@ public class reg_admin extends HttpServlet {
                             "</table>" +
                         "</div>");
 */
-            menu.navigationMenu(out, menu.REG_ADMIN); // Navigation menu
+            menu.navigationMenu(out, menu.REG_ADMIN, "navigation"); // Navigation menu
            
 // Count admins
             try {
