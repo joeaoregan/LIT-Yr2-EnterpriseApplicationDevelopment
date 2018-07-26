@@ -1,3 +1,8 @@
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
+ */
 package joe.ead.other;
 import joe.ead.abstracted.Connect;
 
@@ -17,11 +22,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/add_attendee"})
 public class add_attendee extends HttpServlet {
     String attendee_fname;
@@ -36,8 +36,7 @@ public class add_attendee extends HttpServlet {
     Connection conn;
     PreparedStatement prepStat;
     Statement stat;
-    
-    
+        
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -71,9 +70,7 @@ public class add_attendee extends HttpServlet {
             prepStat.setString(7, attendee_town);
             prepStat.setString(8, attendee_county);
             prepStat.executeUpdate();
-            }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
     }
@@ -118,8 +115,7 @@ public class add_attendee extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void init() throws ServletException
-    {        
+    public void init() throws ServletException {        
         try{
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
@@ -133,8 +129,7 @@ public class add_attendee extends HttpServlet {
                          "attendee_addr2 CHAR(40), " +
                          "attendee_town CHAR(40), " +
                          "attendee_county CHAR(40))");
-        } catch (Exception e) 
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
     } // end of init() method

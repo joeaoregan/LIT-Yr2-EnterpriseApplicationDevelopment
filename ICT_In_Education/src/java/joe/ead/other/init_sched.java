@@ -1,11 +1,11 @@
-package joe.ead.other;
-import joe.ead.abstracted.Connect;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
  */
+package joe.ead.other;
+
+import joe.ead.abstracted.Connect;
 import java.sql.Statement;
 import java.sql.DriverManager;
 import com.mysql.jdbc.Connection;
@@ -16,18 +16,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/init_sched"})
 public class init_sched extends HttpServlet {
     
     Connection conn;
     Statement stat;
-    
-    
+        
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -82,9 +76,8 @@ public class init_sched extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void init() throws ServletException
-    {
-        try{
+    public void init() throws ServletException {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
             stat = (Statement) conn.createStatement();
@@ -103,11 +96,8 @@ public class init_sched extends HttpServlet {
             stat.execute("CREATE TABLE IF NOT EXISTS CustSched(workshop_id INT PRIMARY KEY, CONSTRAINT fk_custsched_workshop FOREIGN KEY (workshop_id) REFERENCES workshops (ws_id));");
             //stat.execute("INSERT INTO Workshops(ws_id,ws_name,ws_presenter1,ws_info) VALUES(1,'Break','none','Break Times:\n8am Begin\n10 a.m. - 10.30 a.m. Break\n1 p.m. - 2 p.m. Lunch\n4 p.m. - 4.30 p.m. Break')");
             //stat.execute("INSERT INTO Workshops VALUES(1, 'Break','none','none','Break Times:\n8am Begin\n10 a.m. - 10.30 a.m. Break\n1 p.m. - 2 p.m. Lunch\n4 p.m. - 4.30 p.m. Break');");
-            
-//stat.execute("INSERT INTO Workshops VALUES(1, 'Break','none','Break Times:\n8am Begin\n10 a.m. - 10.30 a.m. Break\n1 p.m. - 2 p.m. Lunch\n4 p.m. - 4.30 p.m. Break')");
-            
-        } catch (Exception e) 
-        {
+            //stat.execute("INSERT INTO Workshops VALUES(1, 'Break','none','Break Times:\n8am Begin\n10 a.m. - 10.30 a.m. Break\n1 p.m. - 2 p.m. Lunch\n4 p.m. - 4.30 p.m. Break')");
+        } catch (Exception e) {
             System.err.println(e);
         }
     } // end of init() method

@@ -1,11 +1,11 @@
-package joe.ead.other;
-import joe.ead.abstracted.Connect;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
  */
+package joe.ead.other;
+
+import joe.ead.abstracted.Connect;
 import java.sql.DriverManager;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -17,11 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/add_schedule"})
 public class add_schedule extends HttpServlet {
     String schedule_time;
@@ -30,8 +25,7 @@ public class add_schedule extends HttpServlet {
     
     Connection conn;
     PreparedStatement prepStat;
-    Statement stat;
-    
+    Statement stat;    
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -56,9 +50,7 @@ public class add_schedule extends HttpServlet {
             prepStat.setString(2, workshop_id);
             prepStat.setString(3, schedule_location);
             prepStat.executeUpdate();
-            }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
         
@@ -104,15 +96,13 @@ public class add_schedule extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void init() throws ServletException
-    {
-        try{
+    public void init() throws ServletException {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
             stat = (Statement) conn.createStatement();
             stat.execute("CREATE TABLE IF NOT EXISTS Schedule(schedule_time TIME PRIMARY KEY, workshop_id INT NOT NULL, schedule_location CHAR(40), CONSTRAINT fk_shedule_workshop FOREIGN KEY (workshop_id) REFERENCES workshops (ws_id))");
-        } catch (Exception e) 
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
     } // end of init() method

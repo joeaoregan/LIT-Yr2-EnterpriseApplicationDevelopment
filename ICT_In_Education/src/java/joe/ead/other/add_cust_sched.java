@@ -1,3 +1,8 @@
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
+ */
 package joe.ead.other;
 import joe.ead.abstracted.Connect;
 
@@ -17,15 +22,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/add_cust_sched"})
 public class add_cust_sched extends HttpServlet {
-    String workshop_id; // Workshop to add to custom schedule
-    
+    String workshop_id; // Workshop to add to custom schedule    
     Connection conn;
     PreparedStatement prepStat;
     Statement stat;   
@@ -79,9 +78,7 @@ public class add_cust_sched extends HttpServlet {
             java.sql.Statement stmt = conn.createStatement();
             String command = "INSERT INTO CustSched VALUES(" + workshop_id + ");";
             stat.executeUpdate(command);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
         
@@ -98,17 +95,14 @@ public class add_cust_sched extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void init() throws ServletException
-    {
-        try{
+    public void init() throws ServletException {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
             stat = (Statement) conn.createStatement();
             
             stat.execute("CREATE TABLE IF NOT EXISTS CustSched(workshop_id INT PRIMARY KEY, CONSTRAINT fk_custsched_workshop FOREIGN KEY (workshop_id) REFERENCES schedule (workshop_id));");
-        }
-        catch (Exception e) 
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
     } // end of init() method

@@ -1,3 +1,8 @@
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
+ */
 package joe.ead.other;
 import joe.ead.abstracted.Connect;
 
@@ -17,11 +22,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/add_admin"})
 public class add_admin extends HttpServlet {  
     String admin_username;
@@ -77,9 +77,7 @@ public class add_admin extends HttpServlet {
             prepStat.setString(9, admin_town);
             prepStat.setString(10, admin_county);
             prepStat.executeUpdate();
-            }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
     }
@@ -124,14 +122,7 @@ public class add_admin extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void init() throws ServletException
-    {
-        /*
-        String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "JoeCA";
-        String userName = "root";
-        String password = "password";
-        */
+    public void init() throws ServletException {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
@@ -141,8 +132,7 @@ public class add_admin extends HttpServlet {
                          "admin_addr2 CHAR(40), " +
                          "admin_town CHAR(40), " +
                          "admin_county CHAR(40))");
-        } catch (Exception e) 
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
     } // end of init() method

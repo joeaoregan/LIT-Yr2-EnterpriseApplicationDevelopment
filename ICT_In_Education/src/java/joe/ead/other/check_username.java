@@ -1,11 +1,11 @@
-package joe.ead.other;
-import joe.ead.abstracted.Connect;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
  */
+package joe.ead.other;
+
+import joe.ead.abstracted.Connect;
 import java.sql.DriverManager;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -19,11 +19,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/check_username"})
 public class check_username extends HttpServlet {
     String title = "Check Username";
@@ -34,8 +29,7 @@ public class check_username extends HttpServlet {
     Connection conn;
     PreparedStatement prepStat;
     Statement stat;
-    
-    
+        
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -65,24 +59,20 @@ public class check_username extends HttpServlet {
             ResultSet result = stmt.executeQuery("SELECT * FROM administrators WHERE admin_username = '"+username+"'");  // works OK
             result.next();
             DB_username = result.getString("admin_username");
-            }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println(e);
-        }    
+        }
+        
         boolean  passwordValidate = username.contentEquals( DB_username );
         
-        if (passwordValidate == true)
-        {   
+        if (passwordValidate == true) {   
 // Successful Login Greeting
             out.println("<div class=\"mainbody\"><br>" +
                             "<h2>The Username \""+username+"\" is already in the database</h2>" +
                             "<p>Press Enter To Return" +
                             "<form><a href=\"reg_admin\" title=\"Return To Administrator Registration\"><button name=\"button\" autofocus=\"autofocus\" value=\"OK\" type=\"button\">Continue</button></a></form><br>" +
                         "</div>");            
-        }
-        else
-        {
+        } else {
 // Unsuccessful Login Greeting
             out.println("<div class=\"mainbody\">" +   
                             "<h2>The Username \""+username+"\" is available</h2>" +
@@ -90,6 +80,7 @@ public class check_username extends HttpServlet {
                             "<form><a href=\"reg_admin\" title=\"Return To Administrator Registration\"><button name=\"button\" autofocus=\"autofocus\" value=\"OK\" type=\"button\">Continue</button></a></form><br>" +
                         "</div>");            
         }
+        
         out.println("</body></html>");
     }
 
@@ -133,14 +124,12 @@ public class check_username extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void init() throws ServletException
-    {
-        try{
+    public void init() throws ServletException {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
             stat = (Statement) conn.createStatement();
-        } catch (Exception e) 
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
     } // end of init() method

@@ -1,5 +1,4 @@
 package joe.ead.front;
-import joe.ead.abstracted.Connect;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import joe.ead.abstracted.Connect; // 24/07/2018
 import joe.ead.abstracted.Menu; // 26/07/2018
 
 @WebServlet(urlPatterns = {"/show_cust_sched"})
@@ -20,14 +20,14 @@ public class show_cust_sched extends HttpServlet {
     String tableheading = "Selected Event Times";
     Connection conn = null; 
     com.mysql.jdbc.Statement stat;    
-    String scheduletime;
-    String schedulelocation;
-    String ws_id;
-    String workshopname;
-    String ws_pres1;
-    String ws_pres2;
-    String ws_info;
-    boolean checkFormat;
+    private String scheduletime;
+    private String schedulelocation;
+    private String ws_id;
+    private String workshopname;
+    private String ws_pres1;
+    private String ws_pres2;
+    private String ws_info;
+    private boolean checkFormat;
 // Custom Schedule Variables
     String workshop_id;
     String list_item_name;
@@ -65,19 +65,7 @@ public class show_cust_sched extends HttpServlet {
         
         menu.headingDontPrint(request, out, title); // Heading (doesn't print)
         menu.navigationMenu(out, menu.HIGHLIGHT_CUST_SCHDULE, "navigation dontprint"); // Navigation menu
-/*      
-// Navigation menu
-        out.println("<div class=\"navigation dontprint\"><span>" +
-                "<form action=\"show_speakers\" method=\"get\"><button name=\"buttonSpeakers\" title=\"Event Speakers (Alt + 1)\">Speakers</button></form>" +
-                "<form action=\"show_workshops\" method=\"get\"><button name=\"buttonWorkshops\" title=\"Event Workshops (Alt + 2)\">Workshops</button></form>" +
-                "<form action=\"show_schedule\" method=\"get\"><button name=\"buttonSchedule\" title=\"Event Schedule (Alt + 3)\">Schedule</button></form>" +
-                "<button id=\"active\" name=\"buttonCSchedule\" title=\"Custom Schedule\">Custom Schedule</button>" +
-                "<form action=\"show_exhibitors\" method=\"get\"><button name=\"buttonExhibitors\" title=\"Event Exhibitors (Alt + 4)\">Exhibitors</button></form>" +
-                "<form action=\"reg_admin\" method=\"get\"><button name=\"buttonRegAdmin\" title=\"Administrator Registration Page (Alt + 5)\">Administrator Registration</button></form>" +
-                "<form action=\"reg_attendee.html\" method=\"get\"><button name=\"buttonRegAttendee\" title=\"Attendee Registration Page (Alt + 6)\">Attendee Registration</button></form>" +
-                "<form action=\"index\" method=\"get\"><button name=\"buttonHome\" title=\"Return To Homepage (Alt + 7)\">Home</button></form>" +
-            "</span></div>");
-*/
+
 // Custom Event Schedule                    
         out.println("<div class=\"mainbody\">" +
                         "<form action=\"cust_schedule\" method=\"POST\"><br>" +

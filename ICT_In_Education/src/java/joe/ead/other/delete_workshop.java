@@ -1,11 +1,11 @@
-package joe.ead.other;
-import joe.ead.abstracted.Connect;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
  */
+package joe.ead.other;
+
+import joe.ead.abstracted.Connect;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -16,17 +16,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/delete_workshop"})
 public class delete_workshop extends HttpServlet {
     Connection conn;
     String workshop_delete; // Delete workshop, using workshop id
-    
-    
+        
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -76,11 +70,10 @@ public class delete_workshop extends HttpServlet {
             stat.executeUpdate("DELETE FROM Schedule WHERE workshop_id = '" + workshop_delete + "'"); // Must 1st be deleted from schedule table (foreign key constraint)
             stat.executeUpdate("DELETE FROM Workshops WHERE ws_id = '" + workshop_delete + "'"); // Then delete from workshops table
             
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println(e);
-        }        
+        }      
+        
         response.sendRedirect("manage_workshops");  // redirects back to schedule.html after form submitted
     }
 
@@ -94,14 +87,11 @@ public class delete_workshop extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void init() throws ServletException
-    {
-        try{
+    public void init() throws ServletException {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
-        }
-        catch (Exception e) 
-        {
+        }  catch (Exception e) {
             System.err.println(e);
         }
     } // end of init() method

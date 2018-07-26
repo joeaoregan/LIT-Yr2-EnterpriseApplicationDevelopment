@@ -1,11 +1,10 @@
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
+ */
 package joe.ead.other;
 import joe.ead.abstracted.Connect;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -16,11 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/delete_schedule"})
 public class delete_schedule extends HttpServlet {
     Connection conn;
@@ -75,9 +69,7 @@ public class delete_schedule extends HttpServlet {
             
             String command = "DELETE FROM Schedule WHERE schedule_time = '" + schedule_time+ "'";
             stat.executeUpdate(command);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
         
@@ -94,14 +86,11 @@ public class delete_schedule extends HttpServlet {
         return "Delete a workshop from the Schedule DB";
     }// </editor-fold>
 
-    public void init() throws ServletException
-    {
+    public void init() throws ServletException {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
-        }
-        catch (Exception e) 
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
     } // end of init() method

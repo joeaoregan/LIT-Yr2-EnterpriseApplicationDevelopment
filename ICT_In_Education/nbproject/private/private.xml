@@ -3,13 +3,35 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/lit/ead/show_schedule.java</file>
-            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/lit/ead/show_workshops.java</file>
-            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/lit/ead/show_exhibitors.java</file>
-            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/lit/ead/Index.java</file>
-            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/lit/ead/reg_admin.java</file>
-            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ait/cse/Menu.java</file>
-            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/lit/ead/show_speakers.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/front/show_speakers.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/delete_exhibitor.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/abstracted/Menu.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/add_admin.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/delete_speaker.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/add_exhibitor.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/init_ws.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/add_cust_sched.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/clear_cust_sched.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/front/show_exhibitors.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/delete_schedule.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/add_workshop.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/front/show_workshops.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/front/show_cust_sched.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/check_username.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/init_sched.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/manage/Login.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/manage/manage_exhibitors.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/edit_ex_name.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/add_attendee.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/add_schedule.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/clear_schedule.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/delete_workshop.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/front/Index.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/delete_cust_sched.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/front/show_schedule.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/add_speaker.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/edit_ws_name.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/front/reg_admin.java</file>
         </group>
     </open-files>
 </project-private>

@@ -1,3 +1,8 @@
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
+ */
 package joe.ead.other;
 import joe.ead.abstracted.Connect;
 
@@ -17,11 +22,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/add_exhibitor"})
 public class add_exhibitor extends HttpServlet {
     String exhibitor_fname;
@@ -33,8 +33,7 @@ public class add_exhibitor extends HttpServlet {
     Connection conn;
     PreparedStatement prepStat;
     Statement stat;
-    
-    
+        
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -62,9 +61,7 @@ public class add_exhibitor extends HttpServlet {
             prepStat.setString(4, exhibitor_website);
             prepStat.setString(5, exhibitor_pic);
             prepStat.executeUpdate();
-            }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
     }
@@ -97,8 +94,7 @@ public class add_exhibitor extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         
-        response.sendRedirect("manage_exhibitors");  // redirects back to manage_exhibitors after form submitted
-        
+        response.sendRedirect("manage_exhibitors");  // redirects back to manage_exhibitors after form submitted        
     }
 
     /**
@@ -111,21 +107,15 @@ public class add_exhibitor extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void init() throws ServletException
-    {
-        try{
+    public void init() throws ServletException {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
             stat = (Statement) conn.createStatement();
             //stat.execute("DROP TABLE Exhibitors");
             stat.execute("CREATE TABLE IF NOT EXISTS Exhibitors(exhibitor_id INT PRIMARY KEY AUTO_INCREMENT, exhibitor_fname CHAR(40) NOT NULL, exhibitor_lname CHAR(40) NOT NULL, exhibitor_bio TEXT NOT NULL, exhibitor_website VARCHAR(60), exhibitor_pic VARCHAR(60));");
-        } catch (Exception e) 
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
     } // end of init() method
-    
-    
 }
-
-

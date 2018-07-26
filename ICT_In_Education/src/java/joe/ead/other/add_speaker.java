@@ -1,11 +1,12 @@
-package joe.ead.other;
-import joe.ead.abstracted.Connect;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Joe O'Regan
+ * Student Number: K00203642
  */
+
+package joe.ead.other;
+
+import joe.ead.abstracted.Connect;
 import java.sql.DriverManager;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -17,11 +18,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Joe O'Regan
- * Student Number: K00203642
- */
 @WebServlet(urlPatterns = {"/add_speaker"})
 public class add_speaker extends HttpServlet {
     String speaker_fname;
@@ -61,9 +57,7 @@ public class add_speaker extends HttpServlet {
             prepStat.setString(4, speaker_website);
             prepStat.setString(5, speaker_pic);
             prepStat.executeUpdate();
-            }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
     }
@@ -108,15 +102,13 @@ public class add_speaker extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void init() throws ServletException
-    {
-        try{
+    public void init() throws ServletException {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
             stat = (Statement) conn.createStatement();
             stat.execute("CREATE TABLE IF NOT EXISTS Speakers(speaker_id INT PRIMARY KEY AUTO_INCREMENT, speaker_fname CHAR(40),speaker_lname CHAR(40),speaker_bio TEXT,speaker_website VARCHAR(60),speaker_pic VARCHAR(60));");
-        } catch (Exception e) 
-        {
+        } catch (Exception e) {
             System.err.println(e);
         }
     } // end of init() method
