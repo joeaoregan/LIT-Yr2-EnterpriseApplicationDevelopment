@@ -66,7 +66,7 @@ public class manage_speakers extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>" +
                         "<html><head>" +
-                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
+                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/CAstyle.css\">" +
                         "<title>"+title+"</title>" +
                         "</head>");
             out.println("<body>");

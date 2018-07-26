@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="indexcss.css">
+        <link rel="stylesheet" type="text/css" href="css/indexcss.css">
         <title>K00203642</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,22 +14,22 @@ and open the template in the editor.
     <body>
         <table class="indexcl" align="center">
             <tr><td><a href="show_speakers" title="View Speakers" accesskey="1" onmouseover="textSpeaker()" onmouseout="clearText()">
-                    <img src="icon_speakersT.png" style="width:150px; height:150px;" alt="Go To Speakers Page"></a></td>
+                    <img src="images/icon_speakersT.png" style="width:150px; height:150px;" alt="Go To Speakers Page"></a></td>
                 <td style="text-align:center;">
-                    <img src="icon_infoT.png" alt="Information" style="width:150px; height:150px;" onmouseover="textInfo()" onmouseout="clearText()"></td>
+                    <img src="images/icon_infoT.png" alt="Information" style="width:150px; height:150px;" onmouseover="textInfo()" onmouseout="clearText()"></td>
                 <td id="login" align="center">
-                    <img src="icon_loginT.png" alt="Administrator Login" style="width:150px; height:150px;" onmouseover="textLogin()" onmouseout="clearText()" onclick="showLogin()">
+                    <img src="images/icon_loginT.png" alt="Administrator Login" style="width:150px; height:150px;" onmouseover="textLogin()" onmouseout="clearText()" onclick="showLogin()">
                 </td></tr>
             <tr><td><a href="show_workshops" title="View Workshops" accesskey="2" onmouseover="textWorkshops()" onmouseout="clearText()">
-                    <img src="icon_workshopsT.png" alt="Go To Workshops Page" style="width:150px; height:150px;"></a></td>
+                    <img src="images/icon_workshopsT.png" alt="Go To Workshops Page" style="width:150px; height:150px;"></a></td>
                 <td colspan="2" rowspan="3"><a href="index" title="Go To Home Page" accesskey="6" onmouseover="textHome()" onmouseout="clearText()">
-                    <img src="logoT.png" alt="Go To Home Page" style="border: 10px solid #0080ff;width:450px; height:450px;"></a></td></tr>
+                    <img src="images/logoT.png" alt="Go To Home Page" style="border: 10px solid #0080ff;width:450px; height:450px;"></a></td></tr>
             <tr><td><a href="show_schedule" title="View Schedule" accesskey="3" onmouseover="textSchedule()" onmouseout="clearText()">
-                    <img src="icon_scheduleT.png" alt="Go To Schedule Page" style="width:150px; height:150px;"></a></td></tr>
+                    <img src="images/icon_scheduleT.png" alt="Go To Schedule Page" style="width:150px; height:150px;"></a></td></tr>
             <tr><td><a href="show_exhibitors" title="View Exhibitors" accesskey="4" onmouseover="textExhibitors()" onmouseout="clearText()">
-                    <img src="icon_exhibitorsT.png" alt="Go To Exhibitors Page" style="width:150px; height:150px;"></a></td></tr>
+                    <img src="images/icon_exhibitorsT.png" alt="Go To Exhibitors Page" style="width:150px; height:150px;"></a></td></tr>
             <tr><td><a href="reg_attendee.html" title="Register" accesskey="5" onmouseover="textRegister()" onmouseout="clearText()">
-                        <img src="icon_registerT.png" alt="Go To Registration Page" style="width:150px; height:150px;"></a></td>
+                        <img src="images/icon_registerT.png" alt="Go To Registration Page" style="width:150px; height:150px;"></a></td>
                 <td colspan="2" style="text-align: center;font-weight: bold;font-size: 250%; width:450px;"><div id="msg">Random ICT Event 2016</div></td></tr>
         </table>
         
@@ -59,7 +59,7 @@ and open the template in the editor.
                 document.getElementById("msg").innerHTML = "Administrator Login";
             }
             function resetLogin() {
-                document.getElementById("login").innerHTML = "<img src=\"icon_loginT.png\" alt=\"Administrator Login\" style=\"width:150px; height:150px;\" onmouseover=\"textLogin()\" onmouseout=\"clearText()\" onclick=\"showLogin()\">";
+                document.getElementById("login").innerHTML = "<img src=\"images/icon_loginT.png\" alt=\"Administrator Login\" style=\"width:150px; height:150px;\" onmouseover=\"textLogin()\" onmouseout=\"clearText()\" onclick=\"showLogin()\">";
             }
             function showLogin() {
                 document.getElementById("login").innerHTML = "<form action=\"login\" method=\"Get\" onmouseout=\"clearText()\">"+

@@ -64,7 +64,7 @@ public class reg_admin extends HttpServlet {
             out.println("<!DOCTYPE html>" +
                         "<html>" +
                         "<head>" +
-                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
+                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/CAstyle.css\">" +
                             "<title>"+title+"</title>" +
                         "</head>");
 // Admin Login
@@ -73,7 +73,7 @@ public class reg_admin extends HttpServlet {
                                 "<form action=\"login\" method=\"Get\">" +
                                     "<table>" +
                                         "<tr>" +
-                                            "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"http://s21.postimg.org/gyukaf1l3/Logo.png\" alt=\"Random ICT Event Logo\" id=\"img50\"></a></td>" +
+                                            "<td width=100% rowspan=\"2\"><a align=\"left\" href=\"index\" title=\"Return To Homepage (Alt + 7)\" accesskey=\"7\"><img src=\"images/logo50.png\" alt=\"Random ICT Event Logo\" id=\"img50\"></a></td>" +
                                             "<th id=\"thc\">Administrator</th>" +
                                             "<td>Username:</td>" +
                                             "<td id=\"bt\"><input type=\"text\" name=\"username\" autofocus=\"autofocus\" title=\"Please enter username\" maxlength\"40\" required></td>" +

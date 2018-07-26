@@ -5,14 +5,13 @@
         <group>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/front/show_speakers.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/delete_exhibitor.java</file>
-            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/abstracted/Menu.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/add_admin.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/delete_speaker.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/add_exhibitor.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/init_ws.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/add_cust_sched.java</file>
-            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/clear_cust_sched.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/front/show_exhibitors.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/manage/manage_schedule.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/delete_schedule.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/add_workshop.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/front/show_workshops.java</file>
@@ -21,10 +20,12 @@
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/init_sched.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/manage/Login.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/manage/manage_exhibitors.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/manage/manage_workshops.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/edit_ex_name.java</file>
-            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/add_attendee.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/web/index.html</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/add_schedule.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/clear_schedule.java</file>
+            <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/manage/manage_speakers.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/delete_workshop.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/front/Index.java</file>
             <file>file:/C:/repos/Yr2-EAD-CA-Project/ICT_In_Education/src/java/joe/ead/other/delete_cust_sched.java</file>

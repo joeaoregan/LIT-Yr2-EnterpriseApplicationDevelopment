@@ -60,7 +60,7 @@ public class show_workshops extends HttpServlet {
             out.println("<!DOCTYPE html>" +
                         "<html>" +
                         "<head>" +
-                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
+                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/CAstyle.css\">" +
                     "<title>" + title + "</title>" +
                     "</head><body>");
 

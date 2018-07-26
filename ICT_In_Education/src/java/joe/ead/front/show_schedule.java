@@ -74,7 +74,7 @@ public class show_schedule extends HttpServlet {
                     ".dontprint" + "{ display: none; }" +
                 "</style>" +
 
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/CAstyle.css\">" +
                 "<head ><title>" + title + "</title></head><body>");
             
         menu.heading(request, out, title); // Page Heading

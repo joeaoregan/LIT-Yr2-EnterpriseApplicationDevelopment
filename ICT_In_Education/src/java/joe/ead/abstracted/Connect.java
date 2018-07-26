@@ -1,3 +1,7 @@
+/**
+ *
+ * @author joeaooregan
+ */
 package joe.ead.abstracted;
 
 /*
@@ -6,10 +10,6 @@ package joe.ead.abstracted;
  * and open the template in the editor.
  */
 
-/**
- *
- * @author joeaooregan
- */
 public class Connect {
     public static final String url = "jdbc:mysql://localhost:3306/";
     //public static final String url = "jdbc:mysql://12.0.0.1:3306/";

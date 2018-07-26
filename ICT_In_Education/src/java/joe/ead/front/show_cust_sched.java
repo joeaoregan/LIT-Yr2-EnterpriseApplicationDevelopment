@@ -65,7 +65,7 @@ public class show_cust_sched extends HttpServlet {
                     ".dontprint" + "{ display: none; }" +
                 "</style>" +
 
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/CAstyle.css\">" +
                 "<head ><title>" + title + "</title></head>"); 
         
         menu.headingDontPrint(request, out, title); // Heading (doesn't print)

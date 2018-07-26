@@ -78,7 +78,7 @@ public class Index extends HttpServlet {
                         "<html>" +
                         "<head>" +
                             //"<META HTTP-EQUIV=\"Refresh\" CONTENT=\"5; URL=index\">" + // refresh every 5 seconds
-                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"CAstyle.css\">" +
+                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/CAstyle.css\">" +
                             "<title>"+ title +"</title>" +
                         "</head>");
 
