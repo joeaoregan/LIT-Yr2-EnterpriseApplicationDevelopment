@@ -1,7 +1,18 @@
-# Yr2-EAD-CA-Project
+# Enterprise Application Development
+## Joe O'Regan (K00203642)
+### Year 2, Semester 4
+#### BSc Computing (Games Design and Development)
+##### Limerick Institute of Technology
+
+---
+
+## Continuous Assessment
+
 **Enterprise Application for an ICT in Education event**
 
-Project using MySQL, Java, HTML, and CSS
+Project using Java, MySQL, JDBC, HTML, and CSS
+
+Assignment is linked to [HCID Mobile App](https://github.com/joeaoregan/LIT-Yr2-HCID)
 
 ---
 
