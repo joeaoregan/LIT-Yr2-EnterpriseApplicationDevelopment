@@ -98,7 +98,8 @@ public class add_cust_sched extends HttpServlet {
     public void init() throws ServletException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+            //conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+            conn = Connect.getConnection();
             stat = (Statement) conn.createStatement();
             
             stat.execute("CREATE TABLE IF NOT EXISTS CustSched(workshop_id INT PRIMARY KEY, CONSTRAINT fk_custsched_workshop FOREIGN KEY (workshop_id) REFERENCES schedule (workshop_id));");

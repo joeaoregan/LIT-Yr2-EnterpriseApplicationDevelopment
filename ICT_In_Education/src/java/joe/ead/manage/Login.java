@@ -37,7 +37,8 @@ public class Login extends HttpServlet {
                         
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);    // Establish/request a connection to a database
+            //conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);    // Establish/request a connection to a database
+            conn = Connect.getConnection();
             Statement stmt = conn.createStatement(); 
             ResultSet result = stmt.executeQuery("SELECT * FROM administrators WHERE admin_username = '"+username+"'");  // works OK
             result.next();

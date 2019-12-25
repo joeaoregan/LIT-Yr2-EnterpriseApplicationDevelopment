@@ -79,7 +79,8 @@ public class init_sched extends HttpServlet {
     public void init() throws ServletException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+            //conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+            conn = Connect.getConnection();
             stat = (Statement) conn.createStatement();
             // Create Schedule & Workshop Tables
             //System.out.println("here");

@@ -10,9 +10,16 @@
 
 **Enterprise Application for an ICT in Education event**
 
-Project using Java, MySQL, JDBC, HTML, and CSS
+Project using Java, Java Servlets, MySQL, JDBC, HTML, and CSS
+
+[See the project on Heroku](https://lit-yr2-ead.herokuapp.com/)
 
 Assignment is linked to [HCID Mobile App](https://github.com/joeaoregan/LIT-Yr2-HCID)
+
+---
+
+##### Required Database Environment Variable
+JDBC_DATABASE_URL = "jdbc:mysql://<host>:<port>/<database>?user=<username>&password=<password>"
 
 ---
 

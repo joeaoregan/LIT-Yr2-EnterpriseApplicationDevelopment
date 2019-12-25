@@ -16,7 +16,9 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
+import javax.servlet.UnavailableException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -70,9 +72,13 @@ public class add_attendee extends HttpServlet {
             prepStat.setString(7, attendee_town);
             prepStat.setString(8, attendee_county);
             prepStat.executeUpdate();
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             System.err.println(e);
-        }
+        } 
+//        catch (SQLException e) {
+//            throw new UnavailableException(this, "Could not connect to db");
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -118,7 +124,8 @@ public class add_attendee extends HttpServlet {
     public void init() throws ServletException {        
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+            //conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+            conn = Connect.getConnection();
             stat = (Statement) conn.createStatement();
             stat.execute("CREATE TABLE IF NOT EXISTS Attendees(" +
                          "attendee_fname CHAR(40) NOT NULL, " +

@@ -50,7 +50,8 @@ public class show_schedule extends HttpServlet {
     public void init() throws ServletException {
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+            //conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+            conn = Connect.getConnection();
             stat = (com.mysql.jdbc.Statement) conn.createStatement();
         } catch (Exception e) {
             System.err.println(e);

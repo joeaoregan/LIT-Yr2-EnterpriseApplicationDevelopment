@@ -125,7 +125,8 @@ public class add_admin extends HttpServlet {
     public void init() throws ServletException {
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+            //conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+            conn = Connect.getConnection();
             stat = (Statement) conn.createStatement();
             stat.execute("CREATE TABLE IF NOT EXISTS Administrators(admin_username CHAR(40) PRIMARY KEY, admin_password CHAR(40) NOT NULL, admin_fname CHAR(40), admin_lname CHAR(40), admin_email VARCHAR(60) NOT NULL, admin_phone VARCHAR(18), " +
                          "admin_addr1 CHAR(40), " +

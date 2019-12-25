@@ -110,7 +110,8 @@ public class add_exhibitor extends HttpServlet {
     public void init() throws ServletException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+           //conn = (Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+            conn = Connect.getConnection();
             stat = (Statement) conn.createStatement();
             //stat.execute("DROP TABLE Exhibitors");
             stat.execute("CREATE TABLE IF NOT EXISTS Exhibitors(exhibitor_id INT PRIMARY KEY AUTO_INCREMENT, exhibitor_fname CHAR(40) NOT NULL, exhibitor_lname CHAR(40) NOT NULL, exhibitor_bio TEXT NOT NULL, exhibitor_website VARCHAR(60), exhibitor_pic VARCHAR(60));");

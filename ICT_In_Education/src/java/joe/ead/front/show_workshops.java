@@ -35,7 +35,8 @@ public class show_workshops extends HttpServlet {
     public void init() throws ServletException {
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+            //conn = (com.mysql.jdbc.Connection) DriverManager.getConnection (Connect.url+Connect.dbName,Connect.userName,Connect.password);
+            conn = Connect.getConnection();
         } catch(Exception e){
             System.err.println(e);
         }                
@@ -58,7 +59,7 @@ public class show_workshops extends HttpServlet {
             Menu menu = new Menu();
             
             out.println("<!DOCTYPE html>" +
-                        "<html>" +
+                        "<html lang=\"en\">" +
                         "<head>" +
                             "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/CAstyle.css\">" +
                     "<title>" + title + "</title>" +
@@ -165,5 +166,4 @@ public class show_workshops extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
