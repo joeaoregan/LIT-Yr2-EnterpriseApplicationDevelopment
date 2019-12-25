@@ -19,7 +19,7 @@ Assignment is linked to [HCID Mobile App](https://github.com/joeaoregan/LIT-Yr2-
 ---
 
 ##### Required Database Environment Variable
-JDBC_DATABASE_URL = "jdbc:mysql://<host>:<port>/<database>?user=<username>&password=<password>"
+JDBC_DATABASE_URL = "jdbc:mysql://\<host>:\<port>/\<database>?user=\<username>&password=\<password>"
 
 ---
 
