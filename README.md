@@ -23,6 +23,10 @@ JDBC_DATABASE_URL = "jdbc:mysql://\<host>:\<port>/\<database>?user=\<username>&p
 
 ---
 
+[Vertabelo Model](https://my.vertabelo.com/public-model-view/W1Wbsm41k1n0fOutJF8i1hnx1KnZJHs80Msmnkl0zlPuO1lRJaBycCSJ3FyBYOhh?x=4765&y=4858&zoom=0.6852)
+
+---
+
 ## Screenshots
 
 ![Index Page](https://raw.githubusercontent.com/joeaoregan/Yr2-EAD-CA-Project/master/Screenshots/01Index.png "Index Page")
